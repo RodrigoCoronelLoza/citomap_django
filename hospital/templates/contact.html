@@ -1,0 +1,38 @@
+{% include 'base.html' %}
+<style>
+  .mydivstyle:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transform: translatey(-20px);
+  }
+</style>
+{% include 'navigation.html' %} {% block content %}
+<div class="container" style="margin-top: 50px">
+  <h1 class="text-center">CONTACT US</h1>
+  <div class="row mt-5 text-center">
+    <div class="col-lg-3 col-sm-6 mydivstyle">
+      <h4><i class="fa fa-phone-square"> </i>Contact</h4>
+      <p class="text-danger font-weight-bold mt-3">
+        <a href="tel:725529466">725294666</a>
+      </p>
+    </div>
+    <div class="col-lg-3 col-sm-6 mydivstyle">
+      <h4><i class="fa fa-envelope"></i> Send-email</h4>
+      <p class="font-weight-bold mt-3">
+        <a href="mailto:abc@gmail.com">abc@gmail.com</a>
+      </p>
+    </div>
+    <div class="col-lg-3 col-sm-6 mydivstyle">
+      <h4>
+        <i class="fa fa-address-card" aria-hidden="true"></i> Office address
+      </h4>
+      <p class="font-weight-bold mt-3">
+        <a href="http://maps.google.com/maps?q=''">mapa</a>
+      </p>
+    </div>
+    <div class="col-lg-3 col-sm-6 mydivstyle">
+      <h4><i class="fa fa-address-card" aria-hidden="true"></i> Office time</h4>
+      <p class="font-weight-bold mt-3">10AM-5PM</p>
+    </div>
+  </div>
+</div>
+{% endblock content %} {%include 'footer.html'%}
