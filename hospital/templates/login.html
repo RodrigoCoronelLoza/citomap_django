@@ -2,7 +2,7 @@
 {%ifequal error "no"%}
 <script>
   alert("logged in succesfully");
-  window.location = "{% url 'home'%}";
+  window.location = "{% url 'dashboard'%}";
 </script>
 {% endifequal %} {%ifequal error "yes"%}
 <script>
