@@ -65,8 +65,10 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <!-- <a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a> -->
-          <a class="dropdown-item" href="#">View_Patient</a>
-          <a class="dropdown-item" href="#">add_Patient</a>
+          <a class="dropdown-item" href="{% url 'view_patient'%}"
+            >View_Patient</a
+          >
+          <a class="dropdown-item" href="{% url 'add_patient'%}">add_Patient</a>
           <!-- <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a> -->
         </div>

@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from django.urls import path
-from .views import About,Home,Contact,Index,Login,Logout_admin,View_Doctor,Delete_Doctor,Add_Doctor
+from .views import About,Home,Contact,Index,Login,Logout_admin,View_Doctor,Delete_Doctor,Add_Doctor, View_Patient,Delete_Patient,Add_Patient
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -12,6 +12,8 @@ urlpatterns = [
     path('index/', Index, name='dashboard'),
     path('view_doctor/', View_Doctor, name='view_doctor'),
     path('add_doctor/', Add_Doctor, name='add_doctor'),
+    path('view_patient/', View_Patient, name='view_patient'),
+    path('add_patient/', Add_Patient, name='add_patient'),
     path('delete_doctor(?p<int:pid>)/', Delete_Doctor, name='delete_doctor'),
-
+    path('delete_patient(?p<int:pid>)/', Delete_Patient, name='delete_patient'),
 ]
