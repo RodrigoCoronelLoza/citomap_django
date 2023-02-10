@@ -16,4 +16,20 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor,on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient,on_delete=models.CASCADE)
     date = models.DateField()
-    time = models.TimeField() 
+    time = models.TimeField()
+
+class PacienteGenerales(models.Model):
+    Nombre = models.CharField(max_length=100)
+    Edad = models.IntegerField(null=True)
+    Medico = models.CharField(max_length=100)
+    Hospital = models.CharField(max_length=100)
+    Muestra = models.CharField(max_length=200)
+    Diagnostico = models.CharField(max_length=100)
+
+class Muestra(models.Model):
+    TomaDeMuestra = models.DateField(blank=True)
+    Recepcion = models.DateField(blank=True)
+    NumeroDeLaminas = models.IntegerField(blank=True)
+    Tincion= models.CharField(max_length=100,blank=True)
+
+    

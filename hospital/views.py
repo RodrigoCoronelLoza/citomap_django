@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from .models import Doctor,Patient
+from .models import Doctor,Patient,Appointment
 # from django.http import HttpResponse
 
 # Create your views here.
@@ -19,7 +19,24 @@ def Contact(request):
 def Index(request):
     if not request.user.is_staff:
         return redirect('login')
-    return render(request,'index.html')
+    doctors = Doctor.objects.all()
+    patient = Patient.objects.all()
+    appointment = Appointment.objects.all()
+    d=0
+    p=0
+    a=0
+    for i in doctors:
+        d+=1
+    
+    for i in patient:
+        p+=1
+
+    for i in appointment:
+        a+=1
+    
+    d1={'d':d,'p':p,'a':a}
+
+    return render(request,'index.html',d1)
 
 def Login(request):
     error = ""
@@ -110,3 +127,42 @@ def Add_Patient(request):
     d = {'error':error}
     return render(request, 'add_patient.html', d)
 
+def Add_Appointment(request):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('login')
+    
+    doctor1=Doctor.objects.all()
+    patient1=Patient.objects.all()
+
+
+    if request.method == "POST":
+        n = request.POST['doctor']
+        p = request.POST['patient']
+        da = request.POST['date']
+        t = request.POST['time']
+        
+        doctor=Doctor.objects.filter(Name=n).first()
+        patient=Patient.objects.filter(name=p).first()
+
+        try:
+            Appointment.objects.create(doctor=doctor,patient=patient,date=da,time=t)
+            error = "no"
+        except:
+            error ="yes"
+    d = {'doctor':doctor1,'patient':patient1,'error':error}
+    return render(request, 'add_appointment.html', d)
+
+def View_Appointment(request):
+    if not request.user.is_staff:
+        return redirect('login')
+    doc = Appointment.objects.all()
+    d = {'doc': doc}
+    return render(request, 'view_appointment.html',d)
+
+def Delete_Appointment(request,pid):
+    if not request.user.is_staff:
+        return redirect('login')
+    app = Appointment.objects.get(id=pid)
+    app.delete()
+    return redirect('view_appointment')
