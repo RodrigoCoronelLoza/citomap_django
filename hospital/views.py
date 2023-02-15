@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect
+# from django.fpdf2 import FPDF
+# import io
+# from django.http import FileResponse
+# from reportlab.pdfgen import canvas
+# from reportlab.lib.units import inch
+# from reportlab.lib.pagesizes import letter
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from .models import Doctor,Patient,Appointment
+from .models import Doctor,Patient,Appointment,PacienteGenerales,Muestra, Informe
+import logging
 # from django.http import HttpResponse
 
 # Create your views here.
@@ -166,3 +174,109 @@ def Delete_Appointment(request,pid):
     app = Appointment.objects.get(id=pid)
     app.delete()
     return redirect('view_appointment')
+
+def Add_Informe(request):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('login')
+
+    if request.method == "POST":
+        nom = request.POST['Nombre']
+        ed = request.POST['Edad']
+        med = request.POST['Medico']
+        hosp = request.POST['Hospital']
+        mues = request.POST['Muestra']
+        diag = request.POST['Diagnostico']
+
+        fecmues = request.POST['TomaDeMuestra']
+        rec = request.POST['Recepcion']
+        numlam = request.POST['NumeroDeLaminas']
+        tinc = request.POST['Tincion']
+        # sp = request.POST['special']
+
+        try:
+            PacienteGenerales.objects.create(Nombre=nom,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
+            Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)
+            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
+            error = "no"
+        except:
+            error ="yes"
+        
+
+        lastPaciente=PacienteGenerales.objects.last()
+        lastMuestra=Muestra.objects.last()
+
+        try:
+            Informe.objects.create(PacienteInforme=lastPaciente,MuestraInforme=lastMuestra)
+            error = "no"
+        except:
+            error ="yes"
+
+    d = {'error':error}
+    return render(request, 'add_informe.html', d)
+
+def View_Informe(request):
+    if not request.user.is_staff:
+        return redirect('login')
+    inf = Informe.objects.all()
+    # pac = PacienteGenerales.objects.all()
+    # mue = Muestra.objects.all()
+    # p = {'pac': pac}
+    # m = {'mue': mue}
+    i = {'inf': inf}
+
+    return render(request, 'view_informe.html',i)
+
+def Delete_Informe(request,pid):
+    if not request.user.is_staff:
+        return redirect('login')
+    inf = Informe.objects.get(id=pid)
+    # logging.debug()
+    paciente_del = inf.PacienteInforme.id
+    pac = PacienteGenerales.objects.get(id=paciente_del)
+
+    muestra_del = inf.MuestraInforme.id
+    mue = Muestra.objects.get(id=muestra_del)
+    
+    inf.delete()
+    pac.delete()
+    mue.delete()
+    return redirect('view_informe')
+
+def Ver_Informe(request,pid):
+    if not request.user.is_staff:
+        return redirect('login')
+    # inf = Informe.objects.all()
+    # pac = PacienteGenerales.objects.all()
+    # mue = Muestra.objects.all()
+    # p = {'pac': pac}
+    # m = {'mue': mue}
+    # i = {'inf': inf}
+    paciente = Informe.objects.get(id=pid)
+    i = {'paciente': paciente}
+
+    return render(request, 'ver_informe.html',i)
+
+# def Report(request):
+#     sales = [
+#         {"item": "Keyboard", "amount": "$120,00"},
+#         {"item": "Mouse", "amount": "$10,00"},
+#         {"item": "House", "amount": "$1 000 000,00"},
+#     ]
+#     pdf = FPDF('P', 'mm', 'A4')
+#     pdf.add_page()
+#     pdf.set_font('courier', 'B', 16)
+#     pdf.cell(40, 10, 'This is what you have sold this month so far:',0,1)
+#     pdf.cell(40, 10, '',0,1)
+#     pdf.set_font('courier', '', 12)
+#     pdf.cell(200, 8, f"{'Item'.ljust(30)} {'Amount'.rjust(20)}", 0, 1)
+#     pdf.line(10, 30, 150, 30)
+#     pdf.line(10, 38, 150, 38)
+#     for line in sales:
+#         pdf.cell(200, 8, f"{line['item'].ljust(30)} {line['amount'].rjust(20)}", 0, 1)
+
+#     pdf.output('tuto1.pdf', 'F')
+#     return render(request, "index.html")
+
+def Report(request):
+    return (request,'ver_informe.html')

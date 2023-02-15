@@ -103,6 +103,31 @@
         </div>
       </li>
 
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Informes
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <!-- <a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a> -->
+          <a class="dropdown-item" href="{% url 'view_informe'%}"
+            >Ver informe</a
+          >
+          <a class="dropdown-item" href="{% url 'add_informe'%}"
+            >Hacer informe</a
+          >
+          <!-- <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a> -->
+        </div>
+      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="{% url 'logout_admin' %}">Logout</a>
       </li>

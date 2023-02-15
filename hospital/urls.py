@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from django.urls import path
-from .views import About,Home,Contact,Index,Login,Logout_admin,View_Doctor,Delete_Doctor,Add_Doctor, View_Patient,Delete_Patient,Add_Patient,View_Appointment, Add_Appointment, Delete_Appointment
+from .views import About,Home,Contact,Index,Login,Logout_admin,View_Doctor,Delete_Doctor,Add_Doctor, View_Patient,Delete_Patient,Add_Patient,View_Appointment, Add_Appointment, Delete_Appointment, Add_Informe,View_Informe, Delete_Informe, Ver_Informe, Report
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -19,5 +19,12 @@ urlpatterns = [
     path('delete_doctor(?p<int:pid>)/', Delete_Doctor, name='delete_doctor'),
     path('delete_patient(?p<int:pid>)/', Delete_Patient, name='delete_patient'),
     path('delete_appointment(?p<int:pid>)/', Delete_Appointment, name='delete_appointment'),
+
+    path('add_informe/',Add_Informe,name='add_informe'),
+    path('view_informe/',View_Informe,name='view_informe'),
+    path('delete_informe(?p<int:pid>)/', Delete_Informe, name='delete_informe'),
+    path('ver_informe(?p<int:pid>)/',Ver_Informe,name='ver_informe'),
+
+    path('report',Report,name='report'),
 
 ]

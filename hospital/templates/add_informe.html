@@ -1,0 +1,42 @@
+{% include 'base.html' %} {% include 'navigation.html' %} {% block content %}
+{%ifequal error "no"%}
+<script>
+  alert("Record saved successfully");
+  window.location = "{% url 'view_informe'%}";
+</script>
+{% endifequal %} {%ifequal error "yes"%}
+<script>
+  alert("something went wrong please try again");
+  //   window.location = "{% url 'home'%}";
+</script>
+{% endifequal %}
+
+<div class="container">
+  <h2 class="text-center">Add Informe</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label>Nombre del paciente</label>
+    <input type="text" class="form-control" name="Nombre" />
+    <label>Edad</label>
+    <input type="text" class="form-control" name="Edad" />
+    <label>Medico</label>
+    <input type="text" class="form-control" name="Medico" />
+    <label>Hospital</label>
+    <input type="text" class="form-control" name="Hospital" />
+    <label>Muestra</label>
+    <input type="text" class="form-control" name="Muestra" />
+    <label>Diagnostico</label>
+    <input type="text" class="form-control" name="Diagnostico" />
+    <label>Toma de muestra</label>
+    <input type="date" class="form-control" name="TomaDeMuestra" />
+    <label>Recepcion</label>
+    <input type="date" class="form-control" name="Recepcion" />
+    <label>Numero de laminas</label>
+    <input type="text" class="form-control" name="NumeroDeLaminas" />
+    <label>Tincion</label>
+    <input type="text" class="form-control" name="Tincion" />
+    <input type="submit" value="submit" class="form-control btn btn-primary" />
+  </form>
+</div>
+
+{%endblock content %}

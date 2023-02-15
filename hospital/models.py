@@ -32,4 +32,6 @@ class Muestra(models.Model):
     NumeroDeLaminas = models.IntegerField(blank=True)
     Tincion= models.CharField(max_length=100,blank=True)
 
-    
+class Informe(models.Model):
+    PacienteInforme = models.ForeignKey(PacienteGenerales,on_delete=models.CASCADE)
+    MuestraInforme = models.ForeignKey(Muestra,on_delete=models.CASCADE)
