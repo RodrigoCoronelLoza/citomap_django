@@ -1,15 +1,15 @@
 {% include 'base.html' %} {% include 'navigation.html' %} {% block content %}
-{%ifequal error "no"%}
+{%if error == "no"%}
 <script>
   alert("logged in succesfully");
   window.location = "{% url 'dashboard'%}";
 </script>
-{% endifequal %} {%ifequal error "yes"%}
+{% endif %} {%if error == "yes"%}
 <script>
   alert("invalid login try again");
   //   window.location = "{% url 'home'%}";
 </script>
-{% endifequal %}
+{% endif %}
 
 <div class="container">
   <h2 class="text-center">Login</h2>

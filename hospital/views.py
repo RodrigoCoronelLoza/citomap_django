@@ -6,6 +6,17 @@ from django.shortcuts import render, redirect
 # from reportlab.lib.units import inch
 # from reportlab.lib.pagesizes import letter
 
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
+from reportlab.platypus import Paragraph, Table
+from reportlab.lib.units import cm
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER, TA_RIGHT
+from reportlab.lib import utils
+
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from .models import Doctor,Patient,Appointment,PacienteGenerales,Muestra, Informe
@@ -279,4 +290,28 @@ def Ver_Informe(request,pid):
 #     return render(request, "index.html")
 
 def Report(request):
-    return (request,'ver_informe.html')
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer,pagesize=letter)
+    # canvas = canvas.Canvas('myfile.pdf', pagesize=letter)
+    width, height = letter
+
+    my_Style=ParagraphStyle('Mine', alignment=TA_CENTER, fontName='Helvetica', fontSize = 10)
+    p1=Paragraph('''<u>INFORME CITOLOGICO</u>''',my_Style)
+    p1.wrapOn(p,width,10)
+    p1.drawOn(p,0,26*cm)
+    p.setTitle("INFORME CITOLOGICO")
+    
+    # p.drawString(100, 50, paciente.PacienteInforme.Nombre)
+    # p.line()
+
+    # Close the PDF object cleanly, and we're done.
+    # p.drawText(textob)
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='INFORME_CITOLOGICO.pdf')
