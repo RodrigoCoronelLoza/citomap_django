@@ -19,7 +19,8 @@ class Appointment(models.Model):
     time = models.TimeField()
 
 class PacienteGenerales(models.Model):
-    Nombre = models.CharField(max_length=100)
+    Nombres = models.CharField(max_length=100)
+    Apellidos = models.CharField(max_length=100,default='SinApellido',editable=True)
     Edad = models.IntegerField(null=True)
     Medico = models.CharField(max_length=100)
     Hospital = models.CharField(max_length=100)
