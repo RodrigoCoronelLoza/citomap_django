@@ -5,6 +5,7 @@ class Doctor(models.Model):
     Name = models.CharField(max_length=50) 
     mobile = models.IntegerField()
     special = models.CharField(max_length=50)
+    matricula = models.CharField(max_length=50,default='CCC-00000')
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)
@@ -36,3 +37,140 @@ class Muestra(models.Model):
 class Informe(models.Model):
     PacienteInforme = models.ForeignKey(PacienteGenerales,on_delete=models.CASCADE)
     MuestraInforme = models.ForeignKey(Muestra,on_delete=models.CASCADE)
+
+class CodigoInforme(models.Model):
+    Codigo = models.CharField(max_length=20,default='000-X')
+
+class EstudioMicroscopico(models.Model):
+    DESCRIPCIONES = (
+        ('OPT1', 'Extendido citológico convencional exo-endocervical'),
+        ('OPT2', 'Extendido citológico post-histectomia'),
+    )
+    Descripcion = models.CharField(max_length=100,choices=DESCRIPCIONES)
+
+# class CalidadDeMuestra(models.Model):
+#     CALIDADES = (
+#         ('SAT','Satisfactorio'),
+#         ('INSAT', 'Insatisfactorio'),
+#     )
+#     # name = models.CharField(max_length=60)
+#     Calidad = models.CharField(max_length=200, choices=CALIDADES)
+
+class CalidadDeMuestra(models.Model):
+    CALIDADES = (
+        ('SAT1','Satisfactorio para valoración citológica: con presencia de células epiteliales de la zona de transformación'),
+        ('INSAT1','Insatisfactorio por ausencia de células exocervicales'),
+        ('INSAT2','Insatisfactorio por presencia de escasas células exocervicales'),
+        ('INSAT3','Insatisfactorio por más del 75% de células cubiertas por hematies'),
+        ('INSAT4','Insatisfactorio por más del 75% de células cubiertas por inflamación'),
+        ('INSAT5','Insatisfactorio por más del 75% de células cubiertas por hematies e inflamación'),
+
+    )
+    Calidad = models.CharField(max_length=200, choices=CALIDADES)
+class Microrganismos(models.Model):
+    MICROS = (
+        ('FLORA', 'Flora habitual'),
+        ('FLORAB', 'Flora bacteriana mixta'),
+        ('FLORAC', 'Flora cocoide'),
+        ('CAMB', 'Cambios en la flora sugestivos de vaginosis bacteriana'),       
+        ('TRICO', 'Trichonomas vaginalis'),
+        ('ORG', 'Organismos micóticos morfologicamente compatibles con candida SP.'),
+        ('BACT','Bacterias morfologicamente compatibles con Actynomices SP.'),
+        ('CAMB2', 'Cambios compatibles con virus herpes simple'),
+    )
+    # name = models.CharField(max_length=60)
+    Microrgs = models.CharField(max_length=100, choices=MICROS)
+
+class HallazgosNoNeoplasicos(models.Model):
+    HALLAZGOS = (
+        ('OPT1','Cambios celulares reactivos a la inflamación'),
+        ('OPT2','Metaplasia escamosa'),
+        ('OPT3','Metaplasia tubárica'),
+        ('OPT4','Alteraciones atrófica'),
+        ('OPT5','Alteraciones celulares secundarias a radioterapia'),
+        ('OPT6','Alteraciones celulares secundarias a quimioterapia'),
+        ('OPT7','Alteraciones celulares secundarias a DIUI'),
+    )
+    NoNeoplasicos = models.CharField(max_length=100, choices=HALLAZGOS)
+
+class CelEscamosas(models.Model):
+    ESCAMOSAS = (
+        ('ASC-US', 'De significado indeterminado(ASC-US)'),
+        ('ASC-H', 'No puede excluirse HSIL(ASC-H)'),
+        ('L-SIL', 'Lesión intraepitelial escamosa de bajo grado(L-SIL)'),
+        ('H-SIL', 'Lesión intraepitelial escamosa de alto grado(H-SIL)'),
+        ('L-SIL2', 'Lesión intraepitelial escamosa de bajo grado(L-SIL) con cambios sugestivos de HPV'),
+        ('CAR', 'Carcinoma epirdermoide')
+    )
+    # name = models.CharField(max_length=60)
+    Escamosas = models.CharField(max_length=100, choices=ESCAMOSAS)
+
+class CelGlandulares(models.Model):
+    GLANDULARES = (
+        ('AT', 'Cel. gland. atipicas (CGA)'),
+        ('AT2', 'Cel. gland. atipicas sugestivas de neoplasia'),
+        ('AD', 'Adenocarcinoma'),
+    )
+    # name = models.CharField(max_length=60)
+    Glandulares = models.CharField(max_length=40, choices=GLANDULARES)
+
+class EvaluacionHormonal(models.Model):
+    EVAL = (
+        ('PAT', 'Patron concordante con historia'),
+        ('TROF', 'Trofico'),
+        ('HIP', 'Hipotrofico'),
+        ('ATRO', 'Atrofico'),
+    )
+    # name = models.CharField(max_length=60)
+    Evaluacion = models.CharField(max_length=20, choices=EVAL)
+
+class Inflamacion (models.Model):
+    INFL = (
+        ('LEV', 'Leve'),
+        ('MOD', 'Moderada'),
+        ('SEV', 'Severa'),
+        ('MOD2', 'Moderada-hemorragico'),
+        ('MOD3', 'Severa-hemorragico'),
+    )
+    # name = models.CharField(max_length=60)
+    Inflamation = models.CharField(max_length=50, choices=INFL)
+
+class Conclusion(models.Model):
+    CONCLU = (
+        ('CONCL1','Negativo para lesión intraepitelial o malignidad'),
+        ('CONCL2','Anomalía de células epiteliales'),
+        ('CONCL3','Positivo para lesión intraepitelial'),
+        ('CONCL4','Positivo para neoplasia maligna'),
+    )
+    Conclusion = models.CharField(max_length=100,choices=CONCLU)
+
+class Recomendacion(models.Model):
+    Recomendacion = models.CharField(max_length=1000,default='Sin descripcion')
+
+class FechaPie(models.Model):
+    Fecha = models.DateField(blank=True)
+
+class Lugar(models.Model):
+    LUGARES = (
+        ('LP', 'La Paz'),
+        ('EA', 'El Alto'),
+    )
+    Lugar = models.CharField(max_length=20, choices=LUGARES)
+
+class InformeCito(models.Model):
+    CodigoInformeCito = models.ForeignKey(CodigoInforme,on_delete=models.CASCADE)
+    PacienteInformeCito = models.ForeignKey(PacienteGenerales,on_delete=models.CASCADE)
+    MuestraInformeCito = models.ForeignKey(Muestra,on_delete=models.CASCADE)
+    EstudioMicroscopicoInformeCito = models.ForeignKey(EstudioMicroscopico,on_delete=models.CASCADE)
+    CalidadDeMuestraInformeCito = models.ForeignKey(CalidadDeMuestra,on_delete=models.CASCADE)
+    MicrorganismosInformeCito = models.ForeignKey(Microrganismos,on_delete=models.CASCADE)
+    HallazgosInformeCito = models.ForeignKey(HallazgosNoNeoplasicos,on_delete=models.CASCADE)
+    CelEscamosasInformeCito = models.ForeignKey(CelEscamosas,on_delete=models.CASCADE)
+    CelGlandularesInformeCito = models.ForeignKey(CelGlandulares,on_delete=models.CASCADE)
+    EvaluacionHormonalInformeCito = models.ForeignKey(EvaluacionHormonal,on_delete=models.CASCADE)
+    InflamacionInformeCito = models.ForeignKey(Inflamacion,on_delete=models.CASCADE)
+    ConclusionInformeCito = models.ForeignKey(Conclusion,on_delete=models.CASCADE)
+    RecomendacionInformeCito = models.ForeignKey(Recomendacion,on_delete=models.CASCADE)
+    FechaPieInformeCito = models.ForeignKey(FechaPie,on_delete=models.CASCADE)
+    LugarInformeCito = models.ForeignKey(Lugar,on_delete=models.CASCADE)
+    DoctorInformeCito = models.ForeignKey(Doctor,on_delete=models.CASCADE)
