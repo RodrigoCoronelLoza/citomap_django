@@ -15,6 +15,10 @@ from reportlab.lib.units import cm
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.lib import utils
+from reportlab.lib import colors
+from datetime import datetime, date
+import locale
+
 
 
 from django.contrib.auth.models import User
@@ -108,9 +112,10 @@ def Add_Doctor(request):
         n = request.POST['name']
         m = request.POST['mobile']
         sp = request.POST['special']
+        mat = request.POST['matricula']
 
         try:
-            Doctor.objects.create(Name=n,mobile=m,special=sp)
+            Doctor.objects.create(Name=n,mobile=m,special=sp,matricula=mat)
             error = "no"
         except:
             error ="yes"
@@ -233,7 +238,7 @@ def Add_Informe(request):
 def View_Informe(request):
     if not request.user.is_staff:
         return redirect('login')
-    inf = Informe.objects.all()
+    inf = InformeCito.objects.all()
     # pac = PacienteGenerales.objects.all()
     # mue = Muestra.objects.all()
     # p = {'pac': pac}
@@ -267,35 +272,15 @@ def Ver_Informe(request,pid):
     # p = {'pac': pac}
     # m = {'mue': mue}
     # i = {'inf': inf}
-    paciente = Informe.objects.get(id=pid)
+    paciente = InformeCito.objects.get(id=pid)
     i = {'paciente': paciente}
 
     return render(request, 'ver_informe.html',i)
 
-# def Report(request):
-#     sales = [
-#         {"item": "Keyboard", "amount": "$120,00"},
-#         {"item": "Mouse", "amount": "$10,00"},
-#         {"item": "House", "amount": "$1 000 000,00"},
-#     ]
-#     pdf = FPDF('P', 'mm', 'A4')
-#     pdf.add_page()
-#     pdf.set_font('courier', 'B', 16)
-#     pdf.cell(40, 10, 'This is what you have sold this month so far:',0,1)
-#     pdf.cell(40, 10, '',0,1)
-#     pdf.set_font('courier', '', 12)
-#     pdf.cell(200, 8, f"{'Item'.ljust(30)} {'Amount'.rjust(20)}", 0, 1)
-#     pdf.line(10, 30, 150, 30)
-#     pdf.line(10, 38, 150, 38)
-#     for line in sales:
-#         pdf.cell(200, 8, f"{line['item'].ljust(30)} {line['amount'].rjust(20)}", 0, 1)
-
-#     pdf.output('tuto1.pdf', 'F')
-#     return render(request, "index.html")
-
 def Report(request,pid):
     # Create a file-like buffer to receive PDF data.
-    paciente = Informe.objects.get(id=pid)
+    locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
+    paciente = InformeCito.objects.get(id=pid)
     buffer = io.BytesIO()
 
     # Create the PDF object, using the buffer as its "file."
@@ -312,17 +297,22 @@ def Report(request,pid):
     styles = getSampleStyleSheet()
     style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
 
-    tbl_data = [[Paragraph("Nombre:"+paciente.PacienteInforme.Nombres+paciente.PacienteInforme.Apellidos, my_Style2), Paragraph("Edad:"+ str(paciente.PacienteInforme.Edad)+ "años", my_Style2)], 
-    [Paragraph("Medico:"+ paciente.PacienteInforme.Medico, my_Style2), Paragraph("Hospital/Clinica:"+paciente.PacienteInforme.Hospital, my_Style2)], 
-    [Paragraph("Muestra:"+ paciente.PacienteInforme.Muestra, my_Style2), Paragraph("Diagnostico:"+paciente.PacienteInforme.Diagnostico, my_Style2)]]
+    tbl_data = [[Paragraph("Nombre:"+' '+paciente.PacienteInformeCito.Nombres+'  '+paciente.PacienteInformeCito.Apellidos, my_Style2), 
+    Paragraph("Edad:"+' '+ str(paciente.PacienteInformeCito.Edad)+ "años", my_Style2)], 
+    [Paragraph("Medico:"+' '+ paciente.PacienteInformeCito.Medico, my_Style2), 
+    Paragraph("Hospital/Clinica:"+' '+paciente.PacienteInformeCito.Hospital, my_Style2)], 
+    [Paragraph("Muestra:"+' '+ paciente.PacienteInformeCito.Muestra, my_Style2), 
+    Paragraph("Diagnostico:"+' '+paciente.PacienteInformeCito.Diagnostico, my_Style2)]]
     tbl = Table(tbl_data)
     tbl.wrapOn(p,width-2*cm,3*cm)
     tbl.drawOn(p,1*cm,23*cm)
 
     p.line(0+1*cm,22.5*cm,width-1*cm,22.5*cm)
 
-    tbl_data_2 = [[Paragraph("Toma de muestra:"+ str(paciente.MuestraInforme.TomaDeMuestra), my_Style2), Paragraph("Recepcion:"+ str(paciente.MuestraInforme.Recepcion), my_Style2)], 
-    [Paragraph("N° de laminas:"+ str(paciente.MuestraInforme.NumeroDeLaminas), my_Style2), Paragraph("Tincion:"+paciente.MuestraInforme.Tincion, my_Style2)]]
+    tbl_data_2 = [[Paragraph("Toma de muestra:"+' '+ str(paciente.MuestraInformeCito.TomaDeMuestra.strftime("%d-%m-%Y")), my_Style2), 
+    Paragraph("Recepcion:"+' '+ str(paciente.MuestraInformeCito.Recepcion.strftime("%d-%m-%Y")), my_Style2)], 
+    [Paragraph("N° de laminas:"+' '+ str(paciente.MuestraInformeCito.NumeroDeLaminas), 
+    my_Style2), Paragraph("Tincion:"+' '+paciente.MuestraInformeCito.Tincion, my_Style2)]]
     tbl_2 = Table(tbl_data_2)
     tbl_2.wrapOn(p,width-2*cm,3*cm)
     tbl_2.drawOn(p,1*cm,20.75*cm)
@@ -331,6 +321,59 @@ def Report(request,pid):
     p2.wrapOn(p,width,10)
     p2.drawOn(p,1*cm,25*cm)
 
+    my_Style_suelto=ParagraphStyle('Mine', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
+    p3=Paragraph("ESTUDIO MISCROSCÓPICO:"+' '+ paciente.EstudioMicroscopicoInformeCito.get_Descripcion_display(),my_Style_suelto)
+    p3.wrapOn(p,width-2*cm,2*cm)
+    p3.drawOn(p,1*cm,19.75*cm)
+
+    # data=[['I. Calidad de Muestra ', '', '02'], ['II. Microorganismos', '', '12'],
+    # ['', '21', '22'], ['III. Valoración Citológica', '21', '22'], 
+    # ['IV. Hallazgos no neoplasicos ', '31', '32'],
+    # ['V. Evaluacion Hormonal ', '31', '32'],]
+    # t=Table(data,style=[('GRID',(0,0),(-1,-1),0.5,colors.grey),('SPAN',(0,1),(0,2))])
+    # t.wrapOn(p,width-2*cm,5*cm)
+    # t.drawOn(p,1*cm,8.75*cm)
+
+    tbl_data_3=[['I. Calidad de Muestra', Paragraph(paciente.CalidadDeMuestraInformeCito.get_Calidad_display(),my_Style2), ''],
+    ['II. Microorganismos', Paragraph(paciente.MicrorganismosInformeCito.get_Microrgs_display(),my_Style2),''], 
+    ['III. Hallazgos No Neoplasicos', Paragraph(paciente.HallazgosInformeCito.get_NoNeoplasicos_display(),my_Style2),''],
+    ['IV. Valoración Citológica', 'Celulas Escamosas', Paragraph(paciente.CelEscamosasInformeCito.get_Escamosas_display(),my_Style2)],
+    ['', 'Células Glandulares', Paragraph(paciente.CelGlandularesInformeCito.get_Glandulares_display(),my_Style2)], 
+    ['V. Inflamación ', Paragraph(paciente.InflamacionInformeCito.get_Inflamation_display(),my_Style2), '32'],
+    ['VI. Patrón Hormonal ', Paragraph(paciente.EvaluacionHormonalInformeCito.get_Evaluacion_display(),my_Style2), '32'],]
+    tbl_3=Table(tbl_data_3,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(0,3),(0,4)),('SPAN',(1,0),(2,0)),('SPAN',(1,1),(2,1)),('SPAN',(1,2),(2,2)),('SPAN',(1,5),(2,5)),('SPAN',(1,6),(2,6)),('SPAN',(1,7),(2,7))])
+    tbl_3.wrapOn(p,width-2*cm,8*cm)
+    tbl_3.drawOn(p,1*cm,14*cm)
+
+    p4=Paragraph('''<b>CONCLUSION:</b>'''+''+ paciente.ConclusionInformeCito.get_Conclusion_display(),my_Style_suelto)
+    p4.wrapOn(p,width-2*cm,2*cm)
+    p4.drawOn(p,1*cm,13*cm)
+
+    p5=Paragraph('Recomendación: '+' '+ paciente.RecomendacionInformeCito.Recomendacion,my_Style_suelto)
+    p5.wrapOn(p,width-2*cm,2*cm)
+    p5.drawOn(p,1*cm,12*cm)
+
+    p6=Paragraph(paciente.LugarInformeCito.get_Lugar_display()+', '+str(paciente.FechaPieInformeCito.Fecha.strftime("%B %d, %Y")),my_Style_suelto)
+    p6.wrapOn(p,width-2*cm,2*cm)
+    p6.drawOn(p,1*cm,11*cm)
+
+    my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
+    p7=Paragraph('Dra'+' '+paciente.DoctorInformeCito.Name,my_Style_suelto_der )
+    p7.wrapOn(p,width-2*cm,2*cm)
+    p7.drawOn(p,1*cm,10*cm)
+    
+    p8=Paragraph(paciente.DoctorInformeCito.special,my_Style_suelto_der )
+    p8.wrapOn(p,width-2*cm,2*cm)
+    p8.drawOn(p,1*cm,9.5*cm)
+
+    p9=Paragraph(paciente.DoctorInformeCito.matricula,my_Style_suelto_der )
+    p9.wrapOn(p,width-2*cm,2*cm)
+    p9.drawOn(p,1*cm,9*cm)
+
+    p10=Paragraph(paciente.CodigoInformeCito.Codigo,my_Style_suelto_der )
+    p10.wrapOn(p,width-2*cm,2*cm)
+    p10.drawOn(p,1*cm,25*cm)
+    
     
     textob=p.beginText()
     textob.setTextOrigin(cm,cm)
@@ -349,7 +392,7 @@ def Report(request,pid):
     # p.drawCentredString(width/2, 26*cm,"INFORME CITOLOGICO")
     p.setTitle("INFORME CITOLOGICO")
     
-    p.drawString(100, 50, paciente.PacienteInforme.Nombres)
+    # p.drawString(100, 50, paciente.PacienteInformeCito.Nombres)
     # p.line()
 
     # Close the PDF object cleanly, and we're done.
@@ -436,6 +479,12 @@ def Add_Informe_Cit(request):
         except:
             error ="yes"
         
+        # try:
+            # Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)
+            # error = "no"
+        # except:
+            # error="yes"
+
 
         lastCodigo=CodigoInforme.objects.last()
         lastPaciente=PacienteGenerales.objects.last()
@@ -469,3 +518,63 @@ def Add_Informe_Cit(request):
     # d = {'error':error}
 
     return render(request, 'add_informe_cit.html', d)
+
+def Upd_Datos_Paciente(request,pid):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('login')
+    
+    paciente = InformeCito.objects.get(id=pid)
+
+    cod_del_id = paciente.CodigoInformeCito.id
+    cod_upd = CodigoInforme.objects.get(id=cod_del_id)
+
+    gen_id = paciente.PacienteInformeCito.id
+    pac_upd = PacienteGenerales.objects.get(id=gen_id)
+    
+    if request.method == "POST":
+        
+        cod=request.POST['Codigo']
+        
+        nom = request.POST['Nombres']
+        ape = request.POST['Apellidos']
+        ed = request.POST['Edad']
+        med = request.POST['Medico']
+        hosp = request.POST['Hospital']
+        mues = request.POST['Muestra']
+        diag = request.POST['Diagnostico']
+
+        
+        try:
+            paciente.CodigoInformeCito.Codigo=cod
+            paciente.PacienteInformeCito.Nombres=nom
+            paciente.PacienteInformeCito.Apellidos=ape
+            paciente.PacienteInformeCito.Edad=ed
+            paciente.PacienteInformeCito.Medico=med
+            paciente.PacienteInformeCito.Hospital=hosp
+            paciente.PacienteInformeCito.Muestra=mues
+            paciente.PacienteInformeCito.Diagnostico=diag
+            paciente.save()
+            cod_upd.Codigo=cod
+            cod_upd.save()
+            pac_upd.Nombres=nom
+            pac_upd.Apellidos=ape
+            pac_upd.Edad=ed
+            pac_upd.Medico=med
+            pac_upd.Hospital=hosp
+            pac_upd.Muestra=mues
+            pac_upd.Diagnostico=diag
+            pac_upd.save()
+
+
+            # CodigoInforme.objects.create(Codigo=cod)
+            # PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
+
+            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
+            error = "no"
+        except:
+            error ="yes"
+
+    
+    d = {'error':error,'paciente':paciente}
+    return render(request, 'upd_datos_paciente.html', d)

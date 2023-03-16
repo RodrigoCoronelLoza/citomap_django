@@ -1,7 +1,7 @@
 # from django.contrib import admin
 from django.urls import path
 from .views import About,Home,Contact,Index,Login,Logout_admin,View_Doctor,Delete_Doctor,Add_Doctor, View_Patient,Delete_Patient,Add_Patient,View_Appointment, Add_Appointment, Delete_Appointment, Add_Informe,View_Informe, Delete_Informe, Ver_Informe, Report
-from .views import Add_Informe_Cit
+from .views import Add_Informe_Cit,Upd_Datos_Paciente
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -26,7 +26,9 @@ urlpatterns = [
     path('delete_informe(?p<int:pid>)/', Delete_Informe, name='delete_informe'),
     path('ver_informe(?p<int:pid>)/',Ver_Informe,name='ver_informe'),
 
-    path('report',Report,name='report'),
+    path('report(?p<int:pid>)/',Report,name='report'),
     path('add_informe_cit/',Add_Informe_Cit,name='add_informe_cit'),
+
+    path('upd_datos_paciente(?p<int:pid>)/',Upd_Datos_Paciente, name='upd_datos_paciente'),
 
 ]

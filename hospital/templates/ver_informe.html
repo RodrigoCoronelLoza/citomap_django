@@ -39,12 +39,73 @@
     />
   </head>
   <body>
+    <h2 class="text-center">Informe Citologico</h2>
+    <div class="text-center">Codigo{{paciente.CodigoInformeCito.Codigo}}</div>
+    <div class="text-left"><b>Datos Paciente</b></div>
+    <table id="example1" class="table table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <body>
+        <tr>
+          <td>
+            Nombre: {{paciente.PacienteInformeCito.Nombres}}
+            {{paciente.PacienteInformeCito.Apellidos}}
+          </td>
+          <td>Edad: {{paciente.PacienteInformeCito.Edad}} años</td>
+        </tr>
+        <tr>
+          <td>Medico: {{paciente.PacienteInformeCito.Medico}}</td>
+          <td>Hospital/Clinica: {{paciente.PacienteInformeCito.Hospital}}</td>
+        </tr>
+        <tr>
+          <td>Muestra: {{paciente.PacienteInformeCito.Muestra}}</td>
+          <td>Diagnostico: {{paciente.PacienteInformeCito.Diagnostico}}</td>
+        </tr>
+      </body>
+    </table>
+    <div style="text-align: center">
+      <a
+        class="btn btn-success"
+        href="{% url 'upd_datos_paciente' paciente.id %}"
+      >
+        Modificar Datos Paciente</a
+      >
+    </div>
+
+    <table id="example2" class="table table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <body>
+        <tr>
+          <td>
+            Toma de muestra: {{paciente.MuestraInformeCito.TomaDeMuestra}}
+          </td>
+          <td>Recepcion: {{paciente.MuestraInformeCito.Recepcion}}</td>
+        </tr>
+        <tr>
+          <td>
+            N° de laminas: {{paciente.MuestraInformeCito.NumeroDeLaminas}}
+          </td>
+          <td>Tincion: {{paciente.MuestraInformeCito.Tincion}}</td>
+        </tr>
+      </body>
+    </table>
     <div
       class="container shadow"
       style="max-width: 640px; margin: auto; margin-top: 2em; padding: 2em"
     >
       <h4>To generate a report, please click the button below:</h4>
-      <a class="btn btn-success" href="/report">Report</a>
+      <a class="btn btn-success" href="{% url 'report' paciente.id %}">
+        Report</a
+      >
     </div>
   </body>
 </html>
