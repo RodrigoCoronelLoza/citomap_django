@@ -337,7 +337,7 @@ def Report(request,pid):
     tbl_data_3=[['I. Calidad de Muestra', Paragraph(paciente.CalidadDeMuestraInformeCito.get_Calidad_display(),my_Style2), ''],
     ['II. Microorganismos', Paragraph(paciente.MicrorganismosInformeCito.get_Microrgs_display(),my_Style2),''], 
     ['III. Hallazgos No Neoplasicos', Paragraph(paciente.HallazgosInformeCito.get_NoNeoplasicos_display(),my_Style2),''],
-    ['IV. Valoración Citológica', 'Celulas Escamosas', Paragraph(paciente.CelEscamosasInformeCito.get_Escamosas_display(),my_Style2)],
+    ['IV. Anomalia de Células Epiteliales', 'Celulas Escamosas', Paragraph(paciente.CelEscamosasInformeCito.get_Escamosas_display(),my_Style2)],
     ['', 'Células Glandulares', Paragraph(paciente.CelGlandularesInformeCito.get_Glandulares_display(),my_Style2)], 
     ['V. Inflamación ', Paragraph(paciente.InflamacionInformeCito.get_Inflamation_display(),my_Style2), '32'],
     ['VI. Patrón Hormonal ', Paragraph(paciente.EvaluacionHormonalInformeCito.get_Evaluacion_display(),my_Style2), '32'],]
@@ -355,20 +355,20 @@ def Report(request,pid):
 
     p6=Paragraph(paciente.LugarInformeCito.get_Lugar_display()+', '+str(paciente.FechaPieInformeCito.Fecha.strftime("%B %d, %Y")),my_Style_suelto)
     p6.wrapOn(p,width-2*cm,2*cm)
-    p6.drawOn(p,1*cm,11*cm)
+    p6.drawOn(p,1*cm,8*cm)
 
     my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
-    p7=Paragraph('Dra'+' '+paciente.DoctorInformeCito.Name,my_Style_suelto_der )
+    p7=Paragraph(paciente.DoctorInformeCito.Name,my_Style_suelto_der )
     p7.wrapOn(p,width-2*cm,2*cm)
-    p7.drawOn(p,1*cm,10*cm)
+    p7.drawOn(p,1*cm,7*cm)
     
     p8=Paragraph(paciente.DoctorInformeCito.special,my_Style_suelto_der )
     p8.wrapOn(p,width-2*cm,2*cm)
-    p8.drawOn(p,1*cm,9.5*cm)
+    p8.drawOn(p,1*cm,6.5*cm)
 
     p9=Paragraph(paciente.DoctorInformeCito.matricula,my_Style_suelto_der )
     p9.wrapOn(p,width-2*cm,2*cm)
-    p9.drawOn(p,1*cm,9*cm)
+    p9.drawOn(p,1*cm,6*cm)
 
     p10=Paragraph(paciente.CodigoInformeCito.Codigo,my_Style_suelto_der )
     p10.wrapOn(p,width-2*cm,2*cm)
@@ -436,7 +436,9 @@ def Add_Informe_Cit(request):
         diag = request.POST['Diagnostico']
 
         fecmues = request.POST['TomaDeMuestra']
+        # fecmues2= fecmues.strftime("%d/%m/%Y")
         rec = request.POST['Recepcion']
+        # rec2 = rec2.strftime("%d/%m/%Y")
         numlam = request.POST['NumeroDeLaminas']
         tinc = request.POST['Tincion']
 
@@ -451,6 +453,7 @@ def Add_Informe_Cit(request):
         conclu = request.POST['Conclusion']
         recomend = request.POST['Recomendacion']
         fech = request.POST['FechaPie']
+        # fech2 = fech.strftime("%d/%m/%Y")
         lug = request.POST['Lugar']
 
         n = request.POST['doctor']
@@ -578,3 +581,194 @@ def Upd_Datos_Paciente(request,pid):
     
     d = {'error':error,'paciente':paciente}
     return render(request, 'upd_datos_paciente.html', d)
+
+def Upd_Muestra_Paciente(request,pid):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('login')
+    
+    paciente = InformeCito.objects.get(id=pid)
+
+    fecha_muestra = paciente.MuestraInformeCito.TomaDeMuestra.strftime("%Y-%m-%d")
+    fecha_recepcion = paciente.MuestraInformeCito.Recepcion.strftime("%Y-%m-%d")
+    
+
+    muestra_del_id = paciente.MuestraInformeCito.id
+    muestra_upd = Muestra.objects.get(id=muestra_del_id)
+    
+    if request.method == "POST":
+        
+        
+        fecmues = request.POST['TomaDeMuestra']
+        rec = request.POST['Recepcion']
+        numlam = request.POST['NumeroDeLaminas']
+        tinc = request.POST['Tincion']
+
+        
+        try:
+            paciente.MuestraInformeCito.TomaDeMuestra=fecmues
+            paciente.MuestraInformeCito.Recepcion=rec
+            paciente.MuestraInformeCito.NumeroDeLaminas=numlam
+            paciente.MuestraInformeCito.Tincion=tinc
+            paciente.save()
+            muestra_upd.TomaDeMuestra=fecmues
+            muestra_upd.Recepcion=rec
+            muestra_upd.NumeroDeLaminas=numlam
+            muestra_upd.Tincion=tinc
+            muestra_upd.save()
+            # CodigoInforme.objects.create(Codigo=cod)
+            # PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
+
+            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
+            error = "no"
+        except:
+            error ="yes"
+
+    
+    d = {'error':error,'paciente':paciente,'fecha_muestra':fecha_muestra,'fecha_recepcion':fecha_recepcion}
+    return render(request,'upd_muestra_paciente.html', d)
+
+def Upd_Tabla_Central_Paciente(request,pid):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('login')
+    
+    paciente = InformeCito.objects.get(id=pid)
+
+    Estudio_form = EstudioMicroscopico.DESCRIPCIONES
+    Calidad_form= CalidadDeMuestra.CALIDADES
+    Microrganismos_form = Microrganismos.MICROS
+    Hallazgos_form = HallazgosNoNeoplasicos.HALLAZGOS
+    CelEscamosas_form = CelEscamosas.ESCAMOSAS
+    CelGlandulares_form = CelGlandulares.GLANDULARES
+    EvaluacionHormonal_form = EvaluacionHormonal.EVAL
+    Inflamacion_form = Inflamacion.INFL
+    
+
+    # muestra_del_id = paciente.MuestraInformeCito.id
+    # muestra_upd = Muestra.objects.get(id=muestra_del_id)
+
+    estudio_micros_id = paciente.EstudioMicroscopicoInformeCito.id
+    estudio_micros_upd = EstudioMicroscopico.objects.get(id=estudio_micros_id)
+    calidad_id = paciente.CalidadDeMuestraInformeCito.id
+    calidad_upd = CalidadDeMuestra.objects.get(id=calidad_id)
+    microrgs_id = paciente.MicrorganismosInformeCito.id
+    microrgs_upd = Microrganismos.objects.get(id=microrgs_id)
+    hallazgos_id = paciente.HallazgosInformeCito.id
+    hallazgos_upd = HallazgosNoNeoplasicos.objects.get(id=hallazgos_id)
+    celescamosas_id = paciente.CelEscamosasInformeCito.id
+    celescamosas_upd = CelEscamosas.objects.get(id=celescamosas_id)
+    celglandulares_id = paciente.CelGlandularesInformeCito.id
+    celglandulares_upd = CelGlandulares.objects.get(id=celglandulares_id)
+    eval_hormonal_id = paciente.EvaluacionHormonalInformeCito.id
+    eval_hormonal_upd = EvaluacionHormonal.objects.get(id=eval_hormonal_id)
+    inflamacion_id = paciente.InflamacionInformeCito.id
+    inflamacion_upd = Inflamacion.objects.get(id=inflamacion_id)
+    
+    
+    if request.method == "POST":
+        
+        estmic = request.POST['Descripcion']
+        calid = request.POST['CalidadDeMuestra']
+        micro = request.POST['Microrganismos']
+        hall = request.POST['Hallazgos']
+        esc = request. POST['CelEscamosas']
+        glan = request.POST['CelGlandulares']
+        evalu = request.POST['EvaluacionHormonal']
+        infla = request.POST['Inflamacion']
+
+        
+        try:
+            paciente.EstudioMicroscopicoInformeCito.Descripcion=estmic
+            paciente.CalidadDeMuestraInformeCito.Calidad = calid
+            paciente.MicrorganismosInformeCito.Microrgs = micro
+            paciente.HallazgosInformeCito.NoNeoplasicos = hall
+            paciente.CelEscamosasInformeCito.Escamosas = esc
+            paciente.CelGlandularesInformeCito.Glandulares = glan
+            paciente.EvaluacionHormonalInformeCito.Evaluacion = evalu
+            paciente.InflamacionInformeCito.Inflamation = infla
+            paciente.save()
+
+            estudio_micros_upd.Descripcion=estmic
+            estudio_micros_upd.save()
+            calidad_upd.Calidad=calid
+            calidad_upd.save()
+            microrgs_upd.Microrgs = micro
+            microrgs_upd.save()
+            hallazgos_upd.Neoplasicos = hall
+            hallazgos_upd.save()
+            celescamosas_upd.Escamosas = esc
+            celescamosas_upd.save()
+            celglandulares_upd.Glandulares = glan
+            celglandulares_upd.save()
+            eval_hormonal_upd.Evaluacion = evalu
+            eval_hormonal_upd.save()
+            inflamacion_upd.Inflamation = infla
+            inflamacion_upd.save()
+
+            error = "no"
+        except:
+            error ="yes"
+
+    
+    d = {'error':error,'paciente':paciente,'estmicroscopico':Estudio_form,'calidad':Calidad_form,
+    'microrgs':Microrganismos_form, 'hallazgos':Hallazgos_form,'escamosas':CelEscamosas_form , 
+    'glandulares':CelGlandulares_form, 'evaluacion':EvaluacionHormonal_form,
+    'inflamacion': Inflamacion_form}
+    return render(request,'upd_tabla_central_paciente.html', d)
+
+def Upd_Conclusion_Paciente(request,pid):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('login')
+    
+    paciente = InformeCito.objects.get(id=pid)
+
+    Conclu_form = Conclusion.CONCLU
+    Lugar_form = Lugar.LUGARES
+
+    fecha_informe = paciente.FechaPieInformeCito.Fecha.strftime("%Y-%m-%d")
+    
+
+    # muestra_del_id = paciente.MuestraInformeCito.id
+    # muestra_upd = Muestra.objects.get(id=muestra_del_id)
+
+    conclu_id = paciente.ConclusionInformeCito.id
+    conclu_upd = Conclusion.objects.get(id=conclu_id)
+    recomendacion_id = paciente.RecomendacionInformeCito.id
+    recomendacion_upd = Recomendacion.objects.get(id=recomendacion_id)
+    lugar_id = paciente.LugarInformeCito.id
+    lugar_upd = Lugar.objects.get(id=lugar_id)
+    fechapie_id = paciente.FechaPieInformeCito.id
+    fechapie_upd = FechaPie.objects.get(id=fechapie_id)
+    
+    if request.method == "POST":
+        
+        conclu = request.POST['Conclusion']
+        recomend = request.POST['Recomendacion']
+        fech = request.POST['FechaPie']
+        lug = request.POST['Lugar']
+        
+        try:
+            paciente.ConclusionInformeCito.Conclusion = conclu
+            paciente.RecomendacionInformeCito.Recomendacion = recomend
+            paciente.FechaPieInformeCito.Fecha = fech
+            paciente.LugarInformeCito.Lugar = lug
+            paciente.save()
+
+            conclu_upd.Conclusion = conclu
+            conclu_upd.save()
+            recomendacion_upd.Recomendacion = recomend
+            recomendacion_upd.save()
+            fechapie_upd.Fecha = fech
+            fechapie_upd.save()
+            lugar_upd.Lugar = lug
+            lugar_upd.save()
+
+            error = "no"
+        except:
+            error ="yes"
+
+    
+    d = {'error':error,'paciente':paciente,'conclusion':Conclu_form,'lugar':Lugar_form,'fechainf':fecha_informe}
+    return render(request,'upd_conclusion_paciente.html', d)

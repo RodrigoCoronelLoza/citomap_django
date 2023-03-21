@@ -76,6 +76,7 @@
       >
     </div>
 
+    <div class="text-left"><b>Muestra</b></div>
     <table id="example2" class="table table-hover">
       <thead>
         <tr>
@@ -98,13 +99,123 @@
         </tr>
       </body>
     </table>
+
+    <div style="text-align: center">
+      <a
+        class="btn btn-success"
+        href="{% url 'upd_muestra_paciente' paciente.id %}"
+      >
+        Modificar Datos Muestra</a
+      >
+    </div>
+
+    <div class="text-left"><b>TABLA CENTRAL</b></div>
+    <table id="example3" class="table table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <body>
+        <tr>
+          <td>Estudio Microscopico</td>
+          <td>
+            {{paciente.EstudioMicroscopicoInformeCito.get_Descripcion_display}}
+          </td>
+        </tr>
+        <tr>
+          <td>I. Calidad de Muestra</td>
+          <td>{{paciente.CalidadDeMuestraInformeCito.get_Calidad_display}}</td>
+        </tr>
+        <tr>
+          <td>II. Microorganismos</td>
+          <td>{{paciente.MicrorganismosInformeCito.get_Microrgs_display}}</td>
+        </tr>
+        <tr>
+          <td>III. Hallazgos no neoplasicos</td>
+          <td>{{paciente.HallazgosInformeCito.get_NoNeoplasicos_display}}</td>
+        </tr>
+        <tr>
+          <td>IV. Anomalia de Células Epiteliales</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Células Escamosas</td>
+          <td>{{paciente.CelEscamosasInformeCito.get_Escamosas_display}}</td>
+        </tr>
+        <tr>
+          <td>Células Glandulares</td>
+          <td>
+            {{paciente.CelGlandularesInformeCito.get_Glandulares_display}}
+          </td>
+        </tr>
+        <tr>
+          <td>V. Inflamacion</td>
+          <td>{{paciente.InflamacionInformeCito.get_Inflamation_display}}</td>
+        </tr>
+        <tr>
+          <td>VI. Patron Hormonal</td>
+          <td>
+            {{paciente.EvaluacionHormonalInformeCito.get_Evaluacion_display}}
+          </td>
+        </tr>
+        <tr></tr>
+      </body>
+    </table>
+
+    <div style="text-align: center">
+      <a
+        class="btn btn-success"
+        href="{% url 'upd_tabla_central_paciente' paciente.id %}"
+      >
+        Modificar Tablaaa Central</a
+      >
+    </div>
+
+    <div class="text-left"><b>PARTE FINAL</b></div>
+    <table id="example4" class="table table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <body>
+        <tr>
+          <td>Conclusion:</td>
+          <td>{{paciente.ConclusionInformeCito.get_Conclusion_display}}</td>
+        </tr>
+        <tr>
+          <td>Recomendacion:</td>
+          <td>{{paciente.RecomendacionInformeCito.Recomendacion}}</td>
+        </tr>
+        <tr>
+          <td>Lugar:</td>
+          <td>{{paciente.LugarInformeCito.get_Lugar_display}}</td>
+        </tr>
+        <tr>
+          <td>Fecha del informe:</td>
+          <td>{{paciente.FechaPieInformeCito.Fecha}}</td>
+        </tr>
+      </body>
+    </table>
+
+    <div style="text-align: center">
+      <a
+        class="btn btn-success"
+        href="{% url 'upd_conclusion_paciente' paciente.id %}"
+      >
+        Modificar Parte Final</a
+      >
+    </div>
     <div
       class="container shadow"
       style="max-width: 640px; margin: auto; margin-top: 2em; padding: 2em"
     >
-      <h4>To generate a report, please click the button below:</h4>
+      <h4>PARA OBTENER EL INFORME EN PDF:</h4>
       <a class="btn btn-success" href="{% url 'report' paciente.id %}">
-        Report</a
+        General informe</a
       >
     </div>
   </body>
