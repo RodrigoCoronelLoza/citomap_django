@@ -26,7 +26,7 @@ urlpatterns = [
     path('delete_informe(?p<int:pid>)/', Delete_Informe, name='delete_informe'),
     path('ver_informe(?p<int:pid>)/',Ver_Informe,name='ver_informe'),
 
-    path('report(?p<int:pid>)/',Report,name='report'),
+    path('report(?p<int:pid>,?p<int:opt>)/',Report,name='report'),
     path('add_informe_cit/',Add_Informe_Cit,name='add_informe_cit'),
 
     path('upd_datos_paciente(?p<int:pid>)/',Upd_Datos_Paciente, name='upd_datos_paciente'),

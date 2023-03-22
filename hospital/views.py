@@ -277,7 +277,7 @@ def Ver_Informe(request,pid):
 
     return render(request, 'ver_informe.html',i)
 
-def Report(request,pid):
+def Report(request,pid,opt):
     # Create a file-like buffer to receive PDF data.
     locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
     paciente = InformeCito.objects.get(id=pid)
@@ -358,22 +358,29 @@ def Report(request,pid):
     p6.drawOn(p,1*cm,8*cm)
 
     my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
-    p7=Paragraph(paciente.DoctorInformeCito.Name,my_Style_suelto_der )
-    p7.wrapOn(p,width-2*cm,2*cm)
-    p7.drawOn(p,1*cm,7*cm)
     
-    p8=Paragraph(paciente.DoctorInformeCito.special,my_Style_suelto_der )
-    p8.wrapOn(p,width-2*cm,2*cm)
-    p8.drawOn(p,1*cm,6.5*cm)
+    if opt==2:
 
-    p9=Paragraph(paciente.DoctorInformeCito.matricula,my_Style_suelto_der )
-    p9.wrapOn(p,width-2*cm,2*cm)
-    p9.drawOn(p,1*cm,6*cm)
+        p7=Paragraph(paciente.DoctorInformeCito.Name,my_Style_suelto_der )
+        p7.wrapOn(p,width-2*cm,2*cm)
+        p7.drawOn(p,1*cm,7*cm)
+    
+        p8=Paragraph(paciente.DoctorInformeCito.special,my_Style_suelto_der )
+        p8.wrapOn(p,width-2*cm,2*cm)
+        p8.drawOn(p,1*cm,6.5*cm)
+
+        p9=Paragraph(paciente.DoctorInformeCito.matricula,my_Style_suelto_der )
+        p9.wrapOn(p,width-2*cm,2*cm)
+        p9.drawOn(p,1*cm,6*cm)
 
     p10=Paragraph(paciente.CodigoInformeCito.Codigo,my_Style_suelto_der )
     p10.wrapOn(p,width-2*cm,2*cm)
     p10.drawOn(p,1*cm,25*cm)
     
+    if opt == 1:
+        p11=Paragraph('''<img src="hospital/static/images/firma_crop.jpeg" width="100" height="80"/>''', style_right)
+        p11.wrapOn(p,width-2*cm,2*cm)
+        p11.drawOn(p,1*cm,6*cm)
     
     textob=p.beginText()
     textob.setTextOrigin(cm,cm)
