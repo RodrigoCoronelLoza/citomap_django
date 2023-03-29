@@ -113,15 +113,40 @@
           aria-haspopup="true"
           aria-expanded="false"
         >
-          Informes
+          Informes Citologicos
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <!-- <a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a> -->
           <a class="dropdown-item" href="{% url 'view_informe'%}"
-            >Ver informe</a
+            >Ver informe Citologico</a
           >
           <a class="dropdown-item" href="{% url 'add_informe_cit'%}"
-            >Hacer informe</a
+            >Hacer informe Citologico</a
+          >
+          <!-- <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a> -->
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Informes Anatomicos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <!-- <a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a> -->
+          <a class="dropdown-item" href="{% url 'view_informe_anat'%}"
+            >Ver informe Anatomico</a
+          >
+          <a class="dropdown-item" href="{% url 'add_informe_anat'%}"
+            >Hacer informe Anatomico</a
           >
           <!-- <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a> -->

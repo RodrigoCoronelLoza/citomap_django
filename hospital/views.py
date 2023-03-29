@@ -27,7 +27,7 @@ from .models import Doctor,Patient,Appointment,PacienteGenerales,Muestra, Inform
 
 from .models import CodigoInforme, CalidadDeMuestra, EstudioMicroscopico, Microrganismos, CelEscamosas, CelGlandulares
 from .models import HallazgosNoNeoplasicos, EvaluacionHormonal, Inflamacion, Conclusion, Recomendacion, FechaPie, Lugar, InformeCito
-
+from .models import InformeAnato
 import logging
 # from django.http import HttpResponse
 
@@ -779,3 +779,198 @@ def Upd_Conclusion_Paciente(request,pid):
     
     d = {'error':error,'paciente':paciente,'conclusion':Conclu_form,'lugar':Lugar_form,'fechainf':fecha_informe}
     return render(request,'upd_conclusion_paciente.html', d)
+
+def Add_Informe_Anat(request):
+    error = ""
+    if not request.user.is_staff:
+        return redirect('login')
+    
+    # Estudio_form = EstudioMicroscopico.DESCRIPCIONES
+    # Calidad_form= CalidadDeMuestra.CALIDADES
+    # Microrganismos_form = Microrganismos.MICROS
+    # Hallazgos_form = HallazgosNoNeoplasicos.HALLAZGOS
+    # CelEscamosas_form = CelEscamosas.ESCAMOSAS
+    # CelGlandulares_form = CelGlandulares.GLANDULARES
+    # EvaluacionHormonal_form = EvaluacionHormonal.EVAL
+    # Inflamacion_form = Inflamacion.INFL
+    # Conclu_form = Conclusion.CONCLU
+    Lugar_form = Lugar.LUGARES
+    doctor1=Doctor.objects.all()
+
+    # infla = request.POST['Inflama']
+    vector = ["carajo0","carajo1","carajo2","carajo3","carajo4"]
+    vectorMacros = ["mi0","mi1","mi2","mi3","mi4"]
+    # vector1 = ["che0","che1","che2","che3","che4"]
+    # vector2 = ["hola0","hola1","hola2","hola3","hola4"]
+    # vector3 = ["mir0","mir1","mir2","mir3","mir4"]
+    
+
+
+    # infla = 'nada'
+
+
+    if request.method == "POST":
+        
+        # if 'botonarriba' in request.POST:
+            # infla = request.POST['Inflamacion']
+
+        # elif 'botonabajo' in request.POST:
+        
+        cod=request.POST['Codigo']
+        nom = request.POST['Nombres']
+        ape = request.POST['Apellidos']
+        ed = request.POST['Edad']
+        med = request.POST['Medico']
+        hosp = request.POST['Hospital']
+        mues = request.POST['Muestra']
+        diag = request.POST['Diagnostico']  
+        fecmues = request.POST['Recepcion']
+        # fecmues2= fecmues.strftime("%d/%m/%Y")
+        rec = request.POST['Recepcion']
+        # rec2 = rec2.strftime("%d/%m/%Y")
+        # numlam = request.POST['NumeroDeLaminas']
+        # tinc = request.POST['Tincion']
+        numlam=0
+        tinc='Sin descripcion'  
+        estmicro = request.POST['MicroResultado']
+        estmacro = request.POST['MacroResultado']
+        especimen = request.POST['Especimen']
+        conclusion = request.POST['Conclusion']     
+        # # estmic = request.POST['Descripcion']
+        # calid = request.POST['CalidadDeMuestra']
+        # micro = request.POST['Microrganismos']
+        # hall = request.POST['Hallazgos']
+        # esc = request. POST['CelEscamosas']
+        # glan = request.POST['CelGlandulares']
+        # evalu = request.POST['EvaluacionHormonal']
+        # infla = request.POST['Inflamacion']
+        # conclu = request.POST['Conclusion']
+        # recomend = request.POST['Recomendacion']
+        fech = request.POST['FechaPie']
+        # fech2 = fech.strftime("%d/%m/%Y")
+        lug = request.POST['Lugar'] 
+        n = request.POST['doctor']  
+        doctor=Doctor.objects.filter(Name=n).first()    
+        try:
+            CodigoInforme.objects.create(Codigo=cod)
+            PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
+            Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)
+            # EstudioMicroscopico.objects.create(Descripcion=estmic)
+            # CalidadDeMuestra.objects.create(Calidad=calid)
+            # Microrganismos.objects.create(Microrgs=micro)
+            # HallazgosNoNeoplasicos.objects.create(NoNeoplasicos=hall)
+            # CelEscamosas.objects.create(Escamosas=esc)
+            # CelGlandulares.objects.create(Glandulares=glan)
+            # EvaluacionHormonal.objects.create(Evaluacion=evalu)
+            # Inflamacion.objects.create(Inflamation=infla)
+            # Conclusion.objects.create(Conclusion=conclu)
+            # Recomendacion.objects.create(Recomendacion=recomend)
+            FechaPie.objects.create(Fecha=fech)
+            Lugar.objects.create(Lugar=lug) 
+            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
+            error = "no"
+        except:
+            error ="yes"
+
+
+        lastCodigo=CodigoInforme.objects.last()
+        lastPaciente=PacienteGenerales.objects.last()
+        lastMuestra=Muestra.objects.last()
+        # lastEstudioMicroscopico=EstudioMicroscopico.objects.last()
+        # lastCalidadDeMuestra=CalidadDeMuestra.objects.last()
+        # lastMicrorganismos=Microrganismos.objects.last()
+        # lastHallazgos=HallazgosNoNeoplasicos.objects.last()
+        # lastCelEscamosas=CelEscamosas.objects.last()
+        # lastCelGlandulares=CelGlandulares.objects.last()
+        # lastEvaluacionHormonal=EvaluacionHormonal.objects.last()
+        # lastInflamacion=Inflamacion.objects.last()
+        # lastConclusion=Conclusion.objects.last()
+        # lastRecomendacion=Recomendacion.objects.last()
+        lastFechaPie=FechaPie.objects.last()
+        lastLugar=Lugar.objects.last()  
+
+        try:
+            InformeAnato.objects.create(CodigoInformeAnato=lastCodigo,
+                                          PacienteInformeAnato=lastPaciente,
+                                          MuestraInformeAnato=lastMuestra,
+                                          EstudioMacroscopicoInformeAnato=estmacro,
+                                          EstudioMicroscopicoInformeAnato=estmicro,
+                                          EspecimenInformeAnato = especimen,
+                                          ConclusionInformeAnato = conclusion,
+                                          FechaPieInformeAnato = lastFechaPie,
+                                          LugarInformeAnato = lastLugar,
+                                          DoctorInformeAnato = doctor)
+            error = "no"
+        except:
+            error ="yes"    
+
+    # d = {'estmicroscopico':Estudio_form,'calidad':Calidad_form,'microrgs':Microrganismos_form, 'hallazgos':Hallazgos_form,'escamosas':CelEscamosas_form , 'glandulares':CelGlandulares_form, 'evaluacion':EvaluacionHormonal_form,'inflamacion': Inflamacion_form,'conclusion':Conclu_form,'lugar':Lugar_form,'doctor':doctor1,'error':error}
+    d = {'error':error,'vector':vector,'vectorMacros':vectorMacros,'lugar':Lugar_form,'doctor':doctor1}
+
+    return render(request, 'add_informe_anat.html', d)
+
+def modules(request):
+    # course = request.GET.get('course')
+    # modules = Module.objects.filter(course=course)
+    course = request.GET.get('course')
+
+
+    vector1 = ["che0","che1","che2","che3","che4"]
+    vector2 = ["hola0","hola1","hola2","hola3","hola4"]
+    vector3 = ["mir0","mir1","mir2","mir3","mir4"]
+
+    context = {'vector1': vector1,'vector2': vector2,'vector3': vector3,'viene':course}
+    return render(request, 'modules.html', context)
+
+def modules2(request):
+    # course = request.GET.get('course')
+    # modules = Module.objects.filter(course=course)
+    course2 = request.GET.get('modules')
+
+
+    # vector1 = ["che0","che1","che2","che3","che4"]
+    # vector2 = ["hola0","hola1","hola2","hola3","hola4"]
+    # vector3 = ["mir0","mir1","mir2","mir3","mir4"]
+
+    # context = {'vector1': vector1,'vector2': vector2,'vector3': vector3,'viene':course}
+    context = {'viene2':course2}
+    return render(request, 'modules2.html', context)
+
+def macros2(request):
+    # course = request.GET.get('course')
+    # modules = Module.objects.filter(course=course)
+    course = request.GET.get('macros1')
+
+
+    vector1 = ["che0","che1","che2","che3","che4"]
+    vector2 = ["hola0","hola1","hola2","hola3","hola4"]
+    vector3 = ["mir0","mir1","mir2","mir3","mir4"]
+
+    context = {'vector1': vector1,'vector2': vector2,'vector3': vector3,'viene':course}
+    return render(request, 'macros2.html', context)
+
+def macros3(request):
+    # course = request.GET.get('course')
+    # modules = Module.objects.filter(course=course)
+    course2 = request.GET.get('macros2')
+
+
+    # vector1 = ["che0","che1","che2","che3","che4"]
+    # vector2 = ["hola0","hola1","hola2","hola3","hola4"]
+    # vector3 = ["mir0","mir1","mir2","mir3","mir4"]
+
+    # context = {'vector1': vector1,'vector2': vector2,'vector3': vector3,'viene':course}
+    context = {'viene2':course2}
+    return render(request, 'macros3.html', context)
+
+def View_Informe_Anat(request):
+    if not request.user.is_staff:
+        return redirect('login')
+    inf = InformeCito.objects.all()
+    # pac = PacienteGenerales.objects.all()
+    # mue = Muestra.objects.all()
+    # p = {'pac': pac}
+    # m = {'mue': mue}
+    i = {'inf': inf}
+
+    return render(request, 'view_informe_anat.html',i)

@@ -1,0 +1,14 @@
+<div>{{viene}}</div>
+<select class="custom-select mb-4" 
+name="modules" 
+hx-get="{% url 'modules2' %}"
+hx-trigger="change"
+hx-target="#modules2">
+    <option selected>Open this select menuuuu</option>
+    {% for i in vector2 %}
+        <option value="{{i}}">{{ i }}</option>
+    {% endfor %}
+</select>
+<div id="modules2">
+    {% include 'modules2.html' %} 
+</div>

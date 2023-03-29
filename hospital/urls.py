@@ -2,6 +2,9 @@
 from django.urls import path
 from .views import About,Home,Contact,Index,Login,Logout_admin,View_Doctor,Delete_Doctor,Add_Doctor, View_Patient,Delete_Patient,Add_Patient,View_Appointment, Add_Appointment, Delete_Appointment, Add_Informe,View_Informe, Delete_Informe, Ver_Informe, Report
 from .views import Add_Informe_Cit,Upd_Datos_Paciente,Upd_Muestra_Paciente,Upd_Tabla_Central_Paciente, Upd_Conclusion_Paciente
+from .views import Add_Informe_Anat, modules
+from . import views
+
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -33,6 +36,18 @@ urlpatterns = [
     path('upd_muestra_paciente(?p<int:pid>)/',Upd_Muestra_Paciente, name='upd_muestra_paciente'),
     path('upd_tabla_central_paciente(?p<int:pid>)/',Upd_Tabla_Central_Paciente, name='upd_tabla_central_paciente'),
     path('upd_conclusion_paciente(?p<int:pid>)/',Upd_Conclusion_Paciente, name='upd_conclusion_paciente'),
+
+    path('add_informe_anat/',Add_Informe_Anat,name='add_informe_anat'),
+
+    path('modules/',views.modules, name='modules'),
+    path('modules2/',views.modules2, name='modules2'),
+
+    path('macros2/',views.macros2, name='macros2'),
+    path('macros3/',views.macros3, name='macros3'),
+
+    path('view_informe_anat/',views.View_Informe_Anat,name='view_informe_anat'),
+
+
 
 
 ]

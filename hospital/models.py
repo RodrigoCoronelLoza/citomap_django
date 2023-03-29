@@ -174,3 +174,34 @@ class InformeCito(models.Model):
     FechaPieInformeCito = models.ForeignKey(FechaPie,on_delete=models.CASCADE)
     LugarInformeCito = models.ForeignKey(Lugar,on_delete=models.CASCADE)
     DoctorInformeCito = models.ForeignKey(Doctor,on_delete=models.CASCADE)
+
+# class Apendice (models.Model):
+#     INFL = (
+#         ('0', 'A.0 APENDICE'),
+#         ('1', 'A.1 APENDICE'),
+#         ('2', 'A.2 APENDICE'),
+#         ('3', 'A.3 APENDICE'),
+#         ('4', 'A.4 APENDICE'),
+#         ('5', 'A.5 APENDICE'),
+#         ('6', 'A.6 APENDICE'),
+#         ('7', 'A.7 APENDICE'),
+#         ('8', 'A.8 APENDICE'),
+#         ('9', 'A.9 APENDICE'),
+#         ('10', 'A.10 APENDICE'),
+#     )
+#     # name = models.CharField(max_length=60)
+#     Inflamation = models.CharField(max_length=50, choices=INFL)
+
+class InformeAnato(models.Model):
+    CodigoInformeAnato = models.ForeignKey(CodigoInforme,on_delete=models.CASCADE)
+    PacienteInformeAnato = models.ForeignKey(PacienteGenerales,on_delete=models.CASCADE)
+    MuestraInformeAnato = models.ForeignKey(Muestra,on_delete=models.CASCADE)
+    EstudioMacroscopicoInformeAnato =  models.CharField(max_length=1000,default='Sin descripcion')
+    EstudioMicroscopicoInformeAnato =  models.CharField(max_length=1000,default='Sin descripcion')
+    EspecimenInformeAnato = models.CharField(max_length=200,default='Sin descripcion')
+    ConclusionInformeAnato = models.CharField(max_length=200,default='Sin descripcion')
+    FechaPieInformeAnato = models.ForeignKey(FechaPie,on_delete=models.CASCADE)
+    LugarInformeAnato = models.ForeignKey(Lugar,on_delete=models.CASCADE)
+    DoctorInformeAnato = models.ForeignKey(Doctor,on_delete=models.CASCADE)
+
+    
