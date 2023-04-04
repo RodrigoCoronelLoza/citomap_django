@@ -13,35 +13,7 @@
 
 <div class="container">
   <h2 class="text-center">Add Informe Anatomico</h2>
-  <!-- <form method="POST">
-    {% csrf_token %}
-    
-    <select class="custom-select mb-4" 
-    name="course" 
-    hx-get="{% url 'modules' %}"
-    hx-trigger="change"
-    hx-target="#modules">
-
-    <option selected>Open this select menu</option>
-    {% for i in vector %}
-        <option value="{{i}}">{{ i }}</option>
-    {% endfor %}
-    </select>
-
-    <div id="modules">
-      {% include 'modules.html' %} 
-    </div>
-
-    <label> Inflamacion </label>
-    <select name="Inflamacion" class="form-control" onchange="botonarriba">
-      {% for i,j in inflamacion%}
-      <option value="{{i}}"
-      {% if i == inflamation %} selected {% endif %}>
-      {{j}}</option>
-      {% endfor %}
-    </select>
-    <input type="submit" value="submit" name="botonarriba" class="form-control btn btn-primary" />
-  </form> -->
+  
   <form method="POST">
     
     {% csrf_token %}
@@ -64,23 +36,6 @@
     <label>Recepcion</label>
     <input type="date" class="form-control" name="Recepcion" />
     
-    <label>MICRO</label>
-    <select class="custom-select mb-4" 
-    name="course" 
-    hx-get="{% url 'modules' %}"
-    hx-trigger="change"
-    hx-target="#modules">
-
-    <option selected>Open this select menu</option>
-    {% for i in vector %}
-        <option value="{{i}}">{{ i }}</option>
-    {% endfor %}
-    </select>
-    <div id="modules">
-      {% include 'modules.html' %} 
-    </div>
-    
-    
     <label>MACRO</label>
     <select class="custom-select mb-4" 
     name="macros1" 
@@ -96,6 +51,25 @@
     <div id="macros2">
       {% include 'macros2.html' %} 
     </div>
+    
+    <label>MICRO</label>
+    <select class="custom-select mb-4" 
+    name="micros1" 
+    hx-get="{% url 'micros2' %}"
+    hx-trigger="change"
+    hx-target="#micros2">
+
+    <option selected>Open this select menu</option>
+    {% for i in vector %}
+        <option value="{{i}}">{{ i }}</option>
+    {% endfor %}
+    </select>
+    <div id="micros2">
+      {% include 'micros2.html' %} 
+    </div>
+    
+    
+    
 
 
     <!-- <label>Conclusion</label>
