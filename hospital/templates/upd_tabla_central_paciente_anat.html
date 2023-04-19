@@ -1,0 +1,36 @@
+{% include 'base.html' %} {% include 'navigation.html' %} {% block content %}
+{%if error == "no"%}
+<script>
+  alert("Record saved successfully");
+  window.location = "{% url 'view_informe_anat'%}";
+</script>
+{% endif %} {%if error == "yes"%}
+<script>
+  alert("something went wrong please try again");
+  //   window.location = "{% url 'home'%}";
+</script>
+{% endif %}
+
+<div class="container">
+  <h2 class="text-center">Modificar Datos Muestraaa</h2>
+  <div> {{estmicrosSelected}}</div>
+  <form method="POST">
+    {% csrf_token %}
+    <label>Estudio Macroscopico</label>
+    <!-- <input type="text" class="form-control" name="MacroResultado1" value = "{{sent}}" /> -->
+    <textarea type="text" class="form-control" name="EstudioMacro" >{{paciente.EstudioMacroscopicoInformeAnato}}</textarea>
+
+    <label>Estudio Microscopico</label>
+    <!-- <input type="text" class="form-control" name="MicroResultado" value ={{viene2}} /> -->
+    <textarea type="text" class="form-control" name="EstudioMicro" >{{paciente.EstudioMicroscopicoInformeAnato}}</textarea>
+
+    <div style="text-align: center">
+      <a class="btn btn-success" href="{% url 'ver_informe_anat' paciente.id%}">
+        Cancelar</a
+      >
+    </div>
+    <input type="submit" value="submit" class="form-control btn btn-primary" />
+  </form>
+</div>
+
+{%endblock content %}

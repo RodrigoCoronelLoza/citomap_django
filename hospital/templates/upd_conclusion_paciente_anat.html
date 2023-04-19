@@ -1,0 +1,57 @@
+{% include 'base.html' %} {% include 'navigation.html' %} {% block content %}
+{%if error == "no"%}
+<script>
+  alert("Record saved successfully");
+  window.location = "{% url 'view_informe_anat'%}";
+</script>
+{% endif %} {%if error == "yes"%}
+<script>
+  alert("something went wrong please try again");
+  //   window.location = "{% url 'home'%}";
+</script>
+{% endif %}
+
+<div class="container">
+  <h2 class="text-center">Modificar Datos Muestraaa</h2>
+  <div> {{estmicrosSelected}}</div>
+  <form method="POST">
+    {% csrf_token %}
+    <label>Especimen</label>
+    <input type="text" class="form-control" name="Especimen" value="{{paciente.EspecimenInformeAnato}}" />
+
+    <label>Conclusion</label>
+    <input type="text" class="form-control" name="Conclusion" value="{{paciente.ConclusionInformeAnato}}" />
+
+    <label>Lugar</label>
+    <select name="Lugar" class="form-control">
+      {% for i,j in lugar %}
+        <option 
+        value="{{i}}" 
+        {% if j == paciente.LugarInformeAnato.get_Lugar_display %} selected {% endif %}>
+        {{j}} </option>
+      {% endfor %}
+    </select>
+    <label
+      >Fechad del informe</label
+    >
+    <input
+      type="date"
+      class="form-control"
+      name="FechaPie"
+      value="{{fechainf}}"
+    />
+
+
+    <!-- <form method="POST" name="CalidadDeMuestra" class="form-control">
+      {{ calidad }}
+    </form> -->
+    <div style="text-align: center">
+      <a class="btn btn-success" href="{% url 'ver_informe' paciente.id%}">
+        Cancelar</a
+      >
+    </div>
+    <input type="submit" value="submit" class="form-control btn btn-primary" />
+  </form>
+</div>
+
+{%endblock content %}

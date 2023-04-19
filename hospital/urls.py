@@ -37,6 +37,9 @@ urlpatterns = [
     path('upd_tabla_central_paciente(?p<int:pid>)/',Upd_Tabla_Central_Paciente, name='upd_tabla_central_paciente'),
     path('upd_conclusion_paciente(?p<int:pid>)/',Upd_Conclusion_Paciente, name='upd_conclusion_paciente'),
 
+    path('delete_informe_cit(?p<int:pid>)/', views.Delete_Informe_Cit, name='delete_informe_cit'),
+
+
     path('add_informe_anat/',Add_Informe_Anat,name='add_informe_anat'),
 
     path('micros2/',views.micros2, name='micros2'),
@@ -49,6 +52,13 @@ urlpatterns = [
     path('ver_informe_anat(?p<int:pid>)/',views.Ver_Informe_Anat,name='ver_informe_anat'),
 
     path('report_anat(?p<int:pid>,?p<int:opt>)/',views.Report_Anat,name='report_anat'),
+
+    path('upd_datos_paciente_anat(?p<int:pid>)/',views.Upd_Datos_Paciente_Anat, name='upd_datos_paciente_anat'),
+    path('upd_tabla_central_paciente_anat(?p<int:pid>)/',views.Upd_Tabla_Central_Paciente_Anat, name='upd_tabla_central_paciente_anat'),
+    path('upd_conclusion_paciente_anat(?p<int:pid>)/',views.Upd_Conclusion_Paciente_Anat, name='upd_conclusion_paciente_anat'),
+    path('delete_informe_anat(?p<int:pid>)/', views.Delete_Informe_Anat, name='delete_informe_anat'),
+
+
 
 
 

@@ -67,14 +67,14 @@
         </tr>
       </body>
     </table>
-    <div style="text-align: center">
+    <!-- <div style="text-align: center">
       <a
         class="btn btn-success"
         href="{% url 'upd_datos_paciente' paciente.id %}"
       >
         Modificar Datos Paciente</a
       >
-    </div>
+    </div> -->
 
     <div class="text-left"><b>Muestra</b></div>
     <table id="example2" class="table table-hover">
@@ -98,9 +98,9 @@
     <div style="text-align: center">
       <a
         class="btn btn-success"
-        href="{% url 'upd_muestra_paciente' paciente.id %}"
+        href="{% url 'upd_datos_paciente_anat' paciente.id %}"
       >
-        Modificar Datos Muestra</a
+        Modificar Datos Paciente</a
       >
     </div>
 
@@ -140,7 +140,7 @@
     <div style="text-align: center">
       <a
         class="btn btn-success"
-        href="{% url 'upd_tabla_central_paciente' paciente.id %}"
+        href="{% url 'upd_tabla_central_paciente_anat' paciente.id %}"
       >
         Modificar Tablaaa Central</a
       >
@@ -177,7 +177,7 @@
     <div style="text-align: center">
       <a
         class="btn btn-success"
-        href="{% url 'upd_conclusion_paciente' paciente.id %}"
+        href="{% url 'upd_conclusion_paciente_anat' paciente.id %}"
       >
         Modificar Parte Final</a
       >

@@ -1,0 +1,94 @@
+{% include 'base.html' %} {% include 'navigation.html' %} {% block content %}
+{%if error == "no"%}
+<script>
+  alert("Record saved successfully");
+  window.location = "{% url 'view_informe_anat'%}";
+</script>
+{% endif %} {%if error == "yes"%}
+<script>
+  alert("something went wrong please try again");
+  //   window.location = "{% url 'home'%}";
+</script>
+{% endif %}
+
+<div class="container">
+  <h2 class="text-center">Modificar Informe ANATOMICOOO</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label>Codigo de informe</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Codigo"
+      value="{{paciente.CodigoInformeAnato.Codigo}}"
+    />
+    <label>Nombres del paciente</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Nombres"
+      value="{{paciente.PacienteInformeAnato.Nombres}}"
+    />
+    <label>Apellidos del paciente</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Apellidos"
+      value="{{paciente.PacienteInformeAnato.Apellidos}}"
+    />
+    <label>Edad</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Edad"
+      value="{{paciente.PacienteInformeAnato.Edad}}"
+    />
+    <label>Medico</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Medico"
+      value="{{paciente.PacienteInformeAnato.Medico}}"
+    />
+    <label>Hospital</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Hospital"
+      value="{{paciente.PacienteInformeAnato.Hospital}}"
+    />
+    <label>Muestra</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Muestra"
+      value="{{paciente.PacienteInformeAnato.Muestra}}"
+    />
+    <label>Diagnostico</label>
+    <input
+      type="text"
+      class="form-control"
+      name="Diagnostico"
+      value="{{paciente.PacienteInformeAnato.Diagnostico}}"
+    />
+    <label>Fecha de Recepcion:</label>
+    <input
+      type="date"
+      class="form-control"
+      name="Recepcion"
+      value="{{fecha_recepcion}}"
+    />
+
+    <!-- <form method="POST" name="CalidadDeMuestra" class="form-control">
+      {{ calidad }}
+    </form> -->
+    <div style="text-align: center">
+      <a class="btn btn-success" href="{% url 'ver_informe_anat' paciente.id%}">
+        Cancelar</a
+      >
+    </div>
+    <input type="submit" value="submit" class="form-control btn btn-primary" />
+  </form>
+</div>
+
+{%endblock content %}
