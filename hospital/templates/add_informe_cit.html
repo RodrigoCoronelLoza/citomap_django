@@ -41,8 +41,8 @@
     <input type="text" class="form-control" name="Tincion" />
     <label>Estudio Microscopico</label>
     <select name="Descripcion" class="form-control">
-      {% for i,j in estmicroscopico %}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_estudio %}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
     <label> Calidad de Muestra</label>
@@ -53,59 +53,66 @@
     <!-- <div name="CalidadDeMuestra" class="form-control">{{calidad}}</div> -->
 
     <select name="CalidadDeMuestra" class="form-control">
-      {% for i,j in calidad %}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_calidad %}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Microrganismos </label>
     <select name="Microrganismos" class="form-control">
-      {% for i,j in microrgs%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_microorganismos%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Hallazgos no neoplasicos </label>
     <select name="Hallazgos" class="form-control">
-      {% for i,j in hallazgos%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_hallazgos%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Celulas Escamosas </label>
     <select name="CelEscamosas" class="form-control">
-      {% for i,j in escamosas%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_cel_escamosas%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Celulas Glandulares </label>
     <select name="CelGlandulares" class="form-control">
-      {% for i,j in glandulares%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_cel_glandulares%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Evaluacion Hormonal </label>
     <select name="EvaluacionHormonal" class="form-control">
-      {% for i,j in evaluacion%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_eval_hormonal%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Inflamacion </label>
     <select name="Inflamacion" class="form-control">
-      {% for i,j in inflamacion%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_inflamacion%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 
     <label>Conclusion</label>
     <select name="Conclusion" class="form-control">
-      {% for i,j in conclusion%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in vector_conclusion%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
+
+    <!-- <label>COMBINACION</label>
+    <select name="Combinacional" class="form-control">
+      {% for i in vector_opcional%}
+      <option value="{{i}}">{{i}}</option>
+      {% endfor %}
+    </select> -->
 
     <label>Recomendacion</label>
     <input type="text" class="form-control" name="Recomendacion" />

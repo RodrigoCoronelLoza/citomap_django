@@ -204,4 +204,21 @@ class InformeAnato(models.Model):
     LugarInformeAnato = models.ForeignKey(Lugar,on_delete=models.CASCADE)
     DoctorInformeAnato = models.ForeignKey(Doctor,on_delete=models.CASCADE)
 
-    
+class InformeCito2(models.Model):
+    CodigoInformeCito2 = models.ForeignKey(CodigoInforme,on_delete=models.CASCADE)
+    PacienteInformeCito2 = models.ForeignKey(PacienteGenerales,on_delete=models.CASCADE)
+    MuestraInformeCito2 = models.ForeignKey(Muestra,on_delete=models.CASCADE)
+    EstudioMicroscopicoInformeCito2 = models.CharField(max_length=200,default='Sin descripcion')
+    CalidadDeMuestraInformeCito2 = models.CharField(max_length=200,default='Sin descripcion')
+    MicrorganismosInformeCito2 = models.CharField(max_length=200,default='Sin descripcion')
+    HallazgosInformeCito2 = models.CharField(max_length=200,default='Sin descripcion')
+    CelEscamosasInformeCito2 = models.CharField(max_length=200,default='Sin descripcion')
+    CelGlandularesInformeCito2 = models.CharField(max_length=100,default='Sin descripcion')
+    EvaluacionHormonalInformeCito2 = models.CharField(max_length=100,default='Sin descripcion') 
+    InflamacionInformeCito2 = models.CharField(max_length=100,default='Sin descripcion')
+    ConclusionInformeCito2 = models.CharField(max_length=200,default='Sin descripcion')
+    OpcionalInformeCito2 = models.CharField(max_length=100,default='Sin descripcion')
+    RecomendacionInformeCito2 = models.CharField(max_length=1000,default='Sin descripcion')
+    FechaPieInformeAnato2 = models.ForeignKey(FechaPie,on_delete=models.CASCADE)
+    LugarInformeAnato2 = models.ForeignKey(Lugar,on_delete=models.CASCADE)
+    DoctorInformeAnato2 = models.ForeignKey(Doctor,on_delete=models.CASCADE)
