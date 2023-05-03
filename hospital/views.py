@@ -417,18 +417,27 @@ def Report(request,pid,opt):
         a = a+k    
     
     if paciente.InflamacionInformeCito2 != 'NO INCLUIR':
-        p3_2 = Paragraph('''<b>INFLAMACION:</b>'''+'<br />\n'+ paciente.InflamacionInformeCito2,my_Style_suelto)
-        p3_2.wrapOn(p,width-4*cm,2*cm)
-        p3_2.drawOn(p,2*cm,(18-a)*cm)
+        p3_6 = Paragraph('''<b>INFLAMACION:</b>'''+'<br />\n'+ paciente.InflamacionInformeCito2,my_Style_suelto)
+        p3_6.wrapOn(p,width-4*cm,2*cm)
+        p3_6.drawOn(p,2*cm,(18-a)*cm)
         # tbl_5=Table(tbl_data_5,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(1,0),(2,0))])    
         # tbl_5.wrapOn(p,width-2*cm,1*cm)
         # tbl_5.drawOn(p,1*cm,(18-a)*cm)
         a = a+k
     
+    if paciente.EvaluacionHormonalInformeCito2 != 'NO INCLUIR':
+        p3_7 = Paragraph('''<b>EVALUACION HORMONAL:</b>'''+'<br />\n'+ paciente.EvaluacionHormonalInformeCito2,my_Style_suelto)
+        p3_7.wrapOn(p,width-4*cm,2*cm)
+        p3_7.drawOn(p,2*cm,(18-a)*cm)
+        a = a+k
+
+
     p.line(0+2*cm,7.5*cm,width-2*cm,7.5*cm)
-    p4=Paragraph('''<b>CONCLUSION:</b>'''+''+ paciente.ConclusionInformeCito2,my_Style_suelto)
-    p4.wrapOn(p,width-4*cm,2*cm)
-    p4.drawOn(p,2*cm,7*cm)
+        
+    if paciente.ConclusionInformeCito2 != 'NO INCLUIR':
+        p4=Paragraph('''<b>CONCLUSION:</b>'''+''+ paciente.ConclusionInformeCito2,my_Style_suelto)
+        p4.wrapOn(p,width-4*cm,2*cm)
+        p4.drawOn(p,2*cm,7*cm)
 
     p5=Paragraph('Recomendación: '+' '+ paciente.RecomendacionInformeCito2,my_Style_suelto)
     p5.wrapOn(p,width-4*cm,2*cm)
@@ -506,7 +515,8 @@ def Add_Informe_Cit(request):
     vector_estudio = ["EXTENDIDO CITOLÓGICO CONVENCIONAL: EXO-ENDOCERVICAL",
                       "EXTENDIDO CITOLÓGICO POST- HISTERECTOMIA"]
     
-    vector_calidad = ["SATISFACTORIO PARA VALORACIÓN CITOLÓGICA: CON PRESENCIA DE CELULAS EPITELIALES DE LA ZONA DE TRANSFORMACIÓN", 
+    vector_calidad = ["SATISFACTORIO PARA VALORACIÓN CITOLÓGICA: CON PRESENCIA DE CELULAS EPITELIALES DE LA ZONA DE TRANSFORMACIÓN",
+                      "SATISFACTORIO PARA VALORACIÓN CITOLÓGICA" , 
                       "INSATISFACTORIO POR AUSENCIA DE CÉLULAS EXOCERVICALES",
                       "INSATISFACTORIO POR PRESENCIA DE ESCASAS CÉLULAS EXOCERVICALES",
                       "INSATISFACTORIO POR MAS DEL 75% DE CÉLULAS CUBIERTA POR HEMATIES",
@@ -530,7 +540,7 @@ def Add_Informe_Cit(request):
         "ALTERACIONES CELULARES SECUNDARIA A DIU",
         "NO INCLUIR"]
     
-    vector_cel_escamosas = ["CÉLULAS ESCAMOSAS ATÍPICAS DE SIGNIFICADO INDETERMINADO (ASC-US)",
+    vector_cel_escamosas = ["CÉLULAS ESCAMOSAS NORMALES","CÉLULAS ESCAMOSAS ATÍPICAS DE SIGNIFICADO INDETERMINADO (ASC-US)",
         "CÉLULAS ESCAMOSAS ATÍPICAS NO PUEDE EXCLUIRSE LESIÓN DE ALTO GRADO (ASC-H)",
         "LESIÓN INTRAEPITELIAL ESCAMOSA DE BAJO GRADO (L-SIL)",
         "LESIÓN INTRAEPITELIAL ESCAMOSA DE ALTO GRADO (H-SIL)",
@@ -538,7 +548,7 @@ def Add_Informe_Cit(request):
         "CARCINOMA EPIDERMOIDE",
         "NO INCLUIR"]
     
-    vector_cel_glandulares = ["CÉLULAS GLANDULARES ATÍPICAS. (CGA)",
+    vector_cel_glandulares = ["CÉLULAS GLANDULARES NORMALES","CÉLULAS GLANDULARES ATÍPICAS. (CGA)",
         "CÉLULAS GLANDULARES ATÍPICAS SUGESTIVAS DE NEOPLASIA",
         "ADENOCARCINOMA",
         "NO INCLUIR"]
@@ -546,7 +556,7 @@ def Add_Informe_Cit(request):
     vector_eval_hormonal = ["PATRON CONCORDANTE CON HISTORIA",
         "TROFICO",
         "HIPOTROFICO",
-        "ATROFICO"]
+        "ATROFICO","NO INCLUIR"]
     
     vector_inflamacion = ["LEVE",
         "MODERADA",
@@ -558,7 +568,7 @@ def Add_Informe_Cit(request):
     vector_conclusion = ["NEGATIVO PARA LESIÓN INTRAEPITELIAL O MALIGNIDAD (NILM)",
         "ANOMALÍA DE CÉLULAS EPITELIALES",
         "POSITIVO PARA LESIÓN INTRAEPITELIAL",
-        "POSITIVO PARA NEOPLASIA MALIGNA"]
+        "POSITIVO PARA NEOPLASIA MALIGNA","NO INCLUIR"]
     
     vector_opcional = ["combi1","combi2","combi3"]
     
@@ -813,7 +823,8 @@ def Upd_Tabla_Central_Paciente(request,pid):
     vector_estudio = ["EXTENDIDO CITOLÓGICO CONVENCIONAL: EXO-ENDOCERVICAL",
                       "EXTENDIDO CITOLÓGICO POST- HISTERECTOMIA"]
     
-    vector_calidad = ["SATISFACTORIO PARA VALORACIÓN CITOLÓGICA: CON PRESENCIA DE CELULAS EPITELIALES DE LA ZONA DE TRANSFORMACIÓN", 
+    vector_calidad = ["SATISFACTORIO PARA VALORACIÓN CITOLÓGICA: CON PRESENCIA DE CELULAS EPITELIALES DE LA ZONA DE TRANSFORMACIÓN",
+        "SATISFACTORIO PARA VALORACIÓN CITOLÓGICA", 
         "INSATISFACTORIO POR AUSENCIA DE CÉLULAS EXOCERVICALES",
         "INSATISFACTORIO POR PRESENCIA DE ESCASAS CÉLULAS EXOCERVICALES",
         "INSATISFACTORIO POR MAS DEL 75% DE CÉLULAS CUBIERTA POR HEMATIES",
@@ -837,7 +848,7 @@ def Upd_Tabla_Central_Paciente(request,pid):
         "ALTERACIONES CELULARES SECUNDARIA A DIU",
         "NO INCLUIR"]
     
-    vector_cel_escamosas = ["CÉLULAS ESCAMOSAS ATÍPICAS DE SIGNIFICADO INDETERMINADO (ASC-US)",
+    vector_cel_escamosas = ["CÉLULAS ESCAMOSAS NORMALES","CÉLULAS ESCAMOSAS ATÍPICAS DE SIGNIFICADO INDETERMINADO (ASC-US)",
         "CÉLULAS ESCAMOSAS ATÍPICAS NO PUEDE EXCLUIRSE LESIÓN DE ALTO GRADO (ASC-H)",
         "LESIÓN INTRAEPITELIAL ESCAMOSA DE BAJO GRADO (L-SIL)",
         "LESIÓN INTRAEPITELIAL ESCAMOSA DE ALTO GRADO (H-SIL)",
@@ -845,7 +856,7 @@ def Upd_Tabla_Central_Paciente(request,pid):
         "CARCINOMA EPIDERMOIDE",
         "NO INCLUIR"]
     
-    vector_cel_glandulares = ["CÉLULAS GLANDULARES ATÍPICAS. (CGA)",
+    vector_cel_glandulares = ["CÉLULAS GLANDULARES NORMALES","CÉLULAS GLANDULARES ATÍPICAS. (CGA)",
         "CÉLULAS GLANDULARES ATÍPICAS SUGESTIVAS DE NEOPLASIA",
         "ADENOCARCINOMA",
         "NO INCLUIR"]
@@ -853,7 +864,7 @@ def Upd_Tabla_Central_Paciente(request,pid):
     vector_eval_hormonal = ["PATRON CONCORDANTE CON HISTORIA",
         "TROFICO",
         "HIPOTROFICO",
-        "ATROFICO"]
+        "ATROFICO","NO INCLUIR"]
     
     vector_inflamacion = ["LEVE",
         "MODERADA",
@@ -956,7 +967,7 @@ def Upd_Conclusion_Paciente(request,pid):
     vector_conclusion = ["NEGATIVO PARA LESIÓN INTRAEPITELIAL O MALIGNIDAD (NILM)",
         "ANOMALÍA DE CÉLULAS EPITELIALES",
         "POSITIVO PARA LESIÓN INTRAEPITELIAL",
-        "POSITIVO PARA NEOPLASIA MALIGNA"]
+        "POSITIVO PARA NEOPLASIA MALIGNA","NO INCLUIR"]
     
     vector_opcional = ["combi1","combi2","combi3"]
     
@@ -1733,7 +1744,7 @@ def Report_Anat(request,pid,opt):
     width, height = letter
 
     my_Style=ParagraphStyle('Mine', alignment=TA_CENTER, fontName='Helvetica', fontSize = 10)
-    p1=Paragraph('''<b><u>INFORME ANATOMICO</u></b>''',my_Style)
+    p1=Paragraph('''<b><u>INFORME DE ANATOMIA PATOLOGICA</u></b>''',my_Style)
     p1.wrapOn(p,width,10)
     p1.drawOn(p,0,26*cm)
 
