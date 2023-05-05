@@ -48,14 +48,6 @@ class EstudioMicroscopico(models.Model):
     )
     Descripcion = models.CharField(max_length=100,choices=DESCRIPCIONES)
 
-# class CalidadDeMuestra(models.Model):
-#     CALIDADES = (
-#         ('SAT','Satisfactorio'),
-#         ('INSAT', 'Insatisfactorio'),
-#     )
-#     # name = models.CharField(max_length=60)
-#     Calidad = models.CharField(max_length=200, choices=CALIDADES)
-
 class CalidadDeMuestra(models.Model):
     CALIDADES = (
         ('SAT1','Satisfactorio para valoración citológica: con presencia de células epiteliales de la zona de transformación'),
@@ -78,7 +70,6 @@ class Microrganismos(models.Model):
         ('BACT','Bacterias morfologicamente compatibles con Actynomices SP.'),
         ('CAMB2', 'Cambios compatibles con virus herpes simple'),
     )
-    # name = models.CharField(max_length=60)
     Microrgs = models.CharField(max_length=100, choices=MICROS)
 
 class HallazgosNoNeoplasicos(models.Model):
@@ -102,7 +93,6 @@ class CelEscamosas(models.Model):
         ('L-SIL2', 'Lesión intraepitelial escamosa de bajo grado(L-SIL) con cambios sugestivos de HPV'),
         ('CAR', 'Carcinoma epirdermoide')
     )
-    # name = models.CharField(max_length=60)
     Escamosas = models.CharField(max_length=100, choices=ESCAMOSAS)
 
 class CelGlandulares(models.Model):
@@ -111,7 +101,6 @@ class CelGlandulares(models.Model):
         ('AT2', 'Cel. gland. atipicas sugestivas de neoplasia'),
         ('AD', 'Adenocarcinoma'),
     )
-    # name = models.CharField(max_length=60)
     Glandulares = models.CharField(max_length=40, choices=GLANDULARES)
 
 class EvaluacionHormonal(models.Model):
@@ -121,7 +110,6 @@ class EvaluacionHormonal(models.Model):
         ('HIP', 'Hipotrofico'),
         ('ATRO', 'Atrofico'),
     )
-    # name = models.CharField(max_length=60)
     Evaluacion = models.CharField(max_length=20, choices=EVAL)
 
 class Inflamacion (models.Model):
@@ -132,7 +120,6 @@ class Inflamacion (models.Model):
         ('MOD2', 'Moderada-hemorragico'),
         ('MOD3', 'Severa-hemorragico'),
     )
-    # name = models.CharField(max_length=60)
     Inflamation = models.CharField(max_length=50, choices=INFL)
 
 class Conclusion(models.Model):
@@ -174,23 +161,6 @@ class InformeCito(models.Model):
     FechaPieInformeCito = models.ForeignKey(FechaPie,on_delete=models.CASCADE)
     LugarInformeCito = models.ForeignKey(Lugar,on_delete=models.CASCADE)
     DoctorInformeCito = models.ForeignKey(Doctor,on_delete=models.CASCADE)
-
-# class Apendice (models.Model):
-#     INFL = (
-#         ('0', 'A.0 APENDICE'),
-#         ('1', 'A.1 APENDICE'),
-#         ('2', 'A.2 APENDICE'),
-#         ('3', 'A.3 APENDICE'),
-#         ('4', 'A.4 APENDICE'),
-#         ('5', 'A.5 APENDICE'),
-#         ('6', 'A.6 APENDICE'),
-#         ('7', 'A.7 APENDICE'),
-#         ('8', 'A.8 APENDICE'),
-#         ('9', 'A.9 APENDICE'),
-#         ('10', 'A.10 APENDICE'),
-#     )
-#     # name = models.CharField(max_length=60)
-#     Inflamation = models.CharField(max_length=50, choices=INFL)
 
 class InformeAnato(models.Model):
     CodigoInformeAnato = models.ForeignKey(CodigoInforme,on_delete=models.CASCADE)

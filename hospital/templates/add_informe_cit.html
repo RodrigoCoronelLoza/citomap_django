@@ -46,11 +46,6 @@
       {% endfor %}
     </select>
     <label> Calidad de Muestra</label>
-    <!-- <div name="CalidadDeMuestra" class="form-control">calidad.as_p</div> -->
-
-    <!-- <select class="form-control">
-    </select> -->
-    <!-- <div name="CalidadDeMuestra" class="form-control">{{calidad}}</div> -->
 
     <select name="CalidadDeMuestra" class="form-control">
       {% for i in vector_calidad %}
@@ -107,13 +102,6 @@
       {% endfor %}
     </select>
 
-    <!-- <label>COMBINACION</label>
-    <select name="Combinacional" class="form-control">
-      {% for i in vector_opcional%}
-      <option value="{{i}}">{{i}}</option>
-      {% endfor %}
-    </select> -->
-
     <label>Recomendacion</label>
     <input type="text" class="form-control" name="Recomendacion" />
 
@@ -134,9 +122,6 @@
       {% endfor %}
     </select>
 
-    <!-- <form method="POST" name="CalidadDeMuestra" class="form-control">
-      {{ calidad }}
-    </form> -->
     <input type="submit" value="submit" class="form-control btn btn-primary" />
   </form>
 </div>

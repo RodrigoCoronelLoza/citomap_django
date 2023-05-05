@@ -34,7 +34,6 @@ import logging
 # Create your views here.
 
 def About(request):
-    # return HttpResponse("<h1>this is the about section</h1>")
     return render (request,'about.html') 
 
 def Home(request):
@@ -48,20 +47,13 @@ def Index(request):
         return redirect('login')
     info_anato = InformeAnato.objects.all()
     info_cito = InformeCito.objects.all()
-    # doctors = Doctor.objects.all()
-    # patient = Patient.objects.all()
-    # appointment = Appointment.objects.all()
     d=0
     p=0
-    # a=0
     for i in info_anato:
         d+=1
     
     for i in info_cito:
         p+=1
-
-    # for i in appointment:
-        # a+=1
     
     d1={'d':d,'p':p}
 
@@ -241,10 +233,6 @@ def View_Informe(request):
     if not request.user.is_staff:
         return redirect('admin_login')
     inf = InformeCito2.objects.all()
-    # pac = PacienteGenerales.objects.all()
-    # mue = Muestra.objects.all()
-    # p = {'pac': pac}
-    # m = {'mue': mue}
     i = {'inf': inf}
 
     return render(request, 'view_informe.html',i)
@@ -253,7 +241,6 @@ def Delete_Informe(request,pid):
     if not request.user.is_staff:
         return redirect('login')
     inf = Informe.objects.get(id=pid)
-    # logging.debug()
     paciente_del = inf.PacienteInforme.id
     pac = PacienteGenerales.objects.get(id=paciente_del)
 
@@ -268,244 +255,182 @@ def Delete_Informe(request,pid):
 def Ver_Informe(request,pid):
     if not request.user.is_staff:
         return redirect('login')
-    # inf = Informe.objects.all()
-    # pac = PacienteGenerales.objects.all()
-    # mue = Muestra.objects.all()
-    # p = {'pac': pac}
-    # m = {'mue': mue}
-    # i = {'inf': inf}
     paciente = InformeCito2.objects.get(id=pid)
     i = {'paciente': paciente}
 
     return render(request, 'ver_informe.html',i)
 
-def Report(request,pid,opt):
+def Report(request,pid):   
+    error = ""
     # Create a file-like buffer to receive PDF data.
-    locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
-    paciente = InformeCito2.objects.get(id=pid)
-    buffer = io.BytesIO()
-
-    # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer,pagesize=letter)
-    # canvas = canvas.Canvas('myfile.pdf', pagesize=letter)
-    width, height = letter
-
-    my_Style=ParagraphStyle('Mine', alignment=TA_CENTER, fontName='Helvetica', fontSize = 10)
-    p1=Paragraph('''<b><u>REPORTE DE CITOLOGÍA CERVICO-VAGINAL</u></b>'''+'<br />\n'+ '''<b><u>SISTEMA BETHESDA </u></b>''' ,my_Style)
-    p1.wrapOn(p,width,10)
-    p1.drawOn(p,0,26*cm)
-
-    my_Style2=ParagraphStyle('Mine2', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
-    styles = getSampleStyleSheet()
-    style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
-
-    tbl_data = [[Paragraph("Nombre:"+' '+paciente.PacienteInformeCito2.Nombres+'  '+paciente.PacienteInformeCito2.Apellidos, my_Style2), 
-    Paragraph("Edad:"+' '+ str(paciente.PacienteInformeCito2.Edad)+ "años", my_Style2)], 
-    [Paragraph("Medico:"+' '+ paciente.PacienteInformeCito2.Medico, my_Style2), 
-    Paragraph("Hospital/Clinica:"+' '+paciente.PacienteInformeCito2.Hospital, my_Style2)], 
-    [Paragraph("Muestra:"+' '+ paciente.PacienteInformeCito2.Muestra, my_Style2), 
-    Paragraph("Diagnostico:"+' '+paciente.PacienteInformeCito2.Diagnostico, my_Style2)]]
-    tbl = Table(tbl_data)
-    tbl.wrapOn(p,width-4*cm,3*cm)
-    tbl.drawOn(p,2*cm,22*cm)
-
-    p.line(0+2*cm,22.625*cm,width-2*cm,22.625*cm)
-
-    tbl_data_2 = [[Paragraph("Toma de muestra:"+' '+ str(paciente.MuestraInformeCito2.TomaDeMuestra.strftime("%d-%m-%Y")), my_Style2), 
-    Paragraph("Recepcion:"+' '+ str(paciente.MuestraInformeCito2.Recepcion.strftime("%d-%m-%Y")), my_Style2)], 
-    [Paragraph("N° de laminas:"+' '+ str(paciente.MuestraInformeCito2.NumeroDeLaminas), 
-    my_Style2), Paragraph("Tincion:"+' '+paciente.MuestraInformeCito2.Tincion, my_Style2)]]
-    tbl_2 = Table(tbl_data_2)
-    tbl_2.wrapOn(p,width-4*cm,3*cm)
-    tbl_2.drawOn(p,2*cm,20.75*cm)
-
-    p2=Paragraph('''<img src="hospital/static/images/logo.jpg" width="100" height="80"/>''', style=styles["Normal"])
-    p2.wrapOn(p,width,10)
-    p2.drawOn(p,1*cm,25*cm)
-
-    my_Style_suelto=ParagraphStyle('Mine', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
-    p3=Paragraph('''<b>ESTUDIO MICROSCOPICO:</b>'''+' '+ paciente.EstudioMicroscopicoInformeCito2,my_Style_suelto)
-    p3.wrapOn(p,width-4*cm,2*cm)
-    p3.drawOn(p,2*cm,19.75*cm)
-
-    # data=[['I. Calidad de Muestra ', '', '02'], ['II. Microorganismos', '', '12'],
-    # ['', '21', '22'], ['III. Valoración Citológica', '21', '22'], 
-    # ['IV. Hallazgos no neoplasicos ', '31', '32'],
-    # ['V. Evaluacion Hormonal ', '31', '32'],]
-    # t=Table(data,style=[('GRID',(0,0),(-1,-1),0.5,colors.grey),('SPAN',(0,1),(0,2))])
-    # t.wrapOn(p,width-2*cm,5*cm)
-    # t.drawOn(p,1*cm,8.75*cm)
-
-    
-    
-    tbl_data_3=[['CALIDAD DE MUESTRA', Paragraph(paciente.CalidadDeMuestraInformeCito2,my_Style2), '']]
-    tbl_data_4=[['MICROORGANISMOS', Paragraph(paciente.MicrorganismosInformeCito2,my_Style2),'']]
-    tbl_data_5=[['HALLAZGOS NO NEOPLASICOS',Paragraph(paciente.HallazgosInformeCito2,my_Style2), '']]
-    tbl_data_6_1=[['ANAMOLIA DE CELULAS EPITELIALES','CELULAS ESCAMOSAS',Paragraph(paciente.CelEscamosasInformeCito2,my_Style2)],
-                  ['', 'CELULAS GLANDULARES', Paragraph(paciente.CelGlandularesInformeCito2,my_Style2)]]
-    tabla_data_6_2=[['ANAMOLIA DE CELULAS EPITELIALES','CELULAS ESCAMOSAS',Paragraph(paciente.CelEscamosasInformeCito2,my_Style2)]]
-    tabla_data_6_3=[['ANAMOLIA DE CELULAS EPITELIALES', 'CELULAS GLANDULARES', Paragraph(paciente.CelGlandularesInformeCito2,my_Style2)]]
-    tbl_data_7=[['INFLAMACION',Paragraph(paciente.InflamacionInformeCito2,my_Style2), '32']]
-    tbl_data_8=[['VI. PATRON HORMONAL ', Paragraph(paciente.EvaluacionHormonalInformeCito2,my_Style2), '32']]
-    
-    # tbl_data_3=[['I. Calidad de Muestra', Paragraph(paciente.CalidadDeMuestraInformeCito2,my_Style2), ''],
-    # ['II. Microorganismos', Paragraph(paciente.MicrorganismosInformeCito2,my_Style2),''], 
-    # ['III. Hallazgos No Neoplasicos', Paragraph(paciente.HallazgosInformeCito2,my_Style2),''],
-    # ['IV. Anomalia de Células Epiteliales', 'Celulas Escamosas', Paragraph(paciente.CelEscamosasInformeCito2,my_Style2)],
-    # ['', 'Células Glandulares', Paragraph(paciente.CelGlandularesInformeCito2,my_Style2)], 
-    # ['V. Inflamación ', Paragraph(paciente.InflamacionInformeCito2,my_Style2), '32'],
-    # ['VI. Patrón Hormonal ', Paragraph(paciente.EvaluacionHormonalInformeCito2,my_Style2), '32'],]
-    # tbl_3=Table(tbl_data_3,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(0,3),(0,4)),('SPAN',(1,0),(2,0)),('SPAN',(1,1),(2,1)),('SPAN',(1,2),(2,2)),('SPAN',(1,5),(2,5)),('SPAN',(1,6),(2,6)),('SPAN',(1,7),(2,7))])
-    # tbl_3=Table(tbl_data_3,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(1,0),(2,0))])
-    # tbl_3.wrapOn(p,width-2*cm,8*cm)
-    # tbl_3.drawOn(p,1*cm,18*cm)
-    p.line(0+2*cm,20.5*cm,width-2*cm,20.5*cm)
-    p3=Paragraph('''<b>CALIDAD DE MUESTRA:</b>'''+'<br />\n'+ paciente.CalidadDeMuestraInformeCito2,my_Style_suelto)
-    p3.wrapOn(p,width-4*cm,2*cm)
-    p3.drawOn(p,2*cm,18*cm)
-    
-    k=1.5
-    a=k
-    
-    if paciente.MicrorganismosInformeCito2 != 'NO INCLUIR':
-        p3_1 = Paragraph('''<b>MICROORGANISMOS:</b>'''+'<br />\n'+ paciente.MicrorganismosInformeCito2,my_Style_suelto)
-        p3_1.wrapOn(p,width-4*cm,2*cm)
-        p3_1.drawOn(p,2*cm,(18-a)*cm)
-        # tbl_4=Table(tbl_data_4,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(1,0),(2,0))])    
-        # tbl_4.wrapOn(p,width-2*cm,1*cm)
-        # tbl_4.drawOn(p,1*cm,(18-a)*cm)
-        a = a+k
-    
-    if paciente.HallazgosInformeCito2 != 'NO INCLUIR':
-        p3_2 = Paragraph('''<b>HALLAZGOS NO NEOPLASICOS:</b>'''+'<br />\n'+ paciente.HallazgosInformeCito2,my_Style_suelto)
-        p3_2.wrapOn(p,width-4*cm,2*cm)
-        p3_2.drawOn(p,2*cm,(18-a)*cm)
-        # tbl_5=Table(tbl_data_5,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(1,0),(2,0))])    
-        # tbl_5.wrapOn(p,width-2*cm,1*cm)
-        # tbl_5.drawOn(p,1*cm,(18-a)*cm)
-        a = a+k
+    if request.method == "POST":
         
-    if paciente.CelEscamosasInformeCito2 != 'NO INCLUIR' and paciente.CelGlandularesInformeCito2 != 'NO INCLUIR':
-        a = a+k
-        p3_3 = Paragraph( '''<b>VALORACION CITOLOGICA:</b>''' +'<br />\n'+ '''<b>CELULAS ESCAMOSAS:</b>''' +'<br />\n'+ paciente.CelEscamosasInformeCito2 +'<br />\n'+ '''<b>CELULAS GLANDULARES:</b>''' +'<br />\n'+ paciente.CelGlandularesInformeCito2,my_Style_suelto)
-        p3_3.wrapOn(p,width-4*cm,2*cm)
-        p3_3.drawOn(p,2*cm,(18-a)*cm)
-        # a= a+2*k
-        # tbl_6=Table(tbl_data_6_1,style=[('GRID',(0,0),(-1,-1),1,colors.black)])
-        # tbl_6.wrapOn(p,width-2*cm,1*cm)
-        # tbl_6.drawOn(p,1*cm,(18-a)*cm)
-        a = a+k
-    
-    if paciente.CelEscamosasInformeCito2 != 'NO INCLUIR' and paciente.CelGlandularesInformeCito2 == 'NO INCLUIR':
-        p3_4 = Paragraph( '''<b>VALORACION CITOLOGICA:</b>''' +'<br />\n'+ '''<b>CELULAS ESCAMOSAS:</b>''' +'<br />\n'+ paciente.CelEscamosasInformeCito2 ,my_Style_suelto)
-        p3_4.wrapOn(p,width-4*cm,2*cm)
-        p3_4.drawOn(p,2*cm,(18-a)*cm)
-        # a= a+2*k
-        # tbl_6=Table(tbl_data_6_1,style=[('GRID',(0,0),(-1,-1),1,colors.black)])
-        # tbl_6.wrapOn(p,width-2*cm,1*cm)
-        # tbl_6.drawOn(p,1*cm,(18-a)*cm)
-        a = a+k
-    
-    if paciente.CelEscamosasInformeCito2 == 'NO INCLUIR' and paciente.CelGlandularesInformeCito2 != 'NO INCLUIR':
-        p3_5 = Paragraph( '''<b>VALORACION CITOLOGICA:</b>''' +'<br />\n'+ '''<b>CELULAS GLANDULARES:</b>''' +'<br />\n'+ paciente.CelGlandularesInformeCito2,my_Style_suelto)
-        p3_5.wrapOn(p,width-4*cm,2*cm)
-        p3_5.drawOn(p,2*cm,(18-a)*cm)
-        # a= a+2*k
-        # tbl_6=Table(tbl_data_6_1,style=[('GRID',(0,0),(-1,-1),1,colors.black)])
-        # tbl_6.wrapOn(p,width-2*cm,1*cm)
-        # tbl_6.drawOn(p,1*cm,(18-a)*cm)
-        a = a+k    
-    
-    if paciente.InflamacionInformeCito2 != 'NO INCLUIR':
-        p3_6 = Paragraph('''<b>INFLAMACION:</b>'''+'<br />\n'+ paciente.InflamacionInformeCito2,my_Style_suelto)
-        p3_6.wrapOn(p,width-4*cm,2*cm)
-        p3_6.drawOn(p,2*cm,(18-a)*cm)
-        # tbl_5=Table(tbl_data_5,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(1,0),(2,0))])    
-        # tbl_5.wrapOn(p,width-2*cm,1*cm)
-        # tbl_5.drawOn(p,1*cm,(18-a)*cm)
-        a = a+k
-    
-    if paciente.EvaluacionHormonalInformeCito2 != 'NO INCLUIR':
-        p3_7 = Paragraph('''<b>EVALUACION HORMONAL:</b>'''+'<br />\n'+ paciente.EvaluacionHormonalInformeCito2,my_Style_suelto)
-        p3_7.wrapOn(p,width-4*cm,2*cm)
-        p3_7.drawOn(p,2*cm,(18-a)*cm)
-        a = a+k
-
-
-    p.line(0+2*cm,7.5*cm,width-2*cm,7.5*cm)
+        firma = request.POST['firma']
+        logo = request.POST['logo']
         
-    if paciente.ConclusionInformeCito2 != 'NO INCLUIR':
-        p4=Paragraph('''<b>CONCLUSION:</b>'''+''+ paciente.ConclusionInformeCito2,my_Style_suelto)
-        p4.wrapOn(p,width-4*cm,2*cm)
-        p4.drawOn(p,2*cm,7*cm)
+        locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
+        paciente = InformeCito2.objects.get(id=pid)   
+        buffer = io.BytesIO()           
+        # Create the PDF object,     using the buffer as its "file."
+        p = canvas.Canvas(buffer,pagesize=letter)
+        # canvas = canvas.Canvas('myfile.pdf', pagesize=letter)
+        width, height = letter
+        
+        c=4.5
 
-    p5=Paragraph('Recomendación: '+' '+ paciente.RecomendacionInformeCito2,my_Style_suelto)
-    p5.wrapOn(p,width-4*cm,2*cm)
-    p5.drawOn(p,2*cm,6*cm)
+        my_Style=ParagraphStyle('Mine', alignment=TA_CENTER, fontName='Helvetica', fontSize = 10)
+        p1=Paragraph('''<b><u>REPORTE DE CITOLOGÍA CERVICO-VAGINAL</u></b>'''+'<br />\n'+ '''<b><u>SISTEMA BETHESDA </u></b>''' ,my_Style)
+        p1.wrapOn(p,width,10)
+        p1.drawOn(p,0,height-c*cm)
 
-    p6=Paragraph(paciente.LugarInformeAnato2.get_Lugar_display()+', '+str(paciente.FechaPieInformeAnato2.Fecha.strftime("%B %d, %Y")),my_Style_suelto)
-    p6.wrapOn(p,width-4*cm,2*cm)
-    p6.drawOn(p,2*cm,5*cm)
+        my_Style2=ParagraphStyle('Mine2', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
+        styles = getSampleStyleSheet()
+        style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
 
-    my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
-    
-    if opt==2:
+        m=1.5
+         
+        tbl_data = [[Paragraph("Nombre:"+' '+paciente.PacienteInformeCito2.Nombres+ '  '+paciente.PacienteInformeCito2.Apellidos, my_Style2), 
+        Paragraph("Edad:"+' '+ str(paciente.PacienteInformeCito2.Edad)+ "años", my_Style2)], 
+        [Paragraph("Medico:"+' '+ paciente.PacienteInformeCito2.Medico, my_Style2), 
+        Paragraph("Hospital/Clinica:"+' '+paciente.PacienteInformeCito2.Hospital, my_Style2)], 
+        [Paragraph("Muestra:"+' '+ paciente.PacienteInformeCito2.Muestra, my_Style2), 
+        Paragraph("Diagnostico:"+' '+paciente.PacienteInformeCito2.Diagnostico, my_Style2)]]
+        tbl = Table(tbl_data)
+        tbl.wrapOn(p,width-4*cm,3*cm)
+        tbl.drawOn(p,2*cm,(22-m)*cm)
 
-        p7=Paragraph(paciente.DoctorInformeAnato2.Name,my_Style_suelto_der )
-        p7.wrapOn(p,width-4*cm,2*cm)
-        p7.drawOn(p,2*cm,3*cm)
+        p.line(0+2*cm,(22.625-m)*cm,width-2*cm,(22.625-m)*cm)
     
-        p8=Paragraph(paciente.DoctorInformeAnato2.special,my_Style_suelto_der )
-        p8.wrapOn(p,width-4*cm,2*cm)
-        p8.drawOn(p,2*cm,2.5*cm)
+        tbl_data_2 = [[Paragraph("Toma de muestra:"+' '+ str(paciente.MuestraInformeCito2.TomaDeMuestra.strftime("%d-%m-%Y")), my_Style2), 
+        Paragraph("Recepcion:"+' '+ str(paciente.MuestraInformeCito2.Recepcion.strftime("%d-%m-%Y")), my_Style2)], 
+        [Paragraph("N° de laminas:"+' '+ str(paciente.MuestraInformeCito2.NumeroDeLaminas), 
+        my_Style2), Paragraph("Tincion:"+' '+paciente.MuestraInformeCito2.Tincion, my_Style2)]]
+        tbl_2 = Table(tbl_data_2)
+        tbl_2.wrapOn(p,width-4*cm,3*cm)
+        tbl_2.drawOn(p,2*cm,(20.75-m)*cm)
+    
+        if logo == "SI": 
+            p2=Paragraph('''<img src="hospital/static/images/logo.jpg" width="100" height="80"/>''', style=styles["Normal"])
+            p2.wrapOn(p,width,10)
+            p2.drawOn(p,1*cm,25*cm)
+    
+        my_Style_suelto=ParagraphStyle('Mine', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
+        p3=Paragraph('''<b>ESTUDIO MICROSCOPICO:</b>'''+' '+ paciente.EstudioMicroscopicoInformeCito2,my_Style_suelto)
+        p3.wrapOn(p,width-4*cm,2*cm)
+        p3.drawOn(p,2*cm,(19.75-m)*cm)
+    
+        p.line(0+2*cm,(20.5-m)*cm,width-2*cm,(20.5-m)*cm)
+        p3=Paragraph('''<b>CALIDAD DE MUESTRA:</b>'''+'<br />\n'+ paciente.CalidadDeMuestraInformeCito2,my_Style_suelto)
+        p3.wrapOn(p,width-4*cm,2*cm)
+        p3.drawOn(p,2*cm,(18-m)*cm)
+        
+        k=1.5
+        a=k
+        
+        if paciente.MicrorganismosInformeCito2 != 'NO INCLUIR':
+            p3_1 = Paragraph('''<b>MICROORGANISMOS:</b>'''+'<br />\n'+ paciente.MicrorganismosInformeCito2,my_Style_suelto)
+            p3_1.wrapOn(p,width-4*cm,2*cm)
+            p3_1.drawOn(p,2*cm,(18-a-m)*cm)
+            a = a+k
+    
+        if paciente.HallazgosInformeCito2 != 'NO INCLUIR':
+            p3_2 = Paragraph('''<b>HALLAZGOS NO NEOPLASICOS:</b>'''+'<br />\n'+ paciente.HallazgosInformeCito2,my_Style_suelto)
+            p3_2.wrapOn(p,width-4*cm,2*cm)
+            p3_2.drawOn(p,2*cm,(18-a-m)*cm)
+            a = a+k
+        
+        if paciente.CelEscamosasInformeCito2 != 'NO INCLUIR' and paciente.CelGlandularesInformeCito2 != 'NO INCLUIR':
+            a = a+k
+            p3_3 = Paragraph( '''<b>VALORACION CITOLOGICA:</b>''' +'<br />\n'+ '''<b>CELULAS ESCAMOSAS:</b>''' +'<br />\n'+ paciente.CelEscamosasInformeCito2 +'<br />\n'+ '''<b>CELULAS GLANDULARES:</b>''' +'<br />\n'+ paciente.CelGlandularesInformeCito2,my_Style_suelto)
+            p3_3.wrapOn(p,width-4*cm,2*cm)
+            p3_3.drawOn(p,2*cm,(18-a-m)*cm)
+            a = a+k
+    
+        if paciente.CelEscamosasInformeCito2 != 'NO INCLUIR' and paciente.CelGlandularesInformeCito2 == 'NO INCLUIR':
+            p3_4 = Paragraph( '''<b>VALORACION CITOLOGICA:</b>''' +'<br />\n'+ '''<b>CELULAS ESCAMOSAS:</b>''' +'<br />\n'+ paciente.CelEscamosasInformeCito2 ,my_Style_suelto)
+            p3_4.wrapOn(p,width-4*cm,2*cm)
+            p3_4.drawOn(p,2*cm,(18-a-m)*cm)
+            a = a+k
 
-        p9=Paragraph(paciente.DoctorInformeAnato2.matricula,my_Style_suelto_der )
-        p9.wrapOn(p,width-4*cm,2*cm)
-        p9.drawOn(p,2*cm,2*cm)
+        if paciente.CelEscamosasInformeCito2 == 'NO INCLUIR' and paciente.CelGlandularesInformeCito2 != 'NO INCLUIR':
+            p3_5 = Paragraph( '''<b>VALORACION CITOLOGICA:</b>''' +'<br />\n'+ '''<b>CELULAS GLANDULARES:</b>''' +'<br />\n'+ paciente.CelGlandularesInformeCito2,my_Style_suelto)
+            p3_5.wrapOn(p,width-4*cm,2*cm)
+            p3_5.drawOn(p,2*cm,(18-a-m)*cm)
+            a = a+k    
 
-    p10=Paragraph(paciente.CodigoInformeCito2.Codigo,my_Style_suelto_der )
-    p10.wrapOn(p,width-4*cm,2*cm)
-    p10.drawOn(p,2*cm,25*cm)
-    
-    if opt == 1:
-        p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
-        p11.wrapOn(p,width-4*cm,2*cm)
-        p11.drawOn(p,2*cm,2*cm)
-    
-    p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
-    p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
-    p12.wrapOn(p,width-4*cm,2*cm)
-    p12.drawOn(p,2*cm,1*cm)
-    
-    textob=p.beginText()
-    textob.setTextOrigin(cm,cm)
-    textob.setFont("Helvetica",14)
-    
-    # lines=["This is line 1","This is line 2","This is line 3"]
+        if paciente.InflamacionInformeCito2 != 'NO INCLUIR':
+            p3_6 = Paragraph('''<b>INFLAMACION:</b>'''+'<br />\n'+ paciente.InflamacionInformeCito2,my_Style_suelto)
+            p3_6.wrapOn(p,width-4*cm,2*cm)
+            p3_6.drawOn(p,2*cm,(18-a-m)*cm)
+            a = a+k
 
-    # for line in lines:
-    #     textob.textLine(line)
-    
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    
-    
-    
-    # p.drawCentredString(width/2, 26*cm,"INFORME CITOLOGICO")
-    p.setTitle("INFORME CITOLOGICO")
-    
-    # p.drawString(100, 50, paciente.PacienteInformeCito.Nombres)
-    # p.line()
+        if paciente.EvaluacionHormonalInformeCito2 != 'NO INCLUIR':
+            p3_7 = Paragraph('''<b>EVALUACION HORMONAL:</b>'''+'<br />\n'+ paciente.EvaluacionHormonalInformeCito2,my_Style_suelto)
+            p3_7.wrapOn(p,width-4*cm,2*cm)
+            p3_7.drawOn(p,2*cm,(18-a-m)*cm)
+            a = a+k
 
-    # Close the PDF object cleanly, and we're done.
-    p.drawText(textob)
-    p.showPage()
-    p.save()
 
-    # FileResponse sets the Content-Disposition header so that browsers
-    # present the option to save the file.
-    buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename='INFORME_CITOLOGICO.pdf')
+        p.line(0+2*cm,(7.5-m)*cm,width-2*cm,(7.5-m)*cm)
+
+        if paciente.ConclusionInformeCito2 != 'NO INCLUIR':
+            p4=Paragraph('''<b>CONCLUSION:</b>'''+''+ paciente.ConclusionInformeCito2,my_Style_suelto)
+            p4.wrapOn(p,width-4*cm,2*cm)
+            p4.drawOn(p,2*cm,(7-m)*cm)
+
+        p5=Paragraph('''<b>RECOMENDACION:</b>'''+' '+ paciente.RecomendacionInformeCito2,my_Style_suelto)
+        p5.wrapOn(p,width-4*cm,2*cm)
+        p5.drawOn(p,2*cm,(6-m)*cm)
+
+        p6=Paragraph(paciente.LugarInformeAnato2.get_Lugar_display()+', '+str(paciente.FechaPieInformeAnato2.Fecha.strftime("%B %d, %Y")),my_Style_suelto)
+        p6.wrapOn(p,width-4*cm,2*cm)
+        p6.drawOn(p,2*cm,(5-m)*cm)
+
+        my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
+
+        if firma == 'NO':
+
+            p7=Paragraph(paciente.DoctorInformeAnato2.Name,my_Style_suelto_der )
+            p7.wrapOn(p,width-4*cm,2*cm)
+            p7.drawOn(p,2*cm,3*cm)
+
+            p8=Paragraph(paciente.DoctorInformeAnato2.special,my_Style_suelto_der )
+            p8.wrapOn(p,width-4*cm,2*cm)
+            p8.drawOn(p,2*cm,2.5*cm)
+
+            p9=Paragraph(paciente.DoctorInformeAnato2.matricula,my_Style_suelto_der )
+            p9.wrapOn(p,width-4*cm,2*cm)
+            p9.drawOn(p,2*cm,2*cm)
+
+        p10=Paragraph(paciente.CodigoInformeCito2.Codigo,my_Style_suelto_der )
+        p10.wrapOn(p,width-4*cm,2*cm)
+        p10.drawOn(p,2*cm,height-c*cm)
+
+        if firma == 'SI':
+            p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
+            p11.wrapOn(p,width-4*cm,2*cm)
+            p11.drawOn(p,2*cm,2*cm)
+    
+        p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
+        p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
+        p12.wrapOn(p,width-4*cm,2*cm)
+        p12.drawOn(p,2*cm,1*cm)
+        
+        textob=p.beginText()
+        textob.setTextOrigin(cm,cm)
+        textob.setFont("Helvetica",14)
+    
+        p.setTitle("INFORME CITOLOGICO")
+
+        p.drawText(textob)
+        p.showPage()
+        p.save()
+        
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename='INFORME_CITOLOGICO.pdf')
+    
+    d = {'error':error}
+    return render(request, 'report_signature_logo.html',d)
 
 def Add_Informe_Cit(request):
     error = ""
@@ -572,15 +497,6 @@ def Add_Informe_Cit(request):
     
     vector_opcional = ["combi1","combi2","combi3"]
     
-    # Estudio_form = EstudioMicroscopico.DESCRIPCIONES
-    # Calidad_form= CalidadDeMuestra.CALIDADES
-    # Microrganismos_form = Microrganismos.MICROS
-    # Hallazgos_form = HallazgosNoNeoplasicos.HALLAZGOS
-    # CelEscamosas_form = CelEscamosas.ESCAMOSAS
-    # CelGlandulares_form = CelGlandulares.GLANDULARES
-    # EvaluacionHormonal_form = EvaluacionHormonal.EVAL
-    # Inflamacion_form = Inflamacion.INFL
-    # Conclu_form = Conclusion.CONCLU
     Lugar_form = Lugar.LUGARES
     doctor1=Doctor.objects.all()
 
@@ -598,9 +514,7 @@ def Add_Informe_Cit(request):
         diag = request.POST['Diagnostico']
 
         fecmues = request.POST['TomaDeMuestra']
-        # fecmues2= fecmues.strftime("%d/%m/%Y")
         rec = request.POST['Recepcion']
-        # rec2 = rec2.strftime("%d/%m/%Y")
         numlam = request.POST['NumeroDeLaminas']
         tinc = request.POST['Tincion']
 
@@ -616,7 +530,6 @@ def Add_Informe_Cit(request):
         combi = 'opcion1'
         recomend = request.POST['Recomendacion']
         fech = request.POST['FechaPie']
-        # fech2 = fech.strftime("%d/%m/%Y")
         lug = request.POST['Lugar']
 
         n = request.POST['doctor']
@@ -647,26 +560,9 @@ def Add_Informe_Cit(request):
         except:
             error ="yes"
         
-        # try:
-            # Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)
-            # error = "no"
-        # except:
-            # error="yes"
-
-
         lastCodigo=CodigoInforme.objects.last()
         lastPaciente=PacienteGenerales.objects.last()
         lastMuestra=Muestra.objects.last()
-        # lastEstudioMicroscopico=EstudioMicroscopico.objects.last()
-        # lastCalidadDeMuestra=CalidadDeMuestra.objects.last()
-        # lastMicrorganismos=Microrganismos.objects.last()
-        # lastHallazgos=HallazgosNoNeoplasicos.objects.last()
-        # lastCelEscamosas=CelEscamosas.objects.last()
-        # lastCelGlandulares=CelGlandulares.objects.last()
-        # lastEvaluacionHormonal=EvaluacionHormonal.objects.last()
-        # lastInflamacion=Inflamacion.objects.last()
-        # lastConclusion=Conclusion.objects.last()
-        # lastRecomendacion=Recomendacion.objects.last()
         lastFechaPie=FechaPie.objects.last()
         lastLugar=Lugar.objects.last()
 
@@ -703,8 +599,7 @@ def Add_Informe_Cit(request):
          'vector_conclusion': vector_conclusion,
          'lugar':Lugar_form,
          'doctor':doctor1,'error':error}
-    # d = {'error':error}
-
+    
     return render(request, 'add_informe_cit.html', d)
 
 def Upd_Datos_Paciente(request,pid):
@@ -873,29 +768,6 @@ def Upd_Tabla_Central_Paciente(request,pid):
         "SEVERA- HEMORRAGICO",
         "NO INCLUIR"]
     
-    
-    
-    # muestra_del_id = paciente.MuestraInformeCito.id
-    # muestra_upd = Muestra.objects.get(id=muestra_del_id)
-
-    # estudio_micros_id = paciente.EstudioMicroscopicoInformeCito2.id
-    # estudio_micros_upd = EstudioMicroscopico.objects.get(id=estudio_micros_id)
-    # calidad_id = paciente.CalidadDeMuestraInformeCito2.id
-    # calidad_upd = CalidadDeMuestra.objects.get(id=calidad_id)
-    # microrgs_id = paciente.MicrorganismosInformeCito2.id
-    # microrgs_upd = Microrganismos.objects.get(id=microrgs_id)
-    # hallazgos_id = paciente.HallazgosInformeCito2.id
-    # hallazgos_upd = HallazgosNoNeoplasicos.objects.get(id=hallazgos_id)
-    # celescamosas_id = paciente.CelEscamosasInformeCito2.id
-    # celescamosas_upd = CelEscamosas.objects.get(id=celescamosas_id)
-    # celglandulares_id = paciente.CelGlandularesInformeCito2.id
-    # celglandulares_upd = CelGlandulares.objects.get(id=celglandulares_id)
-    # eval_hormonal_id = paciente.EvaluacionHormonalInformeCito2.id
-    # eval_hormonal_upd = EvaluacionHormonal.objects.get(id=eval_hormonal_id)
-    # inflamacion_id = paciente.InflamacionInformeCito2.id
-    # inflamacion_upd = Inflamacion.objects.get(id=inflamacion_id)
-    
-    
     if request.method == "POST":
         
         estmic = request.POST['Descripcion']
@@ -940,12 +812,6 @@ def Upd_Tabla_Central_Paciente(request,pid):
         except:
             error ="yes"
 
-    
-    # d = {'error':error,'paciente':paciente,'estmicroscopico':Estudio_form,'calidad':Calidad_form,
-    # 'microrgs':Microrganismos_form, 'hallazgos':Hallazgos_form,'escamosas':CelEscamosas_form , 
-    # 'glandulares':CelGlandulares_form, 'evaluacion':EvaluacionHormonal_form,
-    # 'inflamacion': Inflamacion_form}
-    
     d = {'error':error,
          'paciente':paciente,
          'vector_estudio':vector_estudio,
@@ -973,19 +839,10 @@ def Upd_Conclusion_Paciente(request,pid):
     
     paciente = InformeCito2.objects.get(id=pid)
 
-    # Conclu_form = Conclusion.CONCLU
     Lugar_form = Lugar.LUGARES
 
     fecha_informe = paciente.FechaPieInformeAnato2.Fecha.strftime("%Y-%m-%d")
     
-
-    # muestra_del_id = paciente.MuestraInformeCito.id
-    # muestra_upd = Muestra.objects.get(id=muestra_del_id)
-
-    # conclu_id = paciente.ConclusionInformeCito.id
-    # conclu_upd = Conclusion.objects.get(id=conclu_id)
-    # recomendacion_id = paciente.RecomendacionInformeCito.id
-    # recomendacion_upd = Recomendacion.objects.get(id=recomendacion_id)
     lugar_id = paciente.LugarInformeAnato2.id
     lugar_upd = Lugar.objects.get(id=lugar_id)
     fechapie_id = paciente.FechaPieInformeAnato2.id
@@ -1028,7 +885,6 @@ def Delete_Informe_Cit(request,pid):
     if not request.user.is_staff:
         return redirect('admin_login')
     informeCit = InformeCito2.objects.get(id=pid)
-    # logging.debug()
     codigo_del =informeCit.CodigoInformeCito2.id
     cod = CodigoInforme.objects.get(id=codigo_del)
 
@@ -1037,36 +893,6 @@ def Delete_Informe_Cit(request,pid):
 
     muestra_del = informeCit.MuestraInformeCito2.id
     mue = Muestra.objects.get(id=muestra_del)
-
-    # estudiomic_del = informeCit.EstudioMicroscopicoInformeCito.id
-    # est = EstudioMicroscopico.objects.get(id=estudiomic_del)
-
-    # calidad_del = informeCit.CalidadDeMuestraInformeCito.id
-    # cal = CalidadDeMuestra.objects.get(id=calidad_del)
-
-    # micro_del =  informeCit.MicrorganismosInformeCito.id
-    # micro = Microrganismos.objects.get(id=micro_del)
-
-    # hallaz_del = informeCit.HallazgosInformeCito.id
-    # hallaz = HallazgosNoNeoplasicos.objects.get(id=hallaz_del)
-
-    # cel_esc_del = informeCit.CelEscamosasInformeCito.id
-    # cel_esc = CelEscamosas.objects.get(id=cel_esc_del)
-
-    # cel_gland_del = informeCit.CelGlandularesInformeCito.id
-    # cel_gland = CelGlandulares.objects.get(id=cel_gland_del)
-
-    # eval_del = informeCit.EvaluacionHormonalInformeCito.id
-    # eval = EvaluacionHormonal.objects.get(id=eval_del)
-
-    # infla_del = informeCit.InflamacionInformeCito.id
-    # infla = Inflamacion.objects.get(id=infla_del)
-
-    # conclu_del = informeCit.ConclusionInformeCito.id
-    # conclu = Conclusion.objects.get(id=conclu_del)
-
-    # reco_del = informeCit.RecomendacionInformeCito.id
-    # reco = Recomendacion.objects.get(id=reco_del)
 
     fechapie_del = informeCit.FechaPieInformeAnato2.id
     fechapie = FechaPie.objects.get(id=fechapie_del)
@@ -1078,16 +904,6 @@ def Delete_Informe_Cit(request,pid):
     cod.delete()
     pac.delete()
     mue.delete()
-    # est.delete()
-    # cal.delete()
-    # micro.delete()
-    # hallaz.delete()
-    # cel_esc.delete()
-    # cel_gland.delete()
-    # eval.delete()
-    # infla.delete()
-    # conclu.delete()
-    # reco.delete()
     fechapie.delete()
     lugar.delete()
 
@@ -1098,38 +914,15 @@ def Add_Informe_Anat(request):
     if not request.user.is_staff:
         return redirect('login')
     
-    # Estudio_form = EstudioMicroscopico.DESCRIPCIONES
-    # Calidad_form= CalidadDeMuestra.CALIDADES
-    # Microrganismos_form = Microrganismos.MICROS
-    # Hallazgos_form = HallazgosNoNeoplasicos.HALLAZGOS
-    # CelEscamosas_form = CelEscamosas.ESCAMOSAS
-    # CelGlandulares_form = CelGlandulares.GLANDULARES
-    # EvaluacionHormonal_form = EvaluacionHormonal.EVAL
-    # Inflamacion_form = Inflamacion.INFL
-    # Conclu_form = Conclusion.CONCLU
     Lugar_form = Lugar.LUGARES
     doctor1=Doctor.objects.all()
 
-    # infla = request.POST['Inflama']
     vectorMacros = ["Amígdalas","Apéndices","Leiomioma","Placenta",
                     "Biopsias gástricas","Restos Ovulares","Próstata","Utero",
                     "Vesícula"]
     vectorMicros = ["Apéndice","Vesícula","Próstata","Aborto"]
-    # vector1 = ["che0","che1","che2","che3","che4"]
-    # vector2 = ["hola0","hola1","hola2","hola3","hola4"]
-    # vector3 = ["mir0","mir1","mir2","mir3","mir4"]
     
-
-
-    # infla = 'nada'
-
-
     if request.method == "POST":
-        
-        # if 'botonarriba' in request.POST:
-            # infla = request.POST['Inflamacion']
-
-        # elif 'botonabajo' in request.POST:
         
         cod=request.POST['Codigo']
         nom = request.POST['Nombres']
@@ -1140,50 +933,23 @@ def Add_Informe_Anat(request):
         mues = request.POST['Muestra']
         diag = request.POST['Diagnostico']  
         fecmues = request.POST['Recepcion']
-        # fecmues2= fecmues.strftime("%d/%m/%Y")
         rec = request.POST['Recepcion']
-        # rec2 = rec2.strftime("%d/%m/%Y")
-        # numlam = request.POST['NumeroDeLaminas']
-        # tinc = request.POST['Tincion']
         numlam=0
         tinc='Sin descripcion'  
         estmicro = request.POST['MicroResultado']
         estmacro = request.POST['MacroResultado']
         especimen = request.POST['Especimen']
         conclusion = request.POST['Conclusion']     
-        # # estmic = request.POST['Descripcion']
-        # calid = request.POST['CalidadDeMuestra']
-        # micro = request.POST['Microrganismos']
-        # hall = request.POST['Hallazgos']
-        # esc = request. POST['CelEscamosas']
-        # glan = request.POST['CelGlandulares']
-        # evalu = request.POST['EvaluacionHormonal']
-        # infla = request.POST['Inflamacion']
-        # conclu = request.POST['Conclusion']
-        # recomend = request.POST['Recomendacion']
         fech = request.POST['FechaPie']
-        # fech2 = fech.strftime("%d/%m/%Y")
         lug = request.POST['Lugar'] 
         n = request.POST['doctor']  
         doctor=Doctor.objects.filter(Name=n).first()    
         try:
             CodigoInforme.objects.create(Codigo=cod)
             PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
-            Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)
-            # EstudioMicroscopico.objects.create(Descripcion=estmic)
-            # CalidadDeMuestra.objects.create(Calidad=calid)
-            # Microrganismos.objects.create(Microrgs=micro)
-            # HallazgosNoNeoplasicos.objects.create(NoNeoplasicos=hall)
-            # CelEscamosas.objects.create(Escamosas=esc)
-            # CelGlandulares.objects.create(Glandulares=glan)
-            # EvaluacionHormonal.objects.create(Evaluacion=evalu)
-            # Inflamacion.objects.create(Inflamation=infla)
-            # Conclusion.objects.create(Conclusion=conclu)
-            # Recomendacion.objects.create(Recomendacion=recomend)
+            Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)  
             FechaPie.objects.create(Fecha=fech)
             Lugar.objects.create(Lugar=lug) 
-            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
-            error = "no"
         except:
             error ="yes"
 
@@ -1191,16 +957,6 @@ def Add_Informe_Anat(request):
         lastCodigo=CodigoInforme.objects.last()
         lastPaciente=PacienteGenerales.objects.last()
         lastMuestra=Muestra.objects.last()
-        # lastEstudioMicroscopico=EstudioMicroscopico.objects.last()
-        # lastCalidadDeMuestra=CalidadDeMuestra.objects.last()
-        # lastMicrorganismos=Microrganismos.objects.last()
-        # lastHallazgos=HallazgosNoNeoplasicos.objects.last()
-        # lastCelEscamosas=CelEscamosas.objects.last()
-        # lastCelGlandulares=CelGlandulares.objects.last()
-        # lastEvaluacionHormonal=EvaluacionHormonal.objects.last()
-        # lastInflamacion=Inflamacion.objects.last()
-        # lastConclusion=Conclusion.objects.last()
-        # lastRecomendacion=Recomendacion.objects.last()
         lastFechaPie=FechaPie.objects.last()
         lastLugar=Lugar.objects.last()  
 
@@ -1219,14 +975,11 @@ def Add_Informe_Anat(request):
         except:
             error ="yes"    
 
-    # d = {'estmicroscopico':Estudio_form,'calidad':Calidad_form,'microrgs':Microrganismos_form, 'hallazgos':Hallazgos_form,'escamosas':CelEscamosas_form , 'glandulares':CelGlandulares_form, 'evaluacion':EvaluacionHormonal_form,'inflamacion': Inflamacion_form,'conclusion':Conclu_form,'lugar':Lugar_form,'doctor':doctor1,'error':error}
     d = {'error':error,'vector':vectorMicros,'vectorMacros':vectorMacros,'lugar':Lugar_form,'doctor':doctor1}
 
     return render(request, 'add_informe_anat.html', d)
 
 def micros2(request):
-    # course = request.GET.get('course')
-    # modules = Module.objects.filter(course=course)
     micros1 = request.GET.get('micros1')
 
     vApendice = ["A.01","A.02","A.1","A.2","A.3","A.4","A.5","A.6","A.7","A.80","A.81"]
@@ -1261,7 +1014,6 @@ def micros2(request):
     vAborto = ["RESTOS PRIMER TRIMESTRE","RESTOS PRIMER TRIMESTRE 1",
                "ENDOMETRIO CON CAMBIOS DECIDUOIDES","MOLA PARCIAL"]
 
-    # vectorMicros = ["Apéndice","Vesícula","Próstata","Aborto"]
     if micros1 == 'Apéndice':
         vector1 = vApendice
     elif micros1 == 'Vesícula':
@@ -1271,20 +1023,14 @@ def micros2(request):
     elif micros1 == 'Aborto':
         vector1 = vAborto
     
-
-
-    # context = {'vector1': vector1,'vector2': vector2,'vector3': vector3,'viene':course}
     context = {'vector1': vector1,'viene':micros1}
     
     return render(request, 'micros2.html', context)
 
 def micros3(request):
-    # course = request.GET.get('course')
-    # modules = Module.objects.filter(course=course)
     valueToSend = 'pas encore'
     micros2 = request.GET.get('micros2')
 
-    # vApendice = ["A.01","A.02","A.1","A.2","A.3","A.4","A.5","A.6","A.7","A.80","A.81"]
     if micros2 == 'A.01':
         valueToSend = 'El estudio histológico  evidencia: 	Pared y mucosa apendicular  con cambios congestivos, edema y una hiperplasia de centros germinales a nivel de la lámina propia. La serosa ofrece congestión.'
     elif micros2 == 'A.02':
@@ -1308,29 +1054,6 @@ def micros3(request):
     elif micros2 == 'A.81':
         valueToSend = 'El estudio histológico  evidencia: 	\n 1.-	Pared y mucosa apendicular con un proceso inflamatorio agudo caracterizado por extensas áreas de edema, necrosis y hemorragia.  Dicho proceso se extiende hasta la serosa  y meso vecino. \n 2.- Tejido adiposo con áreas de edema, hemorragia, infiltrados inflamatorios de tipo agudo y necrosis.'
     
-    
-    # vVesicula = ["V.0 COLECISTITIS AGUDA","V.1 COLECISTITIS AGUDA",
-                #  "V.2 COLECISTITIS AGUDA","V.3 COLECISTITIS AGUDA Y PERICOLECISTITIS",
-                #  "V.4 COLECISTITIS AGUDA MAS LINFOADENITIS",
-                #  "V.5 COLECISTITIS CRONICA REAGUDIZADA MAS GANGLIO",
-                #  "V.6 COLECISTITIS CRONICA SUBAGUDA",
-                #  "V.8 COLECISTITIS CRONICA REAGUDIZADA",
-                #  "V.9 COLECISITIS CRONICA REAGUDIZADA",
-                #  "V.10 COLECISTITIS CRONICA",
-                #  "V.11 COLECISTITIS CRONICA",
-                #  "COLECISTITIS CRONICA MAS ADENOMIOSIS",
-                #  "V.12 COLELITIASIS  MAS COLECISTITIS CRONICA MAS LINFOADENITIS",
-                #  "V.13 COLELITIASIS-CC-POLIPO COLESTERINICO",
-                #  "V.14 CCL-COLESTEROLOSIS"
-                #  "V.14_1",
-                #  "COLECISTITIS CRONICA RA MAS COLESTEROLOSIS",
-                #  "V.15 CCL MAS POLIPOS COLESTERINICOS",
-                #  "V.16 CCRA MAS POLIPOS COLESTERINICOS",
-                #  "CC MAS METAPLASIA INTESTINAL",
-                #  "CANCER DE VESICULA",
-                #  "CANCER DE VESICULA 1",
-                #  "CANCER DE VESICULA 2",
-                #  "CANCER DE VESICULA 3"]
     elif micros2 == 'V.0 COLECISTITIS AGUDA':
         valueToSend = 'Pared y mucosa vesicular con un proceso inflamatorio agudo caracterizado por extensas áreas de edema, necrosis, infiltrados inflamatorios de tipo polimorfonuclear y áreas de hemorragia.  El epitelio muestra áreas de erosión y la serosa ofrece congestión.'
     elif micros2 == 'V.1 COLECISTITIS AGUDA':
@@ -1380,12 +1103,6 @@ def micros3(request):
     elif micros2 == 'CANCER DE VESICULA 3':
         valueToSend = 'El estudio histológico  evidencia: 	Pared y mucosa vesicular infiltradas por una neoplasia conformada por células de núcleos aumentados de tamaño con una cromatina irregular, nucléolo prominente, escaso citoplasma y figuras de mitosis atípicas. Dichas células se disponen en mantos sobre un estroma con áreas de necrosis, hemorragia y edema y se  extienden hasta la subserosa.'
 
-    # vProstata = ["ADENECTOMIA PROSTATA","BIOPSIAS DE PROSTATA CON RADIOTERAPIA",
-                #  "MAPEO","MAPEO PROSTATICO","RTU DE PROSTATA"," MAPEO PROSTATICO 1",
-                #  "RTU DE PROSTATA 1","RTU DE PROSTATA 2",
-                #  "ADENECTOMIA CON FOCOS DE INFARTO ANTIGUO",
-                #  "MAPEO CON ADENOCARCINOMA EN TODAS LAS MUESTRAS",
-                #  "RTU CON CANCER"]
     elif micros2 == 'ADENECTOMIA PROSTATA':
         valueToSend = 'Tejido prostático con alveolos de tamaños variables revestidos por  un epitelio de núcleos basales y moderado citoplasma.  El estroma  es de tipo fibromuscular y muestra áreas de edema, hemorragia y congestión. '
     elif micros2 == 'BIOPSIAS DE PROSTATA CON RADIOTERAPIA':
@@ -1408,10 +1125,6 @@ def micros3(request):
         valueToSend = 'Fragmentos de tejido prostático con la presencia de estructuras glandulares disminuidas de tamaño revestidas por un epitelio de núcleos aumentados de tamaño con nucleolo prominente y escaso citoplasma. Dichas estructuras presentan un patrón irregular e infiltrante y están rodeadas por fibrosis y hialinización.'
     elif micros2 == 'RTU CON CANCER':
         valueToSend = 'Fragmentos de tejido prostático con la presencia de estructuras glandulares disminuidas de tamaño revestidas por un epitelio de núcleos aumentados de tamaño con nucléolo prominente y escaso citoplasma. Dichas estructuras presentan un patrón irregular e infiltrante y están rodeadas por fibrosis y hialinización.'
-    
-    # vAborto = ["RESTOS PRIMER TRIMESTRE","RESTOS PRIMER TRIMESTRE 1",
-            #    "ENDOMETRIO CON CAMBIOS DECIDUOIDES","MOLA PARCIAL"]
-    
         
     elif micros2 == 'RESTOS PRIMER TRIMESTRE':
         valueToSend = 'El estudio histológico  evidencia: 	Vellosidades coriales del primer trimestre de gestación con cambios involutivos caracterizados por un estroma laxo con vasos dilatados y presencia de glóbulos rojos fetales. El trofoblasto muestra proliferación focal. Dichas estructuras están entremezcladas con fragmentos deciduales y material fibrinohemático.'
@@ -1422,25 +1135,12 @@ def micros3(request):
     elif micros2 == 'MOLA PARCIAL':
         valueToSend = 'El estudio histológico  evidencia: Vellosidades coriales aumentadas de tamaño con un estroma amplio, laxo y vesiculoso, con proliferación del cito y sincitiotrofoblasto. Dichas Estructuras están entremezcladas con material fibrinohemático y endometrio de tipo hipersecretor.'
 
-    
-
-
-    # vector1 = ["che0","che1","che2","che3","che4"]
-    # vector2 = ["hola0","hola1","hola2","hola3","hola4"]
-    # vector3 = ["mir0","mir1","mir2","mir3","mir4"]
-
-    # context = {'vector1': vector1,'vector2': vector2,'vector3': vector3,'viene':course}
     context = {'sent':valueToSend}
     return render(request, 'micros3.html', context)
 
 def macros2(request):
-    # course = request.GET.get('course')
-    # modules = Module.objects.filter(course=course)
-    # vectorMacros = ["Amígdalas","Apéndices","Leiomonia","Placenta",
-                    # "Biopsias gástricas","Restos Ovulares","Próstata","Utero",
-                    # "Vesícula"]
+    
     macros1 = request.GET.get('macros1')
-    # vector1 = ["che0","che1","che2","che3","che4"]
     vAmigdalas = ["AMIGDALAS EN DOS FRASCOS","AMIGDALAS EN UN FRASCO",
                    "AMIGDALAS MAS ADENOIDES EN TRES FRASCOS",
                    "ADENOIDES"]
@@ -1514,16 +1214,9 @@ def macros2(request):
     return render(request, 'macros2.html', context)
 
 def macros3(request):
-    # course = request.GET.get('course')
-    # modules = Module.objects.filter(course=course)
-    # macros1 = request.GET.get('macros1')
+    
     valueToSend = 'pas encore'
     macros2 = request.GET.get('macros2')
-
-    #AMIGDALAS
-    # vAmigdalas = ["AMIGDALAS EN DOS FRASCOS","AMIGDALAS EN UN FRASCO",
-                #    "AMIGDALAS MAS ADENOIDES EN TRES FRASCOS",
-                #    "ADENOIDES"]
 
     if macros2 == 'AMIGDALAS EN DOS FRASCOS':
         valueToSend = 'Se reciben dos frascos: \n 1.- Identificado como “amígdala derecha”, contiene una muestra tisular irregularmente ovoidea que 2.3 x 1.8 x 1.2 cm. y pesa 3 gr., presenta una superficie  blanco-grisácea y críptica y otra superficie irregular y pardo-grisácea. Al corte sus caras  de sección son blanco-grisáceas y heterogéneas. Se incluyen cortes representativos. \n 2.- Identificado como “amígdala izquierda”, contiene una muestra tisular irregularmente ovoidea que 3.3 x 2 x 1.8 cm. y pesa 6 gr., presenta una superficie  blanco-grisácea y críptica y otra superficie irregular y pardo-grisácea. Al corte sus caras  de sección son blanco-grisáceas y heterogéneas. Se incluyen cortes representativos.'
@@ -1531,11 +1224,6 @@ def macros3(request):
         valueToSend ='Se recibe un frasco con dos muestras tisulares irregularmente ovoideas y blandas que miden entre 3 x 2.2 x 1.7 y 2.8 x 1.9 x 1.5 cm., pesan 6 y 5 gr. respectivamente, presentan una superficie blanco-grisácea críptica y otra anfractuosa, irregular y pardo-grisácea. Al corte sus caras de sección son heterogéneas y blanco-grisáceas. Se incluyen  cortes representativos.'
     elif macros2 == 'AMIGDALAS MAS ADENOIDES EN TRES FRASCOS':
         valueToSend = 'Se reciben tres frascos: \n 1.- Identificado como “tonsila derecha”, contiene una muestra tisular irregularmente ovoidea que mide 3.2 x 2 x 1.5 cm.  y pesa 4 gr., presenta una superficie  blanco-grisácea y críptica y otra superficie irregular y pardo-grisácea. Al corte sus caras  de sección son blanco-grisáceas y heterogéneas. Se incluyen cortes representativos. \n 2.- Identificado como “tonsila izquierda”, contiene una muestra tisular irregularmente ovoidea que mide 3 x 2 x 1.5 cm.  y pesa 4 gr., presenta una superficie  blanco-grisácea y críptica y otra superficie irregular y pardo-grisácea. Al corte sus caras  de sección son blanco-grisáceas y heterogéneas. Se incluyen cortes representativos.\n 3.- Identificado como “tonsila faríngea”, contiene una gasa con tres fragmentos tisulares irregulares, blandos y blanco-grisáceos que miden entre 0.7 y 1.2 cm.  y que en conjunto pesan 1 gr., con una superficie finamente granular y de consistencia blanda. Se incluyen en su totalidad.'
-
-    #APENDICES
-    # vApendices = ["APENDICITIS AGUDA FIBRINOSA",
-    #                "APENDICITIS AGUDA EN FASE CONGESTIVA",
-    #                "APENDICE FRAGMENTADO"]
 
     elif macros2 == 'APENDICITIS AGUDA FIBRINOSA':
         valueToSend = 'Apéndice cecal que mide  8.5 cm. de longitud x 1 cm. de diámetro mayor, su serosa es pardo-grisácea con placas de fibrina. Al corte su pared mide 0.3 cm. de espesor y su mucosa es pardo-grisácea  con material fecaloide y hemático en su luz además de un coprolito a nivel de su tercio medio. Se incluyen cortes representativos.'
@@ -1558,9 +1246,6 @@ def macros3(request):
         valueToSend = 'Se recibe placenta que mide 18.5 x 15.5 cm.de diámetros x 3.8 cm. de espesor, pesa 372 gr., su cara fetal es lisa y blanco-grisácea con inserción marginal de segmento de cordón umbilical que mide 25.5 cm. de longitud x 1.5 cm. de diámetro mayor, que al corte muestra tres luces vasculares. Las membranas son elásticas, traslúcidas y parduzcas de inserción circunmarginal. La cara materna es irregular con cotiledones esfacelados e irregulares que presentan algunas formaciones blanco-grisáceas en sus superficies, al corte sus caras de sección son heterogéneas, pardo-rojizas de aspecto esponjoso.  Se incluyen cortes representativos. '
     
     #BIOPIAS GASTRICAS
-    # vBiopsiasGastricas = ["BIOPSIA GASTRICA UN FRAGMENTO",
-                        #   "BIOPSIAS GASTRICAS  FRAGMENTOS",
-                        #   "BIOPSIAS GASTRICAS  FRAGMENTOS ENUMERADOS"]
 
     elif macros2 == 'BIOPSIA GASTRICA UN FRAGMENTO':
         valueToSend = 'Biopsia identificada como proveniente de estómago que consiste en un fragmento tisular irregular, blando y blanco-grisáceo que mide 0.3 x 0.2 x 0.1  cm. íntegramente incluido.'
@@ -1570,8 +1255,6 @@ def macros3(request):
         valueToSend = 'Biopsias identificadas como provenientes de estómago que consisten en cinco fragmentos tisulares irregulares, blandos y blanco-grisáceos que miden entre 0.3 x 0.2 x 0.1 y 0.2 x 0.2 x 0.1 cm. enumerados del 1 al 5, las muestras son  íntegramente incluidas según señalización.'
     
     #RESTOS OVULARES
-    # vRestosOvulares = ["RESTOS OVULARES 1","RESTOS OVULARES 2",
-                    #    "RESTOS OVULARES 3"]
     
     elif macros2 == 'RESTOS OVULARES 1':
         valueToSend = 'Se reciben varios fragmentos tisulares irregulares, blandos, desflecados y pardo-grisáceos de aspecto membranoso y esponjoso que miden entre 0.3 y 1.2 cm. y que  en conjunto pesan 9 grs., entremezclados con material hemático, íntegramente incluidos.'
@@ -1580,13 +1263,6 @@ def macros3(request):
     elif macros2 == 'RESTOS OVULARES 3':
         valueToSend = 'Se reciben varias muestras tisulares irregulares, blandas, desflecadas y pardo-grisáceas de aspecto membranoso y esponjoso que miden entre 0.5 y 3.2 cm. y que en conjunto pesan 57 grs., entremezcladas con material hemático, se incluyen muestras representativas.'
 
-    # vProstata = ["PROSTATA BILOBULADA; PIEZA OPERATORIA",
-                #  "PROSTATA TRILOBULADA; PIEZA OPERATORIA",
-                #  "MUESTRAS DE PROSTATA",
-                #  "RTU DE PROSTATA",
-                #  "MAPEO DE PROSTATA",
-                #  "MAPEO DE PROSTATA 2",
-                #  "MAPEO PROSTATICO CON SEIS FRASCOS"]
     elif macros2 == 'PROSTATA BILOBULADA; PIEZA OPERATORIA':
         valueToSend = 'Se recibe una muestra tisular irregular bilobulada proveniente de próstata que mide 7 cm de longitud x 5 cm. de diámetro transverso x 4.5 cm. de diámetro antero-posterior, pesa 60 gr., su superficie es blanco-parduzca y nodular. Al corte de consistencia fibroelástica presenta caras de sección heterogéneas, blanco-grisáceas con formaciones nodulares y cribosas de diferentes diámetros. Se incluyen cortes representativos.'
     elif macros2 == 'PROSTATA TRILOBULADA; PIEZA OPERATORIA':
@@ -1602,8 +1278,6 @@ def macros3(request):
     elif macros2 == 'MAPEO PROSTATICO CON SEIS FRASCOS':
         valueToSend = 'Se reciben seis frascos:\n 1.- Un frasco identificados como “Ápex izquierdo”: Contiene tres fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 0.8  y 1.5 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 2.- Un frasco identificados como “Media izquierda”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 0.9  y 1.2 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 3.- Un frasco identificados como “Base izquierda”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 1  y 1.5 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 4.- Un frasco identificados como “Ápex derecho”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 1.1  y 1.7 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 5.- Un frasco identificados como “Media derecha”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 1.3  y 1.7 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 6.- Un frasco identificados como “Base derecha”: Contiene tres fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 0.5  y 1.3 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.'
 
-    # vUtero = ["UTERO SIN ANEXOS","UTERO SIN ANEXOS MAS MIOMAS",
-            #   "UTERO CON  ANEXOS","UTERO CON  ANEXOS MAS MIOMAS"]
     elif macros2 =='UTERO SIN ANEXOS':
         valueToSend == 'Útero sin anexos que mide 7.5 cm. de longitud x 4 cm. de diámetro transverso x 3.5 cm. de diámetro antero-posterior, pesa 70 gr., el cuello uterino mide 2.5 x 2.7 cm. de diámetros x 2.5 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 0.1 cm. de espesor, el miometrio mide 1.8 cm. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se incluyen cortes representativos.'
     elif macros2 =='UTERO SIN ANEXOS MAS MIOMAS':
@@ -1613,33 +1287,6 @@ def macros3(request):
     elif macros2 =='UTERO CON  ANEXOS MAS MIOMAS':
         valueToSend == 'Útero con anexos que mide 00.0 cm. de longitud x 00.0 cm. de diámetro transverso x 00.0 cm. de diámetro antero-posterior, pesa 00.0 gr., el cuello uterino mide 00.0 x 00.0 cm. de diámetros x 00.0 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 00.0 cm. de espesor, el miometrio mide 00.0 cm. con presencia de 00 formaciones nodulares de localización intramural que miden entre 00.0 y 00.0 cm. de diámetros mayores que al corte presenta caras de sección heterogéneas con haces de aspecto arremolinado. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se toman incluyen cortes representativos. El anexo derecho con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina derecha mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. El anexo izquierdo con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina izquierda mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. '
     
-    # vVesicula = ["COLECISTITIS CRONICA","COLECISTITIS CRONICA LITIASICA",
-                #  "COLECISTITIS CRONICA LITIASICA MAS GANGLIO",
-                #  "COLECISTITIS CRONICA COLESTEROLOSICA",
-                #  "COLECISTITIS CRONICA COLESTEROLOSICA LITIASICA",
-                #  "COLECISTITIS CRONICA COLESTEROLOSICA LITIASICA MAS GANGLIO CISTICO",
-                #  "COLECISTITIS CRONICA ESCLEROSANTE",
-                #  "COLECISTITIS CRONICA ESCLEROSANTE LITIASICA",
-                #  "COLECISTITIS AGUDA",
-                #  "COLECISTITIS AGUDA LITIASICA",
-                #  "COLECISTITIS AGUDA LITIASICA MAS GANGLIO CISTICO",
-                #  "VB CERRADA COLECISTITIS CRONICA",
-                #  "VB CERRADA COLECISTITIS CRONICA LITIASICA",
-                #  "VB CERRADA COLECISTITIS CRONICA LITIASICA MAS GANGLIO",
-                #  "VB CERRADA COLECISTITIS CRONICA COLESTEROLOSICA",
-                #  "VB CERRADA COLECISTITIS CRONICA COLESTEROLOSICA LITIASICA",
-                #  "VB CERRADA COLECISTITIS CRONICA COLESTEROLOSICA LITIASICA MAS GANGLIO CISTICO",
-                #  "VB CERRADA COLECISTITIS AGUDA",
-                #  "VB CERRADA COLECISTITIS AGUDA LITIASICA",
-                #  "VB CERRADA COLECISTITIS AGUDA LITIASICA MAS GANGLIO CISTICO",
-                #  "VB FRAGMENTADA COLECISTITIS CRONICA",
-                #  "VB FRAGMENTADA COLECISTITIS CRONICA LITIASICA",
-                #  "VB FRAGMENTADA COLECISTITIS CRONICA LITIASICA MAS GANGLIO",
-                #  "VB FRAGMENTADA COLECISTITIS CRONICA COLESTEROLOSICA",
-                #  "VB FRAGMENTADA COLECISTITIS CRONICA COLESTEROLOSICA LITIASICA"
-                #  "VB FRAGMENTADA COLECISTITIS AGUDA",
-                #  "VB FRAGMENTADA COLECISTITIS AGUDA LITIASICA"]
-
     elif macros2=='COLECISTITIS CRONICA': 
         valueToSend = 'Vesícula biliar abierta que mide 8 cm. de longitud x 4 cm. de diámetro mayor, su serosa es lisa y blanco-grisácea. Al corte su pared es elástica, mide 0.1 cm. de espesor y su mucosa es granular fina pardo-verdosa. Se incluyen cortes representativos.'
     elif macros2 =='COLECISTITIS CRONICA LITIASICA':
@@ -1695,12 +1342,6 @@ def macros3(request):
     elif macros2=='VB FRAGMENTADA COLECISTITIS AGUDA LITIASICA':
         valueToSend = 'Vesícula biliar fragmentada en 0 segmentos que en conjunto mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y pardo-grisácea oscura con áreas de hemorragia. Al corte su pared está aumentada de consistencia, mide 00.0 cm. de espesor, su mucosa es granular pardo-grisácea oscura y adjunto vienen varios cálculos pardo-grisáceos de aspecto faceloide que miden entre 00.0 y 00.0 cm. de diámetros mayores. Se incluyen cortes representativos.'
 
-
-    # vector1 = ["che0","che1","che2","che3","che4"]
-    # vector2 = ["hola0","hola1","hola2","hola3","hola4"]
-    # vector3 = ["mir0","mir1","mir2","mir3","mir4"]
-
-    # context = {'vector1': vector1,'vector2': vector2,'vector3': vector3,'viene':course}
     context = {'sent':valueToSend}
     return render(request, 'macros3.html', context)
 
@@ -1709,10 +1350,6 @@ def View_Informe_Anat(request):
     if not request.user.is_staff:
         return redirect('admin_login')
     inf = InformeAnato.objects.all()
-    # pac = PacienteGenerales.objects.all()
-    # mue = Muestra.objects.all()
-    # p = {'pac': pac}
-    # m = {'mue': mue}
     i = {'inf': inf}
 
     return render(request, 'view_informe_anat.html',i)
@@ -1721,179 +1358,122 @@ def Ver_Informe_Anat(request,pid):
 
     if not request.user.is_staff:
         return redirect('admin_login')
-    # inf = Informe.objects.all()
-    # pac = PacienteGenerales.objects.all()
-    # mue = Muestra.objects.all()
-    # p = {'pac': pac}
-    # m = {'mue': mue}
-    # i = {'inf': inf}
     paciente = InformeAnato.objects.get(id=pid)
     i = {'paciente': paciente}
 
     return render(request, 'ver_informe_anat.html',i)
-def Report_Anat(request,pid,opt):
 
+def Report_Anat(request,pid):
+    error = ""
     # Create a file-like buffer to receive PDF data.
-    locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
-    paciente = InformeAnato.objects.get(id=pid)
-    buffer = io.BytesIO()
+    if request.method == "POST":
+        
+        firma = request.POST['firma']
+        logo = request.POST['logo']
+        
+        # Create a file-like buffer to receive PDF data.
+        locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
+        paciente = InformeAnato.objects.get(id=pid)
+        buffer = io.BytesIO()
 
-    # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer,pagesize=letter)
-    # canvas = canvas.Canvas('myfile.pdf', pagesize=letter)
-    width, height = letter
+        # Create the PDF object, using the buffer as its "file."
+        p = canvas.Canvas(buffer,pagesize=letter)
+        width, height = letter
+        
+        c=4.5
 
-    my_Style=ParagraphStyle('Mine', alignment=TA_CENTER, fontName='Helvetica', fontSize = 10)
-    p1=Paragraph('''<b><u>INFORME DE ANATOMIA PATOLOGICA</u></b>''',my_Style)
-    p1.wrapOn(p,width,10)
-    p1.drawOn(p,0,26*cm)
+        my_Style=ParagraphStyle('Mine', alignment=TA_CENTER, fontName='Helvetica', fontSize = 10)
+        p1=Paragraph('''<b><u>INFORME DE ANATOMIA PATOLOGICA</u></b>''',my_Style)
+        p1.wrapOn(p,width,10)
+        p1.drawOn(p,0,height-c*cm)
 
-    my_Style2=ParagraphStyle('Mine2', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
-    styles = getSampleStyleSheet()
-    style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
+        my_Style2=ParagraphStyle('Mine2', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
+        styles = getSampleStyleSheet()
+        style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
 
-    tbl_data = [[Paragraph("Nombre:"+' '+paciente.PacienteInformeAnato.Nombres+'  '+paciente.PacienteInformeAnato.Apellidos, my_Style2), 
-    Paragraph("Edad:"+' '+ str(paciente.PacienteInformeAnato.Edad)+ "años", my_Style2)], 
-    [Paragraph("Medico:"+' '+ paciente.PacienteInformeAnato.Medico, my_Style2), 
-    Paragraph("Hospital/Clinica:"+' '+paciente.PacienteInformeAnato.Hospital, my_Style2)], 
-    [Paragraph("Muestra:"+' '+ paciente.PacienteInformeAnato.Muestra, my_Style2), 
-    Paragraph("Diagnostico:"+' '+paciente.PacienteInformeAnato.Diagnostico, my_Style2)],
-    [Paragraph("Fecha de Recepcion:"+' '+ str(paciente.MuestraInformeAnato.Recepcion.strftime("%d-%m-%Y")), my_Style2),]]
-    tbl = Table(tbl_data)
-    tbl.wrapOn(p,width-4*cm,3*cm)
-    tbl.drawOn(p,2*cm,22*cm)
+        m=2
+        
+        tbl_data = [[Paragraph("Nombre:"+' '+paciente.PacienteInformeAnato.Nombres+'  '+paciente.PacienteInformeAnato.Apellidos, my_Style2), 
+        Paragraph("Edad:"+' '+ str(paciente.PacienteInformeAnato.Edad)+ "años", my_Style2)], 
+        [Paragraph("Medico:"+' '+ paciente.PacienteInformeAnato.Medico, my_Style2), 
+        Paragraph("Hospital/Clinica:"+' '+paciente.PacienteInformeAnato.Hospital, my_Style2)], 
+        [Paragraph("Muestra:"+' '+ paciente.PacienteInformeAnato.Muestra, my_Style2), 
+        Paragraph("Diagnostico:"+' '+paciente.PacienteInformeAnato.Diagnostico, my_Style2)],
+        [Paragraph("Fecha de Recepcion:"+' '+ str(paciente.MuestraInformeAnato.Recepcion.strftime("%d-%m-%Y")), my_Style2),]]
+        tbl = Table(tbl_data)
+        tbl.wrapOn(p,width-4*cm,3*cm)
+        tbl.drawOn(p,2*cm,(22-m)*cm)
     
-    # p.line(0+2*cm,22.625*cm,width-2*cm,22.625*cm)
 
-    p.line(0+2*cm,21.5*cm,width-2*cm,21.5*cm)
+        p.line(0+2*cm,(21.5-m)*cm,width-2*cm,(21.5-m)*cm)
 
-    # tbl_data_2 = [[Paragraph("Toma de muestra:"+' '+ str(paciente.MuestraInformeAnato.TomaDeMuestra.strftime("%d-%m-%Y")), my_Style2), 
-    # Paragraph("Recepcion:"+' '+ str(paciente.MuestraInformeAnato.Recepcion.strftime("%d-%m-%Y")), my_Style2)], 
-    # [Paragraph("N° de laminas:"+' '+ str(paciente.MuestraInformeAnato.NumeroDeLaminas), 
-    # my_Style2), Paragraph("Tincion:"+' '+paciente.MuestraInformeAnato.Tincion, my_Style2)]]
-    # tbl_2 = Table(tbl_data_2)
-    # tbl_2.wrapOn(p,width-2*cm,3*cm)
-    # tbl_2.drawOn(p,1*cm,20.75*cm)
+        if logo == 'SI':
+            p2=Paragraph('''<img src="hospital/static/images/logo.jpg" width="100" height="80"/>''', style=styles["Normal"])
+            p2.wrapOn(p,width,10)
+            p2.drawOn(p,1*cm,25*cm)
 
-    p2=Paragraph('''<img src="hospital/static/images/logo.jpg" width="100" height="80"/>''', style=styles["Normal"])
-    p2.wrapOn(p,width,10)
-    p2.drawOn(p,1*cm,25*cm)
+        my_Style_suelto=ParagraphStyle('Mine', alignment=TA_JUSTIFY, fontName='Helvetica',splitLongWords=True, fontSize = 10)
+        
+        p4=Paragraph('''<b>ESTUDIO MACROSCOPICO:</b> <br /> <br />'''
+                     + paciente.EstudioMacroscopicoInformeAnato 
+                     + '''<br /> <br /> <b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''
+                     + paciente.EstudioMicroscopicoInformeAnato 
+                     + '''<br /> <br /> <br /> <br /> <b>ESPECIMEN:</b> '''
+                     + paciente.EspecimenInformeAnato 
+                     + '''<br /> <br /> <b>CONCLUSION:</b> '''
+                     + paciente.ConclusionInformeAnato,my_Style_suelto)
+        p4.wrapOn(p,width-4*cm,2*cm)
+        p4.drawOn(p,2*cm,(11-m)*cm)
 
-    my_Style_suelto=ParagraphStyle('Mine', alignment=TA_JUSTIFY, fontName='Helvetica',splitLongWords=True, fontSize = 10)
-    # p3=Paragraph("ESTUDIO MISCROSCÓPICO:"+' '+ paciente.EstudioMicroscopicoInformeCito.get_Descripcion_display(),my_Style_suelto)
-    # p3.wrapOn(p,width-2*cm,2*cm)
-    # p3.drawOn(p,1*cm,19.75*cm)
-
-    # data=[['I. Calidad de Muestra ', '', '02'], ['II. Microorganismos', '', '12'],
-    # ['', '21', '22'], ['III. Valoración Citológica', '21', '22'], 
-    # ['IV. Hallazgos no neoplasicos ', '31', '32'],
-    # ['V. Evaluacion Hormonal ', '31', '32'],]
-    # t=Table(data,style=[('GRID',(0,0),(-1,-1),0.5,colors.grey),('SPAN',(0,1),(0,2))])
-    # t.wrapOn(p,width-2*cm,5*cm)
-    # t.drawOn(p,1*cm,8.75*cm)
-
-    # tbl_data_3=[['I. Calidad de Muestra', Paragraph(paciente.CalidadDeMuestraInformeCito.get_Calidad_display(),my_Style2), ''],
-    # ['II. Microorganismos', Paragraph(paciente.MicrorganismosInformeCito.get_Microrgs_display(),my_Style2),''], 
-    # ['III. Hallazgos No Neoplasicos', Paragraph(paciente.HallazgosInformeCito.get_NoNeoplasicos_display(),my_Style2),''],
-    # ['IV. Anomalia de Células Epiteliales', 'Celulas Escamosas', Paragraph(paciente.CelEscamosasInformeCito.get_Escamosas_display(),my_Style2)],
-    # ['', 'Células Glandulares', Paragraph(paciente.CelGlandularesInformeCito.get_Glandulares_display(),my_Style2)], 
-    # ['V. Inflamación ', Paragraph(paciente.InflamacionInformeCito.get_Inflamation_display(),my_Style2), '32'],
-    # ['VI. Patrón Hormonal ', Paragraph(paciente.EvaluacionHormonalInformeCito.get_Evaluacion_display(),my_Style2), '32'],]
-    # tbl_3=Table(tbl_data_3,style=[('GRID',(0,0),(-1,-1),1,colors.black),('SPAN',(0,3),(0,4)),('SPAN',(1,0),(2,0)),('SPAN',(1,1),(2,1)),('SPAN',(1,2),(2,2)),('SPAN',(1,5),(2,5)),('SPAN',(1,6),(2,6)),('SPAN',(1,7),(2,7))])
-    # tbl_3.wrapOn(p,width-2*cm,8*cm)
-    # tbl_3.drawOn(p,1*cm,14*cm)
- 
-    p4=Paragraph('''<b>ESTUDIO MACROSCOPICO:</b> <br /> <br />'''
-                 + paciente.EstudioMacroscopicoInformeAnato 
-                 + '''<br /> <br /> <b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''
-                 + paciente.EstudioMicroscopicoInformeAnato 
-                 + '''<br /> <br /> <br /> <br /> <b>ESPECIMEN:</b> '''
-                 + paciente.EspecimenInformeAnato 
-                 + '''<br /> <br /> <b>CONCLUSION:</b> '''
-                 + paciente.ConclusionInformeAnato,my_Style_suelto)
-    p4.wrapOn(p,width-4*cm,2*cm)
-    p4.drawOn(p,2*cm,11*cm)
-
-    # p5=Paragraph('''<b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''+''+ paciente.EstudioMicroscopicoInformeAnato,my_Style_suelto)
-    # p5.wrapOn(p,width-4*cm,2*cm)
-    # p5.drawOn(p,2*cm,13*cm)
-
-    # p6=Paragraph('''<b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''+''+ paciente.EstudioMicroscopicoInformeAnato,my_Style_suelto)
-    # p5.wrapOn(p,width-4*cm,2*cm)
-    # p5.
-# 
-    # p5=Paragraph('Recomendación: '+' '+ paciente.RecomendacionInformeCito.Recomendacion,my_Style_suelto)
-    # p5.wrapOn(p,width-2*cm,2*cm)
-    # p5.drawOn(p,1*cm,12*cm)
-# 
-    p.line(0+2*cm,5.5*cm,width-2*cm,5.5*cm)
-    p6=Paragraph(paciente.LugarInformeAnato.get_Lugar_display()+', '+str(paciente.FechaPieInformeAnato.Fecha.strftime("%B %d, %Y")),my_Style_suelto)
-    p6.wrapOn(p,width-4*cm,2*cm)
-    p6.drawOn(p,2*cm,5*cm)
-# 
-    my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
+        p.line(0+2*cm,5.5*cm,width-2*cm,5.5*cm)
+        p6=Paragraph(paciente.LugarInformeAnato.get_Lugar_display()+', '+str(paciente.FechaPieInformeAnato.Fecha.strftime("%B %d, %Y")),my_Style_suelto)
+        p6.wrapOn(p,width-4*cm,2*cm)
+        p6.drawOn(p,2*cm,5*cm)
+   
+        my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
     
-    if opt==2:
+        if firma=='NO':
 
-        p7=Paragraph(paciente.DoctorInformeAnato.Name
-                     + '''<br />'''
-                     + paciente.DoctorInformeAnato.special
-                     + '''<br />'''
-                     + paciente.DoctorInformeAnato.matricula,my_Style_suelto_der )
-        p7.wrapOn(p,width-4*cm,2*cm)
-        p7.drawOn(p,2*cm,2*cm)
+            p7=Paragraph(paciente.DoctorInformeAnato.Name
+                         + '''<br />'''
+                         + paciente.DoctorInformeAnato.special
+                         + '''<br />'''
+                         + paciente.DoctorInformeAnato.matricula,my_Style_suelto_der )
+            p7.wrapOn(p,width-4*cm,2*cm)
+            p7.drawOn(p,2*cm,2*cm)
     
-        # p8=Paragraph(paciente.DoctorInformeAnato.special,my_Style_suelto_der )
-        # p8.wrapOn(p,width-2*cm,2*cm)
-        # p8.drawOn(p,1*cm,6.5*cm)
-# 
-        # p9=Paragraph(paciente.DoctorInformeAnato.matricula,my_Style_suelto_der )
-        # p9.wrapOn(p,width-2*cm,2*cm)
-        # p9.drawOn(p,1*cm,6*cm)
+        p10=Paragraph(paciente.CodigoInformeAnato.Codigo,my_Style_suelto_der )
+        p10.wrapOn(p,width-4*cm,2*cm)
+        p10.drawOn(p,2*cm,height-c*cm)
+    
+        if firma == 'SI':
+            p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
+            p11.wrapOn(p,width-4*cm,2*cm)
+            p11.drawOn(p,2*cm,2*cm)
+    
+        p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
+        p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
+        p12.wrapOn(p,width-4*cm,2*cm)
+        p12.drawOn(p,2*cm,1*cm)
 
-    p10=Paragraph(paciente.CodigoInformeAnato.Codigo,my_Style_suelto_der )
-    p10.wrapOn(p,width-4*cm,2*cm)
-    p10.drawOn(p,2*cm,25*cm)
+        textob=p.beginText()
+        textob.setTextOrigin(cm,cm)
+        textob.setFont("Helvetica",14)
     
-    if opt == 1:
-        p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
-        p11.wrapOn(p,width-4*cm,2*cm)
-        p11.drawOn(p,2*cm,2*cm)
+        
+        p.setTitle("INFORME ANATOMICO")
     
-    p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
-    p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
-    p12.wrapOn(p,width-4*cm,2*cm)
-    p12.drawOn(p,2*cm,1*cm)
-    
-    textob=p.beginText()
-    textob.setTextOrigin(cm,cm)
-    textob.setFont("Helvetica",14)
-    
-    # lines=["This is line 1","This is line 2","This is line 3"]
+        
+        p.drawText(textob)
+        p.showPage()
+        p.save()
 
-    # for line in lines:
-    #     textob.textLine(line)
+        
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename='INFORME_ANATOMICO.pdf')
     
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    
-    
-    
-    # p.drawCentredString(width/2, 26*cm,"INFORME CITOLOGICO")
-    p.setTitle("INFORME ANATOMICO")
-    
-    # p.drawString(100, 50, paciente.PacienteInformeCito.Nombres)
-    # p.line()
-
-    # Close the PDF object cleanly, and we're done.
-    p.drawText(textob)
-    p.showPage()
-    p.save()
-
-    # FileResponse sets the Content-Disposition header so that browsers
-    # present the option to save the file.
-    buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename='INFORME_ANATOMICO.pdf')
+    d = {'error':error}
+    return render(request, 'report_signature_logo.html',d)
 
 def Upd_Datos_Paciente_Anat(request,pid):
     error = ""
@@ -1974,79 +1554,15 @@ def Upd_Tabla_Central_Paciente_Anat(request,pid):
     
     paciente = InformeAnato.objects.get(id=pid)
 
-    # Estudio_form = EstudioMicroscopico.DESCRIPCIONES
-    # Calidad_form= CalidadDeMuestra.CALIDADES
-    # Microrganismos_form = Microrganismos.MICROS
-    # Hallazgos_form = HallazgosNoNeoplasicos.HALLAZGOS
-    # CelEscamosas_form = CelEscamosas.ESCAMOSAS
-    # CelGlandulares_form = CelGlandulares.GLANDULARES
-    # EvaluacionHormonal_form = EvaluacionHormonal.EVAL
-    # Inflamacion_form = Inflamacion.INFL
-    
-
-    # muestra_del_id = paciente.MuestraInformeCito.id
-    # muestra_upd = Muestra.objects.get(id=muestra_del_id)
-
-    # estudio_micros_id = paciente.EstudioMicroscopicoInformeCito.id
-    # estudio_micros_upd = EstudioMicroscopico.objects.get(id=estudio_micros_id)
-    # calidad_id = paciente.CalidadDeMuestraInformeCito.id
-    # calidad_upd = CalidadDeMuestra.objects.get(id=calidad_id)
-    # microrgs_id = paciente.MicrorganismosInformeCito.id
-    # microrgs_upd = Microrganismos.objects.get(id=microrgs_id)
-    # hallazgos_id = paciente.HallazgosInformeCito.id
-    # hallazgos_upd = HallazgosNoNeoplasicos.objects.get(id=hallazgos_id)
-    # celescamosas_id = paciente.CelEscamosasInformeCito.id
-    # celescamosas_upd = CelEscamosas.objects.get(id=celescamosas_id)
-    # celglandulares_id = paciente.CelGlandularesInformeCito.id
-    # celglandulares_upd = CelGlandulares.objects.get(id=celglandulares_id)
-    # eval_hormonal_id = paciente.EvaluacionHormonalInformeCito.id
-    # eval_hormonal_upd = EvaluacionHormonal.objects.get(id=eval_hormonal_id)
-    # inflamacion_id = paciente.InflamacionInformeCito.id
-    # inflamacion_upd = Inflamacion.objects.get(id=inflamacion_id)
-    
-    
     if request.method == "POST":
         
         estmic = request.POST['EstudioMicro']
         estmac = request.POST['EstudioMacro']
-        # calid = request.POST['CalidadDeMuestra']
-        # micro = request.POST['Microrganismos']
-        # # hall = request.POST['Hallazgos']
-        # # esc = request. POST['CelEscamosas']
-        # # glan = request.POST['CelGlandulares']
-        # # evalu = request.POST['EvaluacionHormonal']
-        # infla = request.POST['Inflamacion']
-
-        
         try:
             paciente.EstudioMacroscopicoInformeAnato=estmac
             paciente.EstudioMicroscopicoInformeAnato=estmic
-            
-            # paciente.CalidadDeMuestraInformeCito.Calidad = calid
-            # paciente.MicrorganismosInformeCito.Microrgs = micro
-            # paciente.HallazgosInformeCito.NoNeoplasicos = hall
-            # paciente.CelEscamosasInformeCito.Escamosas = esc
-            # paciente.CelGlandularesInformeCito.Glandulares = glan
-            # paciente.EvaluacionHormonalInformeCito.Evaluacion = evalu
-            # paciente.InflamacionInformeCito.Inflamation = infla
+        
             paciente.save()
-
-            # estudio_micros_upd.Descripcion=estmic
-            # estudio_micros_upd.save()
-            # calidad_upd.Calidad=calid
-            # calidad_upd.save()
-            # microrgs_upd.Microrgs = micro
-            # microrgs_upd.save()
-            # hallazgos_upd.Neoplasicos = hall
-            # hallazgos_upd.save()
-            # celescamosas_upd.Escamosas = esc
-            # celescamosas_upd.save()
-            # celglandulares_upd.Glandulares = glan
-            # celglandulares_upd.save()
-            # eval_hormonal_upd.Evaluacion = evalu
-            # eval_hormonal_upd.save()
-            # inflamacion_upd.Inflamation = infla
-            # inflamacion_upd.save()
 
             error = "no"
         except:
@@ -2063,19 +1579,9 @@ def Upd_Conclusion_Paciente_Anat(request,pid):
     
     paciente = InformeAnato.objects.get(id=pid)
 
-    # Conclu_form = Conclusion.CONCLU
     Lugar_form = Lugar.LUGARES
 
     fecha_informe = paciente.FechaPieInformeAnato.Fecha.strftime("%Y-%m-%d")
-    
-
-    # muestra_del_id = paciente.MuestraInformeCito.id
-    # muestra_upd = Muestra.objects.get(id=muestra_del_id)
-
-    # conclu_id = paciente.ConclusionInformeCito.id
-    # conclu_upd = Conclusion.objects.get(id=conclu_id)
-    # recomendacion_id = paciente.RecomendacionInformeCito.id
-    # recomendacion_upd = Recomendacion.objects.get(id=recomendacion_id)
     lugar_id = paciente.LugarInformeAnato.id
     lugar_upd = Lugar.objects.get(id=lugar_id)
     fechapie_id = paciente.FechaPieInformeAnato.id
@@ -2112,7 +1618,6 @@ def Delete_Informe_Anat(request,pid):
     if not request.user.is_staff:
         return redirect('admin_login')
     informeAnat = InformeAnato.objects.get(id=pid)
-    # logging.debug()
     codigo_del =informeAnat.CodigoInformeAnato.id
     cod = CodigoInforme.objects.get(id=codigo_del)
 
@@ -2121,37 +1626,6 @@ def Delete_Informe_Anat(request,pid):
 
     muestra_del = informeAnat.MuestraInformeAnato.id
     mue = Muestra.objects.get(id=muestra_del)
-
-
-    # estudiomic_del = informeCit.EstudioMicroscopicoInformeCito.id
-    # est = EstudioMicroscopico.objects.get(id=estudiomic_del)
-
-    # calidad_del = informeCit.CalidadDeMuestraInformeCito.id
-    # cal = CalidadDeMuestra.objects.get(id=calidad_del)
-
-    # micro_del =  informeCit.MicrorganismosInformeCito.id
-    # micro = Microrganismos.objects.get(id=micro_del)
-
-    # hallaz_del = informeCit.HallazgosInformeCito.id
-    # hallaz = HallazgosNoNeoplasicos.objects.get(id=hallaz_del)
-
-    # cel_esc_del = informeCit.CelEscamosasInformeCito.id
-    # cel_esc = CelEscamosas.objects.get(id=cel_esc_del)
-
-    # cel_gland_del = informeCit.CelGlandularesInformeCito.id
-    # cel_gland = CelGlandulares.objects.get(id=cel_gland_del)
-
-    # eval_del = informeCit.EvaluacionHormonalInformeCito.id
-    # eval = EvaluacionHormonal.objects.get(id=eval_del)
-
-    # infla_del = informeCit.InflamacionInformeCito.id
-    # infla = Inflamacion.objects.get(id=infla_del)
-
-    # conclu_del = informeCit.ConclusionInformeCito.id
-    # conclu = Conclusion.objects.get(id=conclu_del)
-
-    # reco_del = informeCit.RecomendacionInformeCito.id
-    # reco = Recomendacion.objects.get(id=reco_del)
 
     fechapie_del = informeAnat.FechaPieInformeAnato.id
     fechapie = FechaPie.objects.get(id=fechapie_del)

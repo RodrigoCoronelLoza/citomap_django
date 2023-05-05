@@ -16,15 +16,6 @@
   <div> {{estmicrosSelected}}</div>
   <form method="POST">
     {% csrf_token %}
-    <!-- <label>Estudio Microscopico</label>
-    <select name="Descripcion" class="form-control" value="{{paciente.EstudioMicroscopicoInformeCito.Descripcion}}">
-      {% for i,j in estmicroscopico %}
-        <option 
-        value="{{i}}" 
-        {% if j == paciente.EstudioMicroscopicoInformeCito.get_Descripcion_display %} selected {% endif %}>
-        {{j}} </option>
-      {% endfor %}
-    </select> -->
 
     <label>Estudio Microscopico</label>
     <select name="Descripcion" class="form-control">
@@ -34,40 +25,12 @@
       {% endfor %}
     </select>
 
-    
-    
-    <!-- <label> Calidad de Muestra</label> -->
-    <!-- <select name="CalidadDeMuestra" class="form-control"> -->
-      <!-- {% for i,j in calidad %} -->
-      <!-- <option value="{{i}}"  -->
-      <!-- {% if j == paciente.CalidadDeMuestraInformeCito.get_Calidad_display %} selected {% endif %}> -->
-      <!-- {{j}}</option> -->
-      <!-- {% endfor %} -->
-    <!-- </select> -->
     <label>Calidad de Muestra</label>
-    <!-- <select name="CalidadDeMuestra" class="form-control">
-      {% for i in vector_calidad %}
-      <option value="{{i}}" {% if i == paciente.CalidadDeMuestraInformeCito2 %} selected {% endif %}>
-        {{i}}</option>
-      {% endfor %}
-    </select> -->
-
     <select name="CalidadDeMuestra" class="form-control">
       {% for i in vector_calidad %}
       <option value="{{i}}" {% if i == paciente.CalidadDeMuestraInformeCito2 %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
-
-    
-
-    <!-- <label> Microrganismos </label> -->
-    <!-- <select name="Microrganismos" class="form-control"> -->
-      <!-- {% for i,j in microrgs%} -->
-      <!-- <option value="{{i}}"  -->
-      <!-- {% if j == paciente.MicrorganismosInformeCito.get_Microrgs_display %} selected {% endif %}> -->
-      <!-- {{j}}</option> -->
-      <!-- {% endfor %} -->
-    <!-- </select> -->
 
     <label> Microrganismos </label>
     <select name="Microrganismos" class="form-control">
@@ -76,30 +39,12 @@
       {% endfor %}
     </select>
 
-    <!-- <label> Hallazgos no neoplasicos </label>
-    <!-- <select name="Hallazgos" class="form-control"> -->
-      <!-- {% for i,j in hallazgos%} -->
-      <!-- <option value="{{i}}"  -->
-      <!-- {% if j == paciente.HallazgosInformeCito.get_NoNeoplasicos_display %} selected {% endif %}> -->
-      <!-- {{j}}</option> -->
-      {% endfor %} -->
-    <!-- </select> -->
-
     <label> Hallazgos no neoplasicos </label>
     <select name="Hallazgos" class="form-control">
       {% for i in vector_hallazgos%}
       <option value="{{i}}" {% if i == paciente.HallazgosInformeCito2 %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
-
-    <!-- <label> Celulas Escamosas </label> -->
-    <!-- <select name="CelEscamosas" class="form-control"> -->
-      <!-- {% for i,j in escamosas%} -->
-      <!-- <option value="{{i}}"  -->
-      <!-- {% if j == paciente.CelEscamosasInformeCito.get_Escamosas_display %} selected {% endif %}> -->
-      <!-- {{j}}</option> -->
-      <!-- {% endfor %} -->
-    <!-- </select> -->
 
     <label> Celulas Escamosas </label>
     <select name="CelEscamosas" class="form-control">
@@ -108,41 +53,12 @@
       {% endfor %}
     </select>
 
-    <!-- <label> Celulas Glandulares </label>
-    <select name="CelGlandulares" class="form-control">
-      {% for i,j in glandulares%}
-      <option value="{{i}}"
-      {% if j == paciente.CelGlandularesInformeCito.get_Glandulares_display %} selected {% endif %}>
-      {{j}}</option>
-      {% endfor %}
-    </select> -->
-
     <label> Celulas Glandulares </label>
     <select name="CelGlandulares" class="form-control">
       {% for i in vector_cel_glandulares%}
       <option value="{{i}}" {% if i == paciente.CelGlandularesInformeCito2 %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
-
-    <!-- <label> Evaluacion Hormonal </label> -->
-    <!-- <select name="EvaluacionHormonal" class="form-control"> -->
-      <!-- {% for i,j in evaluacion%} -->
-      <!-- <option value="{{i}}" -->
-      <!-- {% if j == paciente.EvaluacionHormonalInformeCito.get_Evaluacion_display %} selected {% endif %}> -->
-      <!-- {{j}}</option> -->
-      <!-- {% endfor %} -->
-    <!-- </select> -->
-
-    
-
-    <!-- <label> Inflamacion </label>
-    <select name="Inflamacion" class="form-control">
-      {% for i,j in inflamacion%}
-      <option value="{{i}}"
-      {% if j == paciente.InflamacionInformeCito.get_Inflamacion_display %} selected {% endif %}>
-      {{j}}</option>
-      {% endfor %}
-    </select> -->
 
     <label> Inflamacion </label>
     <select name="Inflamacion" class="form-control">
@@ -158,10 +74,6 @@
       {% endfor %}
     </select>
 
-
-    <!-- <form method="POST" name="CalidadDeMuestra" class="form-control">
-      {{ calidad }}
-    </form> -->
     <div style="text-align: center">
       <a class="btn btn-success" href="{% url 'ver_informe' paciente.id%}">
         Cancelar</a

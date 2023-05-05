@@ -5,12 +5,11 @@
   <table id="example" class="table table-hover">
     <thead>
       <tr>
+        <th>id informe anat</th>
         <th>Codigo del informe</th>
         <th>Nombre del paciente</th>
         <th>Apellido del paciente</th>
         <th>fecha de toma</th>
-        <!-- <th>Micro</th> -->
-        <!-- <th>Macro</th> -->
         <th>VER INFORMe</th>
         <th>Delete</th>
       </tr>
@@ -18,12 +17,11 @@
     <body>
       {% for i in inf%}
       <tr>
+        <td>{{i.CodigoInformeAnato.id}}</td>       
         <td>{{i.CodigoInformeAnato.Codigo}}</td>
         <td>{{i.PacienteInformeAnato.Nombres}}</td>
         <td>{{i.PacienteInformeAnato.Apellidos}}</td>
         <td>{{i.MuestraInformeAnato.Recepcion}}</td>
-        <!-- <td>{{i.EstudioMacroscopicoInformeAnato}}</td> -->
-        <!-- <td>{{i.EstudioMicroscopicoInformeAnato}}</td> -->
         <td>
           <a href="{% url 'ver_informe_anat' i.id %}" class="btn btn-primary"
             >VER INFORME</a

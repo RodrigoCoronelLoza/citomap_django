@@ -16,15 +16,6 @@
   <div> {{estmicrosSelected}}</div>
   <form method="POST">
     {% csrf_token %}
-    <!-- <label>Conclusion</label> -->
-    <!-- <select name="Conclusion" class="form-control"> -->
-      <!-- {% for i,j in conclusion %} -->
-        <!-- <option  -->
-        <!-- value="{{i}}"  -->
-        <!-- {% if j == paciente.ConclusionInformeCito.get_Conclusion_display %} selected {% endif %}> -->
-        <!-- {{j}} </option> -->
-      <!-- {% endfor %} -->
-    <!-- </select> -->
 
     <label>Conclusion</label>
     <select name="Conclusion" class="form-control">
@@ -60,18 +51,6 @@
       value="{{fechainf}}"
     />
 
-    <!-- <label>COMBINACION</label>
-    <select name="Combinacional" class="form-control">
-      {% for i in vector_opcional%}
-      <option value="{{i}}" {% if i == paciente.OpcionalInformeCito2 %} selected {% endif %}>
-        {{i}}</option>
-      {% endfor %}
-    </select> -->
-
-
-    <!-- <form method="POST" name="CalidadDeMuestra" class="form-control">
-      {{ calidad }}
-    </form> -->
     <div style="text-align: center">
       <a class="btn btn-success" href="{% url 'ver_informe' paciente.id%}">
         Cancelar</a

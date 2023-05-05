@@ -17,11 +17,9 @@
   <form method="POST">
     {% csrf_token %}
     <label>Estudio Macroscopico</label>
-    <!-- <input type="text" class="form-control" name="MacroResultado1" value = "{{sent}}" /> -->
     <textarea type="text" class="form-control" name="EstudioMacro" >{{paciente.EstudioMacroscopicoInformeAnato}}</textarea>
 
     <label>Estudio Microscopico</label>
-    <!-- <input type="text" class="form-control" name="MicroResultado" value ={{viene2}} /> -->
     <textarea type="text" class="form-control" name="EstudioMicro" >{{paciente.EstudioMicroscopicoInformeAnato}}</textarea>
 
     <div style="text-align: center">

@@ -218,18 +218,8 @@
       class="container shadow"
       style="max-width: 640px; margin: auto; margin-top: 2em; padding: 2em"
     >
-      <h4>PARA OBTENER EL INFORME EN PDF (CON FIRMA):</h4>
-      <a class="btn btn-success" href="{% url 'report' paciente.id 1%}">
-        Generar informe</a
-      >
-    </div>
-
-    <div
-      class="container shadow"
-      style="max-width: 640px; margin: auto; margin-top: 2em; padding: 2em"
-    >
-      <h4>PARA OBTENER EL INFORME EN PDF (SIN FIRMA):</h4>
-      <a class="btn btn-success" href="{% url 'report' paciente.id 2%}">
+      <h4>PARA OBTENER EL INFORME EN PDF:</h4>
+      <a class="btn btn-success" href="{% url 'report' paciente.id%}">
         Generar informe</a
       >
     </div>

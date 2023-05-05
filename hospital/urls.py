@@ -7,7 +7,6 @@ from . import views
 
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
     path('', Home, name='home'),
     path('about/', About, name='about'),
     path('contact/', Contact, name='contact'),
@@ -29,7 +28,7 @@ urlpatterns = [
     path('delete_informe(?p<int:pid>)/', Delete_Informe, name='delete_informe'),
     path('ver_informe(?p<int:pid>)/',Ver_Informe,name='ver_informe'),
 
-    path('report(?p<int:pid>,?p<int:opt>)/',Report,name='report'),
+    path('report(?p<int:pid>)/',Report,name='report'),
     path('add_informe_cit/',Add_Informe_Cit,name='add_informe_cit'),
 
     path('upd_datos_paciente(?p<int:pid>)/',Upd_Datos_Paciente, name='upd_datos_paciente'),
@@ -51,7 +50,7 @@ urlpatterns = [
     path('view_informe_anat/',views.View_Informe_Anat,name='view_informe_anat'),
     path('ver_informe_anat(?p<int:pid>)/',views.Ver_Informe_Anat,name='ver_informe_anat'),
 
-    path('report_anat(?p<int:pid>,?p<int:opt>)/',views.Report_Anat,name='report_anat'),
+    path('report_anat(?p<int:pid>)/',views.Report_Anat,name='report_anat'),
 
     path('upd_datos_paciente_anat(?p<int:pid>)/',views.Upd_Datos_Paciente_Anat, name='upd_datos_paciente_anat'),
     path('upd_tabla_central_paciente_anat(?p<int:pid>)/',views.Upd_Tabla_Central_Paciente_Anat, name='upd_tabla_central_paciente_anat'),

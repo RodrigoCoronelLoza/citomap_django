@@ -47,55 +47,10 @@
           Doctor
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <!-- <a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a> -->
           <a class="dropdown-item" href="{% url 'view_doctor'%}">View_Doctor</a>
           <a class="dropdown-item" href="{% url 'add_doctor'%}">add_Doctor</a>
-          <!-- <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a> -->
         </div>
       </li>
-
-      <!-- <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Patient
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'view_patient'%}"
-            >View_Patient</a
-          >
-          <a class="dropdown-item" href="{% url 'add_patient'%}">add_Patient</a>
-        </div>
-      </li> -->
-
-      <!-- <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Apointments
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'view_appointment'%}"
-            >View_Appointment</a
-          >
-          <a class="dropdown-item" href="{% url 'add_appointment'%}"
-            >add_Appointment</a
-          >
-        </div>
-      </li> -->
 
       <li class="nav-item dropdown">
         <a
@@ -110,15 +65,12 @@
           Informes Citologicos
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <!-- <a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a> -->
           <a class="dropdown-item" href="{% url 'view_informe'%}"
             >Ver informe Citologico</a
           >
           <a class="dropdown-item" href="{% url 'add_informe_cit'%}"
             >Hacer informe Citologico</a
           >
-          <!-- <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a> -->
         </div>
       </li>
 
@@ -135,15 +87,12 @@
           Informes Anatomicos
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <!-- <a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a> -->
           <a class="dropdown-item" href="{% url 'view_informe_anat'%}"
             >Ver informe Anatomico</a
           >
           <a class="dropdown-item" href="{% url 'add_informe_anat'%}"
             >Hacer informe Anatomico</a
           >
-          <!-- <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a> -->
         </div>
       </li>
 
@@ -151,22 +100,6 @@
         <a class="nav-link" href="{% url 'logout_admin' %}">Logout</a>
       </li>
       {% endif%}
-      <!-- <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"
-          >Disabled</a
-        >
-      </li> -->
     </ul>
-    <!-- <form class="form-inline my-2 my-lg-0">
-      <input
-        class="form-control mr-sm-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-        Search
-      </button>
-    </form> -->
   </div>
 </nav>
