@@ -312,7 +312,7 @@ def Report(request,pid):
         if logo == "SI": 
             p2=Paragraph('''<img src="hospital/static/images/logo.jpg" width="100" height="80"/>''', style=styles["Normal"])
             p2.wrapOn(p,width,10)
-            p2.drawOn(p,1*cm,25*cm)
+            p2.drawOn(p,2.5*cm,height-c*cm)
     
         my_Style_suelto=ParagraphStyle('Mine', alignment=TA_LEFT, fontName='Helvetica', fontSize = 10)
         p3=Paragraph('''<b>ESTUDIO MICROSCOPICO:</b>'''+' '+ paciente.EstudioMicroscopicoInformeCito2,my_Style_suelto)
@@ -420,14 +420,18 @@ def Report(request,pid):
         textob.setTextOrigin(cm,cm)
         textob.setFont("Helvetica",14)
     
-        p.setTitle("INFORME CITOLOGICO")
+        p.setTitle("INFORME_CITOLOGICO"+'_'
+                   +paciente.PacienteInformeCito2.Apellidos+'_'
+                   +str(paciente.FechaPieInformeAnato2.Fecha.strftime("%B_%d_%Y")))
+        
+        title = "INFORME_CITOLOGICO"+'_'+paciente.PacienteInformeCito2.Apellidos+'_'+str(paciente.FechaPieInformeAnato2.Fecha.strftime("%B_%d_%Y")) +".pdf"
 
         p.drawText(textob)
         p.showPage()
         p.save()
         
         buffer.seek(0)
-        return FileResponse(buffer, as_attachment=True, filename='INFORME_CITOLOGICO.pdf')
+        return FileResponse(buffer, as_attachment=True, filename=title)
     
     d = {'error':error}
     return render(request, 'report_signature_logo.html',d)
@@ -1410,18 +1414,21 @@ def Report_Anat(request,pid):
         if logo == 'SI':
             p2=Paragraph('''<img src="hospital/static/images/logo.jpg" width="100" height="80"/>''', style=styles["Normal"])
             p2.wrapOn(p,width,10)
-            p2.drawOn(p,1*cm,25*cm)
+            p2.drawOn(p,2.5*cm,height-c*cm)
 
         my_Style_suelto=ParagraphStyle('Mine', alignment=TA_JUSTIFY, fontName='Helvetica',splitLongWords=True, fontSize = 10)
         
+        conclusion_chaine_old = paciente.ConclusionInformeAnato
+        new_string = '<br />'
+        resultant_string = conclusion_chaine_old.replace('\n', new_string)
         p4=Paragraph('''<b>ESTUDIO MACROSCOPICO:</b> <br /> <br />'''
                      + paciente.EstudioMacroscopicoInformeAnato 
                      + '''<br /> <br /> <b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''
                      + paciente.EstudioMicroscopicoInformeAnato 
                      + '''<br /> <br /> <br /> <br /> <b>ESPECIMEN:</b> '''
                      + paciente.EspecimenInformeAnato 
-                     + '''<br /> <br /> <b>CONCLUSION:</b> '''
-                     + paciente.ConclusionInformeAnato,my_Style_suelto)
+                     + '''<br /> <br /> <b>CONCLUSION:</b> <br /> <br />'''
+                     + resultant_string ,my_Style_suelto)
         p4.wrapOn(p,width-4*cm,2*cm)
         p4.drawOn(p,2*cm,(11-m)*cm)
 
@@ -1461,8 +1468,11 @@ def Report_Anat(request,pid):
         textob.setFont("Helvetica",14)
     
         
-        p.setTitle("INFORME ANATOMICO")
+        p.setTitle("INFORME_ANATOMICO"+'_'
+                   +paciente.PacienteInformeAnato.Apellidos+'_'
+                   +str(paciente.FechaPieInformeAnato.Fecha.strftime("%B_%d_%Y")))
     
+        title = "INFORME_ANATOMICO"+'_'+paciente.PacienteInformeAnato.Apellidos+'_'+str(paciente.FechaPieInformeAnato.Fecha.strftime("%B_%d_%Y"))+".pdf"
         
         p.drawText(textob)
         p.showPage()
@@ -1470,7 +1480,7 @@ def Report_Anat(request,pid):
 
         
         buffer.seek(0)
-        return FileResponse(buffer, as_attachment=True, filename='INFORME_ANATOMICO.pdf')
+        return FileResponse(buffer, as_attachment=True, filename=title)
     
     d = {'error':error}
     return render(request, 'report_signature_logo.html',d)

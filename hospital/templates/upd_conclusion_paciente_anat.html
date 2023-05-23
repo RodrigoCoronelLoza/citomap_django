@@ -20,8 +20,8 @@
     <input type="text" class="form-control" name="Especimen" value="{{paciente.EspecimenInformeAnato}}" />
 
     <label>Conclusion</label>
-    <input type="text" class="form-control" name="Conclusion" value="{{paciente.ConclusionInformeAnato}}" />
-
+    <!-- <input type="text" class="form-control" name="Conclusion" value="{{paciente.ConclusionInformeAnato}}" /> -->
+    <textarea type="text" class="form-control" name="Conclusion" >{{paciente.ConclusionInformeAnato}}</textarea>
     <label>Lugar</label>
     <select name="Lugar" class="form-control">
       {% for i,j in lugar %}
