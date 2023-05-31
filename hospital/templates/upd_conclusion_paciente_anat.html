@@ -17,18 +17,18 @@
   <form method="POST">
     {% csrf_token %}
     <label>Especimen</label>
-    <input type="text" class="form-control" name="Especimen" value="{{paciente.EspecimenInformeAnato}}" />
+    <input type="text" class="form-control" name="Especimen" value="{{paciente.EspecimenInformeAnatomico}}" />
 
     <label>Conclusion</label>
     <!-- <input type="text" class="form-control" name="Conclusion" value="{{paciente.ConclusionInformeAnato}}" /> -->
-    <textarea type="text" class="form-control" name="Conclusion" >{{paciente.ConclusionInformeAnato}}</textarea>
+    <textarea type="text" class="form-control" name="Conclusion" >{{paciente.ConclusionInformeAnatomico}}</textarea>
     <label>Lugar</label>
     <select name="Lugar" class="form-control">
-      {% for i,j in lugar %}
+      {% for i in lugar %}
         <option 
         value="{{i}}" 
-        {% if j == paciente.LugarInformeAnato.get_Lugar_display %} selected {% endif %}>
-        {{j}} </option>
+        {% if i == paciente.LugarInformeAnatomico %} selected {% endif %}>
+        {{i}} </option>
       {% endfor %}
     </select>
     <label

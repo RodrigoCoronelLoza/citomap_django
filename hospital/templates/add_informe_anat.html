@@ -81,8 +81,8 @@
 
     <label> Lugar </label>
     <select name="Lugar" class="form-control">
-      {% for i,j in lugar%}
-      <option value="{{i}}">{{j}}</option>
+      {% for i in lugar%}
+      <option value="{{i}}">{{i}}</option>
       {% endfor %}
     </select>
 

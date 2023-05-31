@@ -17,10 +17,10 @@
   <form method="POST">
     {% csrf_token %}
     <label>Estudio Macroscopico</label>
-    <textarea type="text" class="form-control" name="EstudioMacro" >{{paciente.EstudioMacroscopicoInformeAnato}}</textarea>
+    <textarea type="text" class="form-control" name="EstudioMacro" >{{paciente.EstudioMacroscopicoInformeAnatomico}}</textarea>
 
     <label>Estudio Microscopico</label>
-    <textarea type="text" class="form-control" name="EstudioMicro" >{{paciente.EstudioMicroscopicoInformeAnato}}</textarea>
+    <textarea type="text" class="form-control" name="EstudioMicro" >{{paciente.EstudioMicroscopicoInformeAnatomico}}</textarea>
 
     <div style="text-align: center">
       <a class="btn btn-success" href="{% url 'ver_informe_anat' paciente.id%}">

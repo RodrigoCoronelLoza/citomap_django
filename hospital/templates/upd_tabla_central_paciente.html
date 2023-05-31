@@ -20,7 +20,7 @@
     <label>Estudio Microscopico</label>
     <select name="Descripcion" class="form-control">
       {% for i in vector_estudio %}
-      <option value="{{i}}" {%if i == paciente.EstudioMicroscopicoInformeCito2 %} selected {% endif %}>
+      <option value="{{i}}" {%if i == paciente.EstudioMicroscopicoInformeCitologico %} selected {% endif %}>
         {{i}}</option>
       {% endfor %}
     </select>
@@ -28,49 +28,49 @@
     <label>Calidad de Muestra</label>
     <select name="CalidadDeMuestra" class="form-control">
       {% for i in vector_calidad %}
-      <option value="{{i}}" {% if i == paciente.CalidadDeMuestraInformeCito2 %} selected {% endif %}>{{i}}</option>
+      <option value="{{i}}" {% if i == paciente.CalidadDeMuestraInformeCitologico %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Microrganismos </label>
     <select name="Microrganismos" class="form-control">
       {% for i in vector_microorganismos%}
-      <option value="{{i}}" {% if i == paciente.MicrorganismosInformeCito2 %} selected {% endif %}>{{i}}</option>
+      <option value="{{i}}" {% if i == paciente.MicrorganismosInformeCitologico %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Hallazgos no neoplasicos </label>
     <select name="Hallazgos" class="form-control">
       {% for i in vector_hallazgos%}
-      <option value="{{i}}" {% if i == paciente.HallazgosInformeCito2 %} selected {% endif %}>{{i}}</option>
+      <option value="{{i}}" {% if i == paciente.HallazgosInformeCitologico %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Celulas Escamosas </label>
     <select name="CelEscamosas" class="form-control">
       {% for i in vector_cel_escamosas%}
-      <option value="{{i}}" {% if i == paciente.CelEscamosasInformeCito2 %} selected {% endif %}>{{i}}</option>
+      <option value="{{i}}" {% if i == paciente.CelEscamosasInformeCitologico %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Celulas Glandulares </label>
     <select name="CelGlandulares" class="form-control">
       {% for i in vector_cel_glandulares%}
-      <option value="{{i}}" {% if i == paciente.CelGlandularesInformeCito2 %} selected {% endif %}>{{i}}</option>
+      <option value="{{i}}" {% if i == paciente.CelGlandularesInformeCitologico %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Inflamacion </label>
     <select name="Inflamacion" class="form-control">
       {% for i in vector_inflamacion%}
-      <option value="{{i}}" {% if i == paciente.InflamacionInformeCito2 %} selected {% endif %}>{{i}}</option>
+      <option value="{{i}}" {% if i == paciente.InflamacionInformeCitologico %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
 
     <label> Evaluacion Hormonal </label>
     <select name="EvaluacionHormonal" class="form-control">
       {% for i in vector_eval_hormonal%}
-      <option value="{{i}}" {% if i == paciente.EvaluacionHormonalInformeCito2 %} selected {% endif %}>{{i}}</option>
+      <option value="{{i}}" {% if i == paciente.EvaluacionHormonalInformeCitologico %} selected {% endif %}>{{i}}</option>
       {% endfor %}
     </select>
 

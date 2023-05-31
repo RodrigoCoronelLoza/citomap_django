@@ -12,7 +12,7 @@
   </head>
   <body>
     <h2 class="text-center">Informe ANATOMICO</h2>
-    <div class="text-center">Codigo: {{paciente.CodigoInformeAnato.Codigo}}</div>
+    <div class="text-center">Codigo: {{paciente.CodigoInformeAnatomico}}</div>
     <div class="text-left"><b>Datos Paciente</b></div>
     <table id="example1" class="table table-hover">
       <thead>
@@ -24,18 +24,18 @@
       <body>
         <tr>
           <td>
-            Nombre: {{paciente.PacienteInformeAnato.Nombres}}
-            {{paciente.PacienteInformeAnato.Apellidos}}
+            Nombre: {{paciente.NombresInformeAnatomico}}
+            {{paciente.ApellidosInformeAnatomico}}
           </td>
-          <td>Edad: {{paciente.PacienteInformeAnato.Edad}} años</td>
+          <td>Edad: {{paciente.EdadInformeAnatomico}} años</td>
         </tr>
         <tr>
-          <td>Medico: {{paciente.PacienteInformeAnato.Medico}}</td>
-          <td>Hospital/Clinica: {{paciente.PacienteInformeAnato.Hospital}}</td>
+          <td>Medico: {{paciente.MedicoInformeAnatomico}}</td>
+          <td>Hospital/Clinica: {{paciente.HospitalInformeAnatomico}}</td>
         </tr>
         <tr>
-          <td>Muestra: {{paciente.PacienteInformeAnato.Muestra}}</td>
-          <td>Diagnostico: {{paciente.PacienteInformeAnato.Diagnostico}}</td>
+          <td>Muestra: {{paciente.MuestraInformeAnatomico}}</td>
+          <td>Diagnostico: {{paciente.DiagnosticoInformeAnatomico}}</td>
         </tr>
       </body>
     </table>
@@ -53,7 +53,7 @@
           <td>
             Recepcion
           </td>
-          <td>{{paciente.MuestraInformeAnato.Recepcion}}</td>
+          <td>{{paciente.RecepcionInformeAnatomico}}</td>
         </tr>
       </body>
     </table>
@@ -81,14 +81,14 @@
           <td>Estudio Macroscopico</td>
         </tr>
         <tr>
-          <td>{{paciente.EstudioMacroscopicoInformeAnato}}</td>
+          <td>{{paciente.EstudioMacroscopicoInformeAnatomico}}</td>
         </tr>
         
         <tr>
           <td>Estudio Microscopico</td> 
         </tr>
         <tr>
-          <td>{{paciente.EstudioMicroscopicoInformeAnato}}</td>
+          <td>{{paciente.EstudioMicroscopicoInformeAnatomico}}</td>
         </tr>
       </body>
     </table>
@@ -113,19 +113,19 @@
       <body>
         <tr>
           <td>Conclusion:</td>
-          <td>{{paciente.ConclusionInformeAnato|linebreaksbr}}</td>
+          <td>{{paciente.ConclusionInformeAnatomico|linebreaksbr}}</td>
         </tr>
         <tr>
           <td>Especimen:</td>
-          <td>{{paciente.EspecimenInformeAnato}}</td>
+          <td>{{paciente.EspecimenInformeAnatomico}}</td>
         </tr>
         <tr>
           <td>Lugar:</td>
-          <td>{{paciente.LugarInformeAnato.get_Lugar_display}}</td>
+          <td>{{paciente.LugarInformeAnatomico}}</td>
         </tr>
         <tr>
           <td>Fecha del informe:</td>
-          <td>{{paciente.FechaPieInformeAnato.Fecha}}</td>
+          <td>{{paciente.FechaPieInformeAnatomico}}</td>
         </tr>
       </body>
     </table>

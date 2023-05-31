@@ -1,7 +1,7 @@
 {% include 'base.html' %} {% include 'navigation.html' %} {% block content %}
 
 <div>
-  <h2 class="text-center">View Informe</h2>
+  <h2 class="text-center">View Informe Anatomico</h2>
   <table id="example" class="table table-hover">
     <thead>
       <tr>
@@ -17,11 +17,11 @@
     <body>
       {% for i in inf%}
       <tr>
-        <td>{{i.CodigoInformeAnato.id}}</td>       
-        <td>{{i.CodigoInformeAnato.Codigo}}</td>
-        <td>{{i.PacienteInformeAnato.Nombres}}</td>
-        <td>{{i.PacienteInformeAnato.Apellidos}}</td>
-        <td>{{i.MuestraInformeAnato.Recepcion}}</td>
+        <td>{{i.id}}</td>       
+        <td>{{i.CodigoInformeAnatomico}}</td>
+        <td>{{i.NombresInformeAnatomico}}</td>
+        <td>{{i.ApellidosInformeAnatomico}}</td>
+        <td>{{i.RecepcionInformeAnatomico}}</td>
         <td>
           <a href="{% url 'ver_informe_anat' i.id %}" class="btn btn-primary"
             >VER INFORME</a

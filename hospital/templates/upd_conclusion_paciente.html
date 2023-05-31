@@ -20,7 +20,7 @@
     <label>Conclusion</label>
     <select name="Conclusion" class="form-control">
       {% for i in vector_conclusion%}
-      <option value="{{i}}" {% if i == paciente.ConclusionInformeCito2 %} selected {% endif %}>
+      <option value="{{i}}" {% if i == paciente.ConclusionInformeCitologico %} selected {% endif %}>
         {{i}}</option>
       {% endfor %}
     </select>
@@ -30,15 +30,15 @@
       type="text"
       class="form-control"
       name="Recomendacion"
-      value="{{paciente.RecomendacionInformeCito2}}"
+      value="{{paciente.RecomendacionInformeCitologico}}"
     />
     <label>Lugar</label>
     <select name="Lugar" class="form-control">
-      {% for i,j in lugar %}
+      {% for i in lugar %}
         <option 
         value="{{i}}" 
-        {% if j == paciente.LugarInformeAnato2.get_Lugar_display %} selected {% endif %}>
-        {{j}} </option>
+        {% if i == paciente.LugarInformeCitologico %} selected {% endif %}>
+        {{i}} </option>
       {% endfor %}
     </select>
     <label

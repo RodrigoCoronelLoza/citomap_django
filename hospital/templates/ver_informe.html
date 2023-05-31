@@ -40,7 +40,7 @@
   </head>
   <body>
     <h2 class="text-center">Informe Citologico</h2>
-    <div class="text-center">Codigo{{paciente.CodigoInformeCito2.Codigo}}</div>
+    <div class="text-center">Codigo: {{paciente.CodigoInformeCitologico}}</div>
     <div class="text-left"><b>Datos Paciente</b></div>
     <table id="example1" class="table table-hover">
       <thead>
@@ -52,18 +52,18 @@
       <body>
         <tr>
           <td>
-            Nombre: {{paciente.PacienteInformeCito2.Nombres}}
-            {{paciente.PacienteInformeCito2.Apellidos}}
+            Nombre: {{paciente.NombresInformeCitologico}}
+            {{paciente.ApellidosInformeCitologico}}
           </td>
-          <td>Edad: {{paciente.PacienteInformeCito2.Edad}} años</td>
+          <td>Edad: {{paciente.EdadInformeCitologico}} años</td>
         </tr>
         <tr>
-          <td>Medico: {{paciente.PacienteInformeCito2.Medico}}</td>
-          <td>Hospital/Clinica: {{paciente.PacienteInformeCito2.Hospital}}</td>
+          <td>Medico: {{paciente.MedicoInformeCitologico}}</td>
+          <td>Hospital/Clinica: {{paciente.HospitalInformeCitologico}}</td>
         </tr>
         <tr>
-          <td>Muestra: {{paciente.PacienteInformeCito2.Muestra}}</td>
-          <td>Diagnostico: {{paciente.PacienteInformeCito2.Diagnostico}}</td>
+          <td>Muestra: {{paciente.MuestraInformeCitologico}}</td>
+          <td>Diagnostico: {{paciente.DiagnosticoInformeCitologico}}</td>
         </tr>
       </body>
     </table>
@@ -87,15 +87,15 @@
       <body>
         <tr>
           <td>
-            Toma de muestra: {{paciente.MuestraInformeCito2.TomaDeMuestra}}
+            Toma de muestra: {{paciente.TomaDeMuestraInformeCitologico}}
           </td>
-          <td>Recepcion: {{paciente.MuestraInformeCito2.Recepcion}}</td>
+          <td>Recepcion: {{paciente.RecepcionInformeCitologico}}</td>
         </tr>
         <tr>
           <td>
-            N° de laminas: {{paciente.MuestraInformeCito2.NumeroDeLaminas}}
+            N° de laminas: {{paciente.NumeroDeLaminasInformeCitologico}}
           </td>
-          <td>Tincion: {{paciente.MuestraInformeCito2.Tincion}}</td>
+          <td>Tincion: {{paciente.TincionInformeCitologico}}</td>
         </tr>
       </body>
     </table>
@@ -121,20 +121,20 @@
         <tr>
           <td>Estudio Microscopico</td>
           <td>
-            {{paciente.EstudioMicroscopicoInformeCito2}}
+            {{paciente.EstudioMicroscopicoInformeCitologico}}
           </td>
         </tr>
         <tr>
           <td>I. Calidad de Muestra</td>
-          <td>{{paciente.CalidadDeMuestraInformeCito2}}</td>
+          <td>{{paciente.CalidadDeMuestraInformeCitologico}}</td>
         </tr>
         <tr>
           <td>II. Microorganismos</td>
-          <td>{{paciente.MicrorganismosInformeCito2}}</td>
+          <td>{{paciente.MicrorganismosInformeCitologico}}</td>
         </tr>
         <tr>
           <td>III. Hallazgos no neoplasicos</td>
-          <td>{{paciente.HallazgosInformeCito2}}</td>
+          <td>{{paciente.HallazgosInformeCitologico}}</td>
         </tr>
         <tr>
           <td>IV. Anomalia de Células Epiteliales</td>
@@ -142,22 +142,22 @@
         </tr>
         <tr>
           <td>Células Escamosas</td>
-          <td>{{paciente.CelEscamosasInformeCito2}}</td>
+          <td>{{paciente.CelEscamosasInformeCitologico}}</td>
         </tr>
         <tr>
           <td>Células Glandulares</td>
           <td>
-            {{paciente.CelGlandularesInformeCito2}}
+            {{paciente.CelGlandularesInformeCitologico}}
           </td>
         </tr>
         <tr>
           <td>V. Inflamacion</td>
-          <td>{{paciente.InflamacionInformeCito2}}</td>
+          <td>{{paciente.InflamacionInformeCitologico}}</td>
         </tr>
         <tr>
           <td>VI. Patron Hormonal</td>
           <td>
-            {{paciente.EvaluacionHormonalInformeCito2}}
+            {{paciente.EvaluacionHormonalInformeCitologico}}
           </td>
         </tr>
         <tr></tr>
@@ -184,19 +184,19 @@
       <body>
         <tr>
           <td>Conclusion:</td>
-          <td>{{paciente.ConclusionInformeCito2}}</td>
+          <td>{{paciente.ConclusionInformeCitologico}}</td>
         </tr>
         <tr>
           <td>Recomendacion:</td>
-          <td>{{paciente.RecomendacionInformeCito2}}</td>
+          <td>{{paciente.RecomendacionInformeCitologico}}</td>
         </tr>
         <tr>
           <td>Lugar:</td>
-          <td>{{paciente.LugarInformeAnato2.get_Lugar_display}}</td>
+          <td>{{paciente.LugarInformeCitologico}}</td>
         </tr>
         <tr>
           <td>Fecha del informe:</td>
-          <td>{{paciente.FechaPieInformeAnato2.Fecha}}</td>
+          <td>{{paciente.FechaPieInformeCitologico}}</td>
         </tr>
         <!-- <tr>
           <td>Opcional:</td>
