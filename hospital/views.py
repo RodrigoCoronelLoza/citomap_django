@@ -1253,7 +1253,9 @@ def macros3(request):
         valueToSend ='Se recibe un frasco con dos muestras tisulares irregularmente ovoideas y blandas que miden entre 3 x 2.2 x 1.7 y 2.8 x 1.9 x 1.5 cm., pesan 6 y 5 gr. respectivamente, presentan una superficie blanco-grisácea críptica y otra anfractuosa, irregular y pardo-grisácea. Al corte sus caras de sección son heterogéneas y blanco-grisáceas. Se incluyen  cortes representativos.'
     elif macros2 == 'AMIGDALAS MAS ADENOIDES EN TRES FRASCOS':
         valueToSend = 'Se reciben tres frascos: \n 1.- Identificado como “tonsila derecha”, contiene una muestra tisular irregularmente ovoidea que mide 3.2 x 2 x 1.5 cm.  y pesa 4 gr., presenta una superficie  blanco-grisácea y críptica y otra superficie irregular y pardo-grisácea. Al corte sus caras  de sección son blanco-grisáceas y heterogéneas. Se incluyen cortes representativos. \n 2.- Identificado como “tonsila izquierda”, contiene una muestra tisular irregularmente ovoidea que mide 3 x 2 x 1.5 cm.  y pesa 4 gr., presenta una superficie  blanco-grisácea y críptica y otra superficie irregular y pardo-grisácea. Al corte sus caras  de sección son blanco-grisáceas y heterogéneas. Se incluyen cortes representativos.\n 3.- Identificado como “tonsila faríngea”, contiene una gasa con tres fragmentos tisulares irregulares, blandos y blanco-grisáceos que miden entre 0.7 y 1.2 cm.  y que en conjunto pesan 1 gr., con una superficie finamente granular y de consistencia blanda. Se incluyen en su totalidad.'
-
+    elif macros2 == 'ADENOIDES':
+        valueToSend = 'Son  varios fragmentos tisulares irregulares, blandos y pardo-grisáceos que miden entre 00.0 y 00.0 cm. de longitud x 00.0 y 00.0 cm de ancho x 00.0 y 00.0 cm de espesor y que en conjunto pesan 00.0 gr., con una superficie finamente granular y de consistencia blanda. Se incluyen en su totalidad.'
+    
     elif macros2 == 'APENDICITIS AGUDA FIBRINOSA':
         valueToSend = 'Apéndice cecal que mide  8.5 cm. de longitud x 1 cm. de diámetro mayor, su serosa es pardo-grisácea con placas de fibrina. Al corte su pared mide 0.3 cm. de espesor y su mucosa es pardo-grisácea  con material fecaloide y hemático en su luz además de un coprolito a nivel de su tercio medio. Se incluyen cortes representativos.'
     elif macros2 == 'APENDICITIS AGUDA EN FASE CONGESTIVA':
@@ -1307,14 +1309,14 @@ def macros3(request):
     elif macros2 == 'MAPEO PROSTATICO CON SEIS FRASCOS':
         valueToSend = 'Se reciben seis frascos:\n 1.- Un frasco identificados como “Ápex izquierdo”: Contiene tres fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 0.8  y 1.5 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 2.- Un frasco identificados como “Media izquierda”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 0.9  y 1.2 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 3.- Un frasco identificados como “Base izquierda”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 1  y 1.5 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 4.- Un frasco identificados como “Ápex derecho”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 1.1  y 1.7 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 5.- Un frasco identificados como “Media derecha”: Contiene dos fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 1.3  y 1.7 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.\n 6.- Un frasco identificados como “Base derecha”: Contiene tres fragmentos tisulares cilindroideos, blandos y blanco-grisáceos que miden entre 0.5  y 1.3 cm. de longitud x 0.1 cm. de diámetro mayor, íntegramente incluidos.'
 
-    elif macros2 =='UTERO SIN ANEXOS':
-        valueToSend == 'Útero sin anexos que mide 7.5 cm. de longitud x 4 cm. de diámetro transverso x 3.5 cm. de diámetro antero-posterior, pesa 70 gr., el cuello uterino mide 2.5 x 2.7 cm. de diámetros x 2.5 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 0.1 cm. de espesor, el miometrio mide 1.8 cm. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se incluyen cortes representativos.'
-    elif macros2 =='UTERO SIN ANEXOS MAS MIOMAS':
-        valueToSend == 'Útero sin anexos que mide 00.0 cm. de longitud x 00.0 cm. de diámetro transverso x 00.0 cm. de diámetro antero-posterior, pesa 00.0 gr., el cuello uterino mide 00.0 x 00.0 cm. de diámetros x 00.0 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 00.0 cm. de espesor, el miometrio mide 00.0 cm. con presencia de 00 formaciones nodulares de localización intramural que miden entre 00.0 y 00.0 cm. de diámetros mayores que al corte presenta caras de sección heterogéneas con haces de aspecto arremolinado. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se incluyen  cortes representativos.'
-    elif macros2 =='UTERO CON  ANEXOS':
-        valueToSend == 'Útero con anexos que mide 00.0 cm. de longitud x 00.0 cm. de diámetro transverso x 00.0 cm. de diámetro antero-posterior, pesa 00.0 gr., el cuello uterino mide 00.0 x 00.0 cm. de diámetros mayores x 00.0 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 00.0 cm. de espesor, el miometrio mide 00.0 cm. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. El anexo derecho con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina derecha mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. El anexo izquierdo con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina izquierda mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos.'
-    elif macros2 =='UTERO CON  ANEXOS MAS MIOMAS':
-        valueToSend == 'Útero con anexos que mide 00.0 cm. de longitud x 00.0 cm. de diámetro transverso x 00.0 cm. de diámetro antero-posterior, pesa 00.0 gr., el cuello uterino mide 00.0 x 00.0 cm. de diámetros x 00.0 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 00.0 cm. de espesor, el miometrio mide 00.0 cm. con presencia de 00 formaciones nodulares de localización intramural que miden entre 00.0 y 00.0 cm. de diámetros mayores que al corte presenta caras de sección heterogéneas con haces de aspecto arremolinado. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se toman incluyen cortes representativos. El anexo derecho con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina derecha mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. El anexo izquierdo con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina izquierda mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. '
+    elif macros2 == 'UTERO SIN ANEXOS':
+        valueToSend = 'Útero sin anexos que mide 7.5 cm. de longitud x 4 cm. de diámetro transverso x 3.5 cm. de diámetro antero-posterior, pesa 70 gr., el cuello uterino mide 2.5 x 2.7 cm. de diámetros x 2.5 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 0.1 cm. de espesor, el miometrio mide 1.8 cm. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se incluyen cortes representativos.'
+    elif macros2 == 'UTERO SIN ANEXOS MAS MIOMAS':
+        valueToSend = 'Útero sin anexos que mide 00.0 cm. de longitud x 00.0 cm. de diámetro transverso x 00.0 cm. de diámetro antero-posterior, pesa 00.0 gr., el cuello uterino mide 00.0 x 00.0 cm. de diámetros x 00.0 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 00.0 cm. de espesor, el miometrio mide 00.0 cm. con presencia de 00 formaciones nodulares de localización intramural que miden entre 00.0 y 00.0 cm. de diámetros mayores que al corte presenta caras de sección heterogéneas con haces de aspecto arremolinado. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se incluyen  cortes representativos.'
+    elif macros2 == 'UTERO CON  ANEXOS':
+        valueToSend = 'Útero con anexos que mide 00.0 cm. de longitud x 00.0 cm. de diámetro transverso x 00.0 cm. de diámetro antero-posterior, pesa 00.0 gr., el cuello uterino mide 00.0 x 00.0 cm. de diámetros mayores x 00.0 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 00.0 cm. de espesor, el miometrio mide 00.0 cm. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. El anexo derecho con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina derecha mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. El anexo izquierdo con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina izquierda mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos.'
+    elif macros2 == 'UTERO CON  ANEXOS MAS MIOMAS':
+        valueToSend = 'Útero con anexos que mide 00.0 cm. de longitud x 00.0 cm. de diámetro transverso x 00.0 cm. de diámetro antero-posterior, pesa 00.0 gr., el cuello uterino mide 00.0 x 00.0 cm. de diámetros x 00.0 cm. de longitud, su superficie es lisa y blanco-grisácea con orificio cervical externo transversal y permeable. Al corte el canal endocervical es permeable, el endometrio mide 00.0 cm. de espesor, el miometrio mide 00.0 cm. con presencia de 00 formaciones nodulares de localización intramural que miden entre 00.0 y 00.0 cm. de diámetros mayores que al corte presenta caras de sección heterogéneas con haces de aspecto arremolinado. El cuello uterino al corte presenta caras de sección heterogéneas y blanco-grisáceas. Se toman incluyen cortes representativos. El anexo derecho con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina derecha mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. El anexo izquierdo con ovario que mide 00.0 x 00.0 x 00.0 cm de diámetros mayores, su superficie es blanco-grisácea, al cortes sus caras de sección son heterogéneas y blanco-grisáceas con formaciones irregulares blanquecinas y amarillentas asimismo se observa una formación quística que mide 00.0 cm. de diámetro mayor con contenido seroso en su luz. La trompa uterina izquierda mide 00.0 cm. de longitud x 00.0 cm. de diámetro mayor, su serosa es lisa y parduzca con presencia de 00 formaciones quísticas que miden entre 00.0 y 00.0 cm. de diámetros mayores, al corte su pared mide 0.0 cm de espesor y su luz es puntiforme permeable. Se incluyen cortes representativos. '
     
     elif macros2=='COLECISTITIS CRONICA': 
         valueToSend = 'Vesícula biliar abierta que mide 8 cm. de longitud x 4 cm. de diámetro mayor, su serosa es lisa y blanco-grisácea. Al corte su pared es elástica, mide 0.1 cm. de espesor y su mucosa es granular fina pardo-verdosa. Se incluyen cortes representativos.'
@@ -1404,6 +1406,7 @@ def Report_Anat(request,pid):
         locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
         paciente = InformeAnatomico.objects.get(id=pid)
         buffer = io.BytesIO()
+        # buffer = 'multipage.pdf'
 
         # Create the PDF object, using the buffer as its "file."
         p = canvas.Canvas(buffer,pagesize=letter)
@@ -1445,48 +1448,173 @@ def Report_Anat(request,pid):
         
         conclusion_chaine_old = paciente.ConclusionInformeAnatomico
         new_string = '<br />'
+        nchar_conclusion = len(conclusion_chaine_old)
+        nlines_conclusion = (conclusion_chaine_old.count('\n'))
         resultant_string = conclusion_chaine_old.replace('\n', new_string)
-        p4=Paragraph('''<b>ESTUDIO MACROSCOPICO:</b> <br /> <br />'''
-                     + paciente.EstudioMacroscopicoInformeAnatomico 
-                     + '''<br /> <br /> <b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''
-                     + paciente.EstudioMicroscopicoInformeAnatomico 
-                     + '''<br /> <br /> <br /> <br /> <b>ESPECIMEN:</b> '''
-                     + paciente.EspecimenInformeAnatomico 
-                     + '''<br /> <br /> <b>CONCLUSION:</b> <br /> <br />'''
-                     + resultant_string ,my_Style_suelto)
-        p4.wrapOn(p,width-4*cm,2*cm)
-        p4.drawOn(p,2*cm,(11-m)*cm)
+        micros_chaine_old  = paciente.EstudioMicroscopicoInformeAnatomico
+        nchar_micros = len(micros_chaine_old)
+        nlines_micros = nchar_micros // 100 + (micros_chaine_old.count('\n'))
+        resultant_micros = micros_chaine_old.replace('\n',new_string)
+        macros_chaine_old  = paciente.EstudioMacroscopicoInformeAnatomico
+        nchar_macros = len(macros_chaine_old)
+        nlines_macros = nchar_macros // 100 + (macros_chaine_old.count('\n')) 
+        resultant_macros = macros_chaine_old.replace('\n',new_string)
+        
+        # p.showPage()
+        
+        if (nlines_macros+nlines_micros>12 or nlines_conclusion>10):
+            
+            pfirstpage=Paragraph('''<b>ESTUDIO MACROSCOPICO:</b> <br /> <br />'''
+                         + resultant_macros 
+                         + '''<br /> <br /> <b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''
+                         + resultant_micros ,my_Style_suelto)
+            pfirstpage.wrapOn(p,width-4*cm,2*cm)
+            pfirstpage.drawOn(p,2*cm,(19.5-(((nlines_macros+nlines_micros)//2)+4))*cm)
+            
+            p.line(0+2*cm,5.5*cm,width-2*cm,5.5*cm)
+            p6=Paragraph(paciente.LugarInformeAnatomico+', '+str(paciente.FechaPieInformeAnatomico.strftime("%B %d, %Y")),my_Style_suelto)
+            p6.wrapOn(p,width-4*cm,2*cm)
+            p6.drawOn(p,2*cm,5*cm)
+    
+            my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
 
-        p.line(0+2*cm,5.5*cm,width-2*cm,5.5*cm)
-        p6=Paragraph(paciente.LugarInformeAnatomico+', '+str(paciente.FechaPieInformeAnatomico.strftime("%B %d, %Y")),my_Style_suelto)
-        p6.wrapOn(p,width-4*cm,2*cm)
-        p6.drawOn(p,2*cm,5*cm)
-   
-        my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
-    
-        if firma=='NO':
+            if firma=='NO':
 
-            p7=Paragraph(paciente.DoctorInformeAnatomico.Name
-                         + '''<br />'''
-                         + paciente.DoctorInformeAnatomico.special
-                         + '''<br />'''
-                         + paciente.DoctorInformeAnatomico.matricula,my_Style_suelto_der )
-            p7.wrapOn(p,width-4*cm,2*cm)
-            p7.drawOn(p,2*cm,2*cm)
+                p7=Paragraph(paciente.DoctorInformeAnatomico.Name
+                             + '''<br />'''
+                             + paciente.DoctorInformeAnatomico.special
+                             + '''<br />'''
+                             + paciente.DoctorInformeAnatomico.matricula,my_Style_suelto_der )
+                p7.wrapOn(p,width-4*cm,2*cm)
+                p7.drawOn(p,2*cm,2*cm)
+
+            p10=Paragraph(paciente.CodigoInformeAnatomico,my_Style_suelto_der )
+            p10.wrapOn(p,width-4*cm,2*cm)
+            p10.drawOn(p,2*cm,height-c*cm)
+
+            if firma == 'SI':
+                p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
+                p11.wrapOn(p,width-4*cm,2*cm)
+                p11.drawOn(p,2*cm,2*cm)
+
+            p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
+            p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
+            p12.wrapOn(p,width-4*cm,2*cm)
+            p12.drawOn(p,2*cm,1*cm)
+            
+            p.showPage()
+            
+            p1=Paragraph('''<b><u>INFORME DE ANATOMIA PATOLOGICA</u></b>''',my_Style)
+            p1.wrapOn(p,width,10)
+            p1.drawOn(p,0,height-c*cm)
+        
+            tbl_data = [[Paragraph("Nombre:"+' '+paciente.NombresInformeAnatomico+'  '+paciente.ApellidosInformeAnatomico, my_Style2), 
+            Paragraph("Edad:"+' '+ str(paciente.EdadInformeAnatomico)+ "años", my_Style2)], 
+            [Paragraph("Medico:"+' '+ paciente.MedicoInformeAnatomico, my_Style2), 
+             Paragraph("Hospital/Clinica:"+' '+paciente.HospitalInformeAnatomico, my_Style2)], 
+            [Paragraph("Muestra:"+' '+ paciente.MuestraInformeAnatomico, my_Style2), 
+            Paragraph("Diagnostico:"+' '+paciente.DiagnosticoInformeAnatomico, my_Style2)],
+            [Paragraph("Fecha de Recepcion:"+' '+ str(paciente.RecepcionInformeAnatomico.strftime("%d-%m-%Y")), my_Style2),]]
+            tbl = Table(tbl_data)
+            tbl.wrapOn(p,width-4*cm,3*cm)
+            tbl.drawOn(p,2*cm,(22-m)*cm)
     
-        p10=Paragraph(paciente.CodigoInformeAnatomico,my_Style_suelto_der )
-        p10.wrapOn(p,width-4*cm,2*cm)
-        p10.drawOn(p,2*cm,height-c*cm)
+
+            p.line(0+2*cm,(21.5-m)*cm,width-2*cm,(21.5-m)*cm)
+
+            if logo == 'SI':
+                p2=Paragraph('''<img src="hospital/static/images/logo.jpg" width="100" height="80"/>''', style=styles["Normal"])
+                p2.wrapOn(p,width,10)
+                p2.drawOn(p,2.5*cm,height-c*cm)
+            
+            psecondpage=Paragraph( '''<b>ESPECIMEN:</b> '''
+                         + paciente.EspecimenInformeAnatomico 
+                         + '''<br /> <br /> <b>CONCLUSION:</b> <br /> <br />'''
+                         + resultant_string
+                        #  + '''<br /> <br /> <b>numerolineas micmac:</b> <br /> <br />'''
+                        #  + str(nlines_macros+nlines_micros)
+                        #  + '''<br /> <br /> <b>numerolineas concl:</b> <br /> <br />'''
+                        #  + str(nlines_conclusion) 
+                        ,my_Style_suelto)
+            psecondpage.wrapOn(p,width-4*cm,2*cm)
+            psecondpage.drawOn(p,2*cm,(19.5-(((nlines_conclusion)//2)+4))*cm)
+            
+            p.line(0+2*cm,5.5*cm,width-2*cm,5.5*cm)
+            p6=Paragraph(paciente.LugarInformeAnatomico+', '+str(paciente.FechaPieInformeAnatomico.strftime("%B %d, %Y")),my_Style_suelto)
+            p6.wrapOn(p,width-4*cm,2*cm)
+            p6.drawOn(p,2*cm,5*cm)
     
-        if firma == 'SI':
-            p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
-            p11.wrapOn(p,width-4*cm,2*cm)
-            p11.drawOn(p,2*cm,2*cm)
+            my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
+
+            if firma=='NO':
+
+                p7=Paragraph(paciente.DoctorInformeAnatomico.Name
+                             + '''<br />'''
+                             + paciente.DoctorInformeAnatomico.special
+                             + '''<br />'''
+                             + paciente.DoctorInformeAnatomico.matricula,my_Style_suelto_der )
+                p7.wrapOn(p,width-4*cm,2*cm)
+                p7.drawOn(p,2*cm,2*cm)
+
+            p10=Paragraph(paciente.CodigoInformeAnatomico,my_Style_suelto_der )
+            p10.wrapOn(p,width-4*cm,2*cm)
+            p10.drawOn(p,2*cm,height-c*cm)
+
+            if firma == 'SI':
+                p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
+                p11.wrapOn(p,width-4*cm,2*cm)
+                p11.drawOn(p,2*cm,2*cm)
+
+            p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
+            p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
+            p12.wrapOn(p,width-4*cm,2*cm)
+            p12.drawOn(p,2*cm,1*cm)
+            
+        else:
+            
+            p4=Paragraph('''<b>ESTUDIO MACROSCOPICO:</b> <br /> <br />'''
+                         + resultant_macros 
+                         + '''<br /> <br /> <b>ESTUDIO MICROSCOPICO:</b> <br /> <br />'''
+                         + resultant_micros 
+                         + '''<br /> <br /> <br /> <br /> <b>ESPECIMEN:</b> '''
+                         + paciente.EspecimenInformeAnatomico 
+                         + '''<br /> <br /> <b>CONCLUSION:</b> <br /> <br />'''
+                         + resultant_string ,my_Style_suelto)
+            p4.wrapOn(p,width-4*cm,2*cm)
+            p4.drawOn(p,2*cm,(19.5-(((nlines_macros+nlines_micros+nlines_conclusion)//2)+8))*cm)
+
+            p.line(0+2*cm,5.5*cm,width-2*cm,5.5*cm)
+            p6=Paragraph(paciente.LugarInformeAnatomico+', '+str(paciente.FechaPieInformeAnatomico.strftime("%B %d, %Y")),my_Style_suelto)
+            p6.wrapOn(p,width-4*cm,2*cm)
+            p6.drawOn(p,2*cm,5*cm)
     
-        p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
-        p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
-        p12.wrapOn(p,width-4*cm,2*cm)
-        p12.drawOn(p,2*cm,1*cm)
+            my_Style_suelto_der=ParagraphStyle('Mine', alignment=TA_RIGHT, fontName='Helvetica', fontSize = 10)
+
+            if firma=='NO':
+
+                p7=Paragraph(paciente.DoctorInformeAnatomico.Name
+                             + '''<br />'''
+                             + paciente.DoctorInformeAnatomico.special
+                             + '''<br />'''
+                             + paciente.DoctorInformeAnatomico.matricula,my_Style_suelto_der )
+                p7.wrapOn(p,width-4*cm,2*cm)
+                p7.drawOn(p,2*cm,2*cm)
+
+            p10=Paragraph(paciente.CodigoInformeAnatomico,my_Style_suelto_der )
+            p10.wrapOn(p,width-4*cm,2*cm)
+            p10.drawOn(p,2*cm,height-c*cm)
+
+            if firma == 'SI':
+                p11=Paragraph('''<img src="hospital/static/images/FIRMA_BN.jpeg" width="100" height="80"/>''', style_right)
+                p11.wrapOn(p,width-4*cm,2*cm)
+                p11.drawOn(p,2*cm,2*cm)
+
+            p.line(0+2*cm,1.5*cm,width-2*cm,1.5*cm)
+            p12=Paragraph('Direccion: Z/villa dolores, calle 6. No 50. Piso 2 Oficina 8',my_Style_suelto)
+            p12.wrapOn(p,width-4*cm,2*cm)
+            p12.drawOn(p,2*cm,1*cm)
+        
+        
 
         textob=p.beginText()
         textob.setTextOrigin(cm,cm)

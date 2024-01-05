@@ -1,14 +1,14 @@
 <div>{{viene}}</div>
-<select class="custom-select mb-4" 
-name="macros2" 
-hx-get="{% url 'macros3' %}"
-hx-trigger="change"
-hx-target="#macros3">
-    <option selected>Open this select menuuuu</option>
-    {% for i in vector1 %}
-        <option value="{{i}}">{{ i }}</option>
-    {% endfor %}
+<select
+  class="custom-select mb-4"
+  name="macros2"
+  hx-get="{% url 'macros3' %}"
+  hx-trigger="change"
+  hx-target="#macros3"
+>
+  <option selected>Open this select menu</option>
+  {% for i in vector1 %}
+  <option value="{{i}}">{{ i }}</option>
+  {% endfor %}
 </select>
-<div id="macros3">
-    {% include 'macros3.html' %} 
-</div>
+<div id="macros3">{% include 'macros3.html' %}</div>
