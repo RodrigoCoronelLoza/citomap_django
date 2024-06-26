@@ -1,10 +1,4 @@
 from django.shortcuts import render, redirect
-# from django.fpdf2 import FPDF
-# import io
-# from django.http import FileResponse
-# from reportlab.pdfgen import canvas
-# from reportlab.lib.units import inch
-# from reportlab.lib.pagesizes import letter
 
 import io
 from django.http import FileResponse
@@ -24,15 +18,10 @@ import locale
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from .models import Doctor
-# from .models import Doctor,Patient,Appointment,PacienteGenerales,Muestra, Informe
 
-# from .models import CodigoInforme, CalidadDeMuestra, EstudioMicroscopico, Microrganismos, CelEscamosas, CelGlandulares
-# from .models import HallazgosNoNeoplasicos, EvaluacionHormonal, Inflamacion, Conclusion, Recomendacion, FechaPie, Lugar, InformeCito
 from .models import InformeAnatomico, InformeCitologico
 import logging
-# from django.http import HttpResponse
 
-# Create your views here.
 
 def About(request):
     return render (request,'about.html') 
@@ -117,118 +106,7 @@ def Add_Doctor(request):
     d = {'error':error}
     return render(request, 'add_doctor.html', d)
 
-# def View_Patient(request):
-#     if not request.user.is_staff:
-#         return redirect('login')
-#     doc = Patient.objects.all()
-#     d = {'doc': doc}
-#     return render(request, 'view_patient.html',d)
 
-# def Delete_Patient(request,pid):
-#     if not request.user.is_staff:
-#         return redirect('login')
-#     patient = Patient.objects.get(id=pid)
-#     patient.delete()
-#     return redirect('view_patient')
-
-# def Add_Patient(request):
-#     error = ""
-#     if not request.user.is_staff:
-#         return redirect('login')
-
-#     if request.method == "POST":
-#         n = request.POST['name']
-#         g = request.POST['gender']
-#         m = request.POST['mobile']
-#         a = request.POST['address']
-
-#         try:
-#             Patient.objects.create(name=n,gender=g,mobile=m,address=a)
-#             error = "no"
-#         except:
-#             error ="yes"
-#     d = {'error':error}
-#     return render(request, 'add_patient.html', d)
-
-# def Add_Appointment(request):
-#     error = ""
-#     if not request.user.is_staff:
-#         return redirect('login')
-    
-#     doctor1=Doctor.objects.all()
-#     patient1=Patient.objects.all()
-
-
-#     if request.method == "POST":
-#         n = request.POST['doctor']
-#         p = request.POST['patient']
-#         da = request.POST['date']
-#         t = request.POST['time']
-        
-#         doctor=Doctor.objects.filter(Name=n).first()
-#         patient=Patient.objects.filter(name=p).first()
-
-#         try:
-#             Appointment.objects.create(doctor=doctor,patient=patient,date=da,time=t)
-#             error = "no"
-#         except:
-#             error ="yes"
-#     d = {'doctor':doctor1,'patient':patient1,'error':error}
-#     return render(request, 'add_appointment.html', d)
-
-# def View_Appointment(request):
-#     if not request.user.is_staff:
-#         return redirect('login')
-#     doc = Appointment.objects.all()
-#     d = {'doc': doc}
-#     return render(request, 'view_appointment.html',d)
-
-# def Delete_Appointment(request,pid):
-#     if not request.user.is_staff:
-#         return redirect('admin_login')
-#     app = Appointment.objects.get(id=pid)
-#     app.delete()
-#     return redirect('view_appointment')
-
-# def Add_Informe(request):
-#     error = ""
-#     if not request.user.is_staff:
-#         return redirect('admin_login')
-
-#     if request.method == "POST":
-#         nom = request.POST['Nombre']
-#         ed = request.POST['Edad']
-#         med = request.POST['Medico']
-#         hosp = request.POST['Hospital']
-#         mues = request.POST['Muestra']
-#         diag = request.POST['Diagnostico']
-
-#         fecmues = request.POST['TomaDeMuestra']
-#         rec = request.POST['Recepcion']
-#         numlam = request.POST['NumeroDeLaminas']
-#         tinc = request.POST['Tincion']
-#         # sp = request.POST['special']
-
-#         try:
-#             PacienteGenerales.objects.create(Nombre=nom,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
-#             Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)
-#             # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
-#             error = "no"
-#         except:
-#             error ="yes"
-        
-
-#         lastPaciente=PacienteGenerales.objects.last()
-#         lastMuestra=Muestra.objects.last()
-
-#         try:
-#             Informe.objects.create(PacienteInforme=lastPaciente,MuestraInforme=lastMuestra)
-#             error = "no"
-#         except:
-#             error ="yes"
-
-#     d = {'error':error}
-#     return render(request, 'add_informe.html', d)
 
 def View_Informe(request):
     if not request.user.is_staff:
@@ -238,20 +116,7 @@ def View_Informe(request):
 
     return render(request, 'view_informe.html',i)
 
-# def Delete_Informe(request,pid):
-#     if not request.user.is_staff:
-#         return redirect('login')
-#     inf = Informe.objects.get(id=pid)
-#     paciente_del = inf.PacienteInforme.id
-#     pac = PacienteGenerales.objects.get(id=paciente_del)
 
-#     muestra_del = inf.MuestraInforme.id
-#     mue = Muestra.objects.get(id=muestra_del)
-    
-#     inf.delete()
-#     pac.delete()
-#     mue.delete()
-#     return redirect('view_informe')
 
 def Ver_Informe(request,pid):
     if not request.user.is_staff:
@@ -569,56 +434,12 @@ def Add_Informe_Cit(request):
                                              LugarInformeCitologico=lug,
                                              DoctorInformeCitologico=doctor)
             
-            # CodigoInforme.objects.create(Codigo=cod)
-            # PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
-            # Muestra.objects.create(TomaDeMuestra=fecmues,Recepcion=rec,NumeroDeLaminas=numlam,Tincion=tinc)
             
-            # # EstudioMicroscopico.objects.create(Descripcion=estmic)
-            # # CalidadDeMuestra.objects.create(Calidad=calid)
-            # # Microrganismos.objects.create(Microrgs=micro)
-            # # HallazgosNoNeoplasicos.objects.create(NoNeoplasicos=hall)
-            # # CelEscamosas.objects.create(Escamosas=esc)
-            # # CelGlandulares.objects.create(Glandulares=glan)
-            # # EvaluacionHormonal.objects.create(Evaluacion=evalu)
-            # # Inflamacion.objects.create(Inflamation=infla)
-            # # Conclusion.objects.create(Conclusion=conclu)
-            
-            # # Recomendacion.objects.create(Recomendacion=recomend)
-            # FechaPie.objects.create(Fecha=fech)
-            # Lugar.objects.create(Lugar=lug)
-
-            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
             error = "no"
         except:
             error ="yes"
         
-        # lastCodigo=CodigoInforme.objects.last()
-        # lastPaciente=PacienteGenerales.objects.last()
-        # lastMuestra=Muestra.objects.last()
-        # lastFechaPie=FechaPie.objects.last()
-        # lastLugar=Lugar.objects.last()
-
-        # try:
-        #     InformeCito2.objects.create(CodigoInformeCito2=lastCodigo,
-        #                                 PacienteInformeCito2=lastPaciente,
-        #                                 MuestraInformeCito2=lastMuestra,
-        #                                 EstudioMicroscopicoInformeCito2=estmic, 
-        #                                 CalidadDeMuestraInformeCito2=calid,  
-        #                                 MicrorganismosInformeCito2=micro,
-        #                                 HallazgosInformeCito2=hall,
-        #                                 CelEscamosasInformeCito2=esc,
-        #                                 CelGlandularesInformeCito2=glan,
-        #                                 EvaluacionHormonalInformeCito2=evalu,
-        #                                 InflamacionInformeCito2=infla,
-        #                                 ConclusionInformeCito2=conclu,
-        #                                 OpcionalInformeCito2=combi,
-        #                                 RecomendacionInformeCito2=recomend,
-        #                                 FechaPieInformeAnato2=lastFechaPie,
-        #                                 LugarInformeAnato2=lastLugar,
-        #                                 DoctorInformeAnato2=doctor)
-        #     error = "no"
-        # except:
-        #     error ="yes"
+        
 
     d = {'vector_estudio':vector_estudio,
          'vector_calidad':vector_calidad,
@@ -641,11 +462,6 @@ def Upd_Datos_Paciente(request,pid):
     
     paciente = InformeCitologico.objects.get(id=pid)
 
-    # cod_del_id = paciente.CodigoInformeCito2.id
-    # cod_upd = CodigoInforme.objects.get(id=cod_del_id)
-
-    # gen_id = paciente.PacienteInformeCito2.id
-    # pac_upd = PacienteGenerales.objects.get(id=gen_id)
     
     if request.method == "POST":
         
@@ -670,22 +486,7 @@ def Upd_Datos_Paciente(request,pid):
             paciente.MuestraInformeCitologico=mues
             paciente.DiagnosticoInformeCitologico=diag
             paciente.save()
-            # cod_upd.Codigo=cod
-            # cod_upd.save()
-            # pac_upd.Nombres=nom
-            # pac_upd.Apellidos=ape
-            # pac_upd.Edad=ed
-            # pac_upd.Medico=med
-            # pac_upd.Hospital=hosp
-            # pac_upd.Muestra=mues
-            # pac_upd.Diagnostico=diag
-            # pac_upd.save()
-
-
-            # CodigoInforme.objects.create(Codigo=cod)
-            # PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
-
-            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
+            
             error = "no"
         except:
             error ="yes"
@@ -705,8 +506,6 @@ def Upd_Muestra_Paciente(request,pid):
     fecha_recepcion = paciente.RecepcionInformeCitologico.strftime("%Y-%m-%d")
     
 
-    # muestra_del_id = paciente.MuestraInformeCito2.id
-    # muestra_upd = Muestra.objects.get(id=muestra_del_id)
     
     if request.method == "POST":
         
@@ -723,15 +522,7 @@ def Upd_Muestra_Paciente(request,pid):
             paciente.NumeroDeLaminasInformeCitologico=numlam
             paciente.TincionInformeCitologico=tinc
             paciente.save()
-            # muestra_upd.TomaDeMuestra=fecmues
-            # muestra_upd.Recepcion=rec
-            # muestra_upd.NumeroDeLaminas=numlam
-            # muestra_upd.Tincion=tinc
-            # muestra_upd.save()
-            # CodigoInforme.objects.create(Codigo=cod)
-            # PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
-
-            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
+            
             error = "no"
         except:
             error ="yes"
@@ -824,22 +615,6 @@ def Upd_Tabla_Central_Paciente(request,pid):
             paciente.InflamacionInformeCitologico= infla
             paciente.save()
 
-            # estudio_micros_upd.Descripcion=estmic
-            # estudio_micros_upd.save()
-            # calidad_upd.Calidad=calid
-            # calidad_upd.save()
-            # microrgs_upd.Microrgs = micro
-            # microrgs_upd.save()
-            # hallazgos_upd.Neoplasicos = hall
-            # hallazgos_upd.save()
-            # celescamosas_upd.Escamosas = esc
-            # celescamosas_upd.save()
-            # celglandulares_upd.Glandulares = glan
-            # celglandulares_upd.save()
-            # eval_hormonal_upd.Evaluacion = evalu
-            # eval_hormonal_upd.save()
-            # inflamacion_upd.Inflamation = infla
-            # inflamacion_upd.save()
             
             error = "no"
         except:
@@ -868,19 +643,15 @@ def Upd_Conclusion_Paciente(request,pid):
         "POSITIVO PARA LESIÓN INTRAEPITELIAL",
         "POSITIVO PARA NEOPLASIA MALIGNA","NO INCLUIR"]
     
-    # vector_opcional = ["combi1","combi2","combi3"]
+    
     vector_lugar = ["La Paz", "El Alto"]
     
     paciente = InformeCitologico.objects.get(id=pid)
 
-    # Lugar_form = Lugar.LUGARES
-
+   
     fecha_informe = paciente.FechaPieInformeCitologico.strftime("%Y-%m-%d")
     
-    # lugar_id = paciente.LugarInformeCitologico.id
-    # lugar_upd = Lugar.objects.get(id=lugar_id)
-    # fechapie_id = paciente.FechaPieInformeAnato2.id
-    # fechapie_upd = FechaPie.objects.get(id=fechapie_id)
+    
     
     if request.method == "POST":
         
@@ -895,17 +666,10 @@ def Upd_Conclusion_Paciente(request,pid):
             paciente.RecomendacionInformeCitologico = recomend
             paciente.FechaPieInformeCitologico = fech
             paciente.LugarInformeCitologico = lug
-            # paciente.OpcionalInformeCito2 = combi
+            
             paciente.save()
 
-            # conclu_upd.Conclusion = conclu
-            # conclu_upd.save()
-            # recomendacion_upd.Recomendacion = recomend
-            # recomendacion_upd.save()
-            # fechapie_upd.Fecha = fech
-            # fechapie_upd.save()
-            # lugar_upd.Lugar = lug
-            # lugar_upd.save()
+            
 
             error = "no"
         except:
@@ -919,27 +683,10 @@ def Delete_Informe_Cit(request,pid):
     if not request.user.is_staff:
         return redirect('admin_login')
     informeCit = InformeCitologico.objects.get(id=pid)
-    # codigo_del =informeCit.CodigoInformeCito2.id
-    # cod = CodigoInforme.objects.get(id=codigo_del)
-
-    # paciente_del = informeCit.PacienteInformeCito2.id
-    # pac = PacienteGenerales.objects.get(id=paciente_del)
-
-    # muestra_del = informeCit.MuestraInformeCito2.id
-    # mue = Muestra.objects.get(id=muestra_del)
-
-    # fechapie_del = informeCit.FechaPieInformeAnato2.id
-    # fechapie = FechaPie.objects.get(id=fechapie_del)
-
-    # lugar_del = informeCit.LugarInformeAnato2.id
-    # lugar = Lugar.objects.get(id=lugar_del)
+    
     
     informeCit.delete()
-    # cod.delete()
-    # pac.delete()
-    # mue.delete()
-    # fechapie.delete()
-    # lugar.delete()
+    
 
     return redirect('view_informe')
 
@@ -948,7 +695,7 @@ def Add_Informe_Anat(request):
     if not request.user.is_staff:
         return redirect('login')
     
-    # Lugar_form = Lugar.LUGARES
+    
     doctor1=Doctor.objects.all()
 
     vectorMacros = ["Amígdalas","Apéndices","Leiomioma","Placenta",
@@ -969,10 +716,9 @@ def Add_Informe_Anat(request):
         mues = request.POST['Muestra']
         diag = request.POST['Diagnostico']  
         
-        # fecmues = request.POST['Recepcion']
+        
         rec = request.POST['Recepcion']
-        # numlam=0
-        # tinc='Sin descripcion'  
+          
         estmicro = request.POST['MicroResultado']
         estmacro = request.POST['MacroResultado']
         especimen = request.POST['Especimen']
@@ -1406,7 +1152,7 @@ def Report_Anat(request,pid):
         locale.setlocale(locale.LC_ALL, 'es_BO.utf8')
         paciente = InformeAnatomico.objects.get(id=pid)
         buffer = io.BytesIO()
-        # buffer = 'multipage.pdf'
+        
 
         # Create the PDF object, using the buffer as its "file."
         p = canvas.Canvas(buffer,pagesize=letter)
@@ -1645,15 +1391,6 @@ def Upd_Datos_Paciente_Anat(request,pid):
     
     paciente = InformeAnatomico.objects.get(id=pid)
 
-    # cod_del_id = paciente.CodigoInformeAnato.id
-    # cod_upd = CodigoInforme.objects.get(id=cod_del_id)
-
-    # gen_id = paciente.PacienteInformeAnato.id
-    # pac_upd = PacienteGenerales.objects.get(id=gen_id)
-
-    # muestra_id = paciente.MuestraInformeAnato.id
-    # muestra_upd = Muestra.objects.get(id=muestra_id)
-
     fecha_recepcion = paciente.RecepcionInformeAnatomico.strftime("%Y-%m-%d")
     
     if request.method == "POST":
@@ -1681,10 +1418,7 @@ def Upd_Datos_Paciente_Anat(request,pid):
             paciente.DiagnosticoInformeAnatomico = diag
             paciente.RecepcionInformeAnatomico = rec
             paciente.save()
-            # CodigoInforme.objects.create(Codigo=cod)
-            # PacienteGenerales.objects.create(Nombres=nom,Apellidos=ape,Edad=ed,Medico=med,Hospital=hosp,Muestra=mues,Diagnostico=diag)
-
-            # Informe.objects.create(PacienteInforme.Nombre=nom,PacienteGenerales.Edad=ed)# Doctor.objects.create(Name=n,mobile=m,special=sp)
+            
             error = "no"
         except:
             error ="yes"
@@ -1725,13 +1459,10 @@ def Upd_Conclusion_Paciente_Anat(request,pid):
     
     paciente = InformeAnatomico.objects.get(id=pid)
     vector_lugar = ["La Paz", "El Alto"]
-    # Lugar_form = Lugar.LUGARES
+    
 
     fecha_informe = paciente.FechaPieInformeAnatomico.strftime("%Y-%m-%d")
-    # lugar_id = paciente.LugarInformeAnatomico.id
-    # lugar_upd = Lugar.objects.get(id=lugar_id)
-    # fechapie_id = paciente.FechaPieInformeAnato.id
-    # fechapie_upd = FechaPie.objects.get(id=fechapie_id)
+    
     
     if request.method == "POST":
         
@@ -1747,11 +1478,6 @@ def Upd_Conclusion_Paciente_Anat(request,pid):
             paciente.LugarInformeAnatomico = lug
             paciente.save()
 
-            # fechapie_upd.Fecha = fech
-            # fechapie_upd.save()
-            # lugar_upd.Lugar = lug
-            # lugar_upd.save()
-
             error = "no"
         except:
             error ="yes"
@@ -1764,26 +1490,7 @@ def Delete_Informe_Anat(request,pid):
     if not request.user.is_staff:
         return redirect('admin_login')
     informeAnat = InformeAnatomico.objects.get(id=pid)
-    # codigo_del =informeAnat.CodigoInformeAnato.id
-    # cod = CodigoInforme.objects.get(id=codigo_del)
-# 
-    # paciente_del = informeAnat.PacienteInformeAnato.id
-    # pac = PacienteGenerales.objects.get(id=paciente_del)
-# 
-    # muestra_del = informeAnat.MuestraInformeAnato.id
-    # mue = Muestra.objects.get(id=muestra_del)
-
-    # fechapie_del = informeAnat.FechaPieInformeAnato.id
-    # fechapie = FechaPie.objects.get(id=fechapie_del)
-# 
-    # lugar_del = informeAnat.LugarInformeAnato.id
-    # lugar = Lugar.objects.get(id=lugar_del)
     
     informeAnat.delete()
-    # cod.delete()
-    # pac.delete()
-    # mue.delete()
-    # fechapie.delete()
-    # lugar.delete()
 
     return redirect('view_informe_anat')
